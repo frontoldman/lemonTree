@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var debug = require('debug')('lemonTree');
-var app = require('../app');
+var app = require('../include/app');
 
 app.set('port', process.env.PORT || 3000);
 
