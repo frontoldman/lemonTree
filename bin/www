@@ -1,9 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('lemonTree');
-var app = require('../include/init');
 
-app.set('port', process.env.PORT || 3000);
+var program = require('../lemontree');
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-});
+program.start();
