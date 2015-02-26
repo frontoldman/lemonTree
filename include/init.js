@@ -4,10 +4,12 @@ var path = require('path');
 var setting = require('./setting/');
 var middleware = require('./middleware/');
 var route = require('./route/');
+var config = require('./config');
 
 global.VARS = {
     DOCUMENT_ROOT:__dirname.replace('include',''),
-    EXECUTE_ROOT:__dirname
+    EXECUTE_ROOT:__dirname,
+    config:config
 }
 
 

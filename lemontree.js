@@ -6,9 +6,9 @@ var numCPUs = require('os').cpus().length;
 
 var app = require('./include/init');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', VARS.config.port || 3000);
 
-module.exports.start = function(){
+module.exports.start = function () {
     if (cluster.isMaster) {
         console.log("master start...");
 
