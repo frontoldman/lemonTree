@@ -18,4 +18,4 @@ function initDb(){
 }
 
 module.exports = initDb;
-module.exports.User = User;
+module.exports.User = mongoose.model('User');

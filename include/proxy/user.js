@@ -3,8 +3,10 @@
  */
 var User = require('../model/').User;
 
-function addOne(){
-    return 'Add Successfully!';
+function addOne(params){
+
+    return User.create(params);
+
 }
 
 module.exports.addOne = addOne;
