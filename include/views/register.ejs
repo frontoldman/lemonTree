@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>注册</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/register.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Register</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="post" action="register">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="password confirm" name="confirm-password" type="password" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="username" name="username" type="text" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="phone" name="phone" type="text" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="qq" name="qq" type="text" value="">
+                            </div>
+                            <div class="form-group">
+                                <label class="sex-label">
+                                    <input name="sex" type="radio" value="1">男
+                                </label>
+                                <label class="sex-label">
+                                    <input name="sex" type="radio" value="0">女
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="remember-label">
+                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button class="btn btn-lg btn-success btn-block">注册</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

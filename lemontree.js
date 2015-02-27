@@ -9,6 +9,7 @@ var app = require('./include/init');
 app.set('port', VARS.config.port || 3000);
 
 module.exports.start = function () {
+
     if (cluster.isMaster) {
         console.log("master start...");
 
