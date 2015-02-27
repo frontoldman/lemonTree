@@ -18,4 +18,4 @@ function initDb(){
 }
 
 module.exports = initDb;
-module.exports.user = User;
+module.exports.User = User;
