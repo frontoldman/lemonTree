@@ -16,7 +16,7 @@ function addUser(req, res, next) {
         sex             = req.param('sex');
 
     if(password != passwordConfirm){
-        res.render('register',{
+        res.render('user/register',{
             message : '两次密码不一致'
         });
         return;
@@ -31,7 +31,7 @@ function addUser(req, res, next) {
             if(!user){
                 addUser();
             }else{
-                res.render('register',{
+                res.render('user/register',{
                     message : '此用户已存在'
                 });
             }
@@ -74,12 +74,17 @@ function login(req,res){
             if(user){
                 res.send('登陆成功');
             }else{
-                res.render('login',{
+                res.render('user/login',{
                     message : '用户名密码不正确'
                 });
             }
         });
 }
 
+function userList(req,res){
+
+}
+
 module.exports.addUser = addUser;
 module.exports.login = login;
+module.exports.userList = userList;
