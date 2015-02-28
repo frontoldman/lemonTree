@@ -13,8 +13,7 @@ function addUser(req, res, next) {
         username        = req.param('username'),
         phone           = req.param('phone'),
         qq              = req.param('qq'),
-        sex             = req.param('sex'),
-        remember        = req.param('remember');
+        sex             = req.param('sex');
 
     var sha1 = crypto.createHash('sha1');
     sha1.update(password);
@@ -39,7 +38,10 @@ function addUser(req, res, next) {
             username        : username,
             phone           : phone,
             qq              : qq,
-            sex             : sex
+            sex             : sex,
+            registerTime    : new Date(),
+            loginTime       : new Date(),
+            loginTimes      : 1
         });
 
         promise.then(function(err){
@@ -47,8 +49,25 @@ function addUser(req, res, next) {
         });
     }
 
+}
 
+function login(req,res){
+    var email           = req.param('email'),
+        password        = req.param('password');
 
+    var sha1 = crypto.createHash('sha1');
+    sha1.update(password);
+    var _pass = sha1.digest('hex');
+
+    user.findOne({email:email,password:_pass})
+        .then(function(user){
+            if(user){
+                res.send('登陆成功');
+            }else{
+                res.send('登陆失败');
+            }
+        });
 }
 
 module.exports.addUser = addUser;
+module.exports.login = login;

@@ -13,4 +13,10 @@ router.get('/register', function (req, res) {
 
 router.post('/register', user.addUser);
 
+router.get('/login', function (req, res) {
+    res.render('login');
+});
+
+router.post('/login',user.login);
+
 module.exports = router;
