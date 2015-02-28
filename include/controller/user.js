@@ -15,6 +15,13 @@ function addUser(req, res, next) {
         qq              = req.param('qq'),
         sex             = req.param('sex');
 
+    if(password != passwordConfirm){
+        res.render('register',{
+            message : '两次密码不一致'
+        });
+        return;
+    }
+
     var sha1 = crypto.createHash('sha1');
     sha1.update(password);
     var _pass = sha1.digest('hex');
@@ -24,7 +31,9 @@ function addUser(req, res, next) {
             if(!user){
                 addUser();
             }else{
-                res.send('此用户已存在');
+                res.render('register',{
+                    message : '此用户已存在'
+                });
             }
         });
 
@@ -64,7 +73,9 @@ function login(req,res){
             if(user){
                 res.send('登陆成功');
             }else{
-                res.send('登陆失败');
+                res.render('login',{
+                    message : '用户名密码不正确'
+                });
             }
         });
 }

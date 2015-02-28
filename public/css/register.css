@@ -10,3 +10,7 @@
 .remember-label input{
     margin-right: 8px;
 }
+.form-tip{
+    padding: 15px;
+    border-radius: 10px;
+}
