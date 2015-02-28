@@ -2,46 +2,52 @@
  * Created by zhangran on 15/2/27.
  */
 
+var crypto = require('crypto');
 var user = require('../proxy/').user;
 
 function addUser(req, res, next) {
+
     var email           = req.param('email'),
         password        = req.param('password'),
         passwordConfirm = req.param('confirm-password'),
         username        = req.param('username'),
         phone           = req.param('phone'),
-        qq              = req.param('qq');
+        qq              = req.param('qq'),
+        sex             = req.param('sex'),
+        remember        = req.param('remember');
 
-    var promise = user.addOne({
-        email          :email,
-        password       :password,
-        passwordConfirm:passwordConfirm,
-        username       :username,
-        phone          :phone,
-        qq             :qq
-    });
+    var sha1 = crypto.createHash('sha1');
+    sha1.update(password);
+    var _pass = sha1.digest('hex');
 
-    //console.log(result);
+    user.findOne({email:email})
+        .then(function(user){
+            if(!user){
+                addUser();
+            }else{
+                res.send('此用户已存在');
+            }
+        });
 
-    promise.then(function(err){
-        res.send('success');
-    });
-    //
-    //promise.resolve(function(){
-    //    console.log('resolve');
-    //});
 
-    //promise.reject(function(){
-    //    console.log('reject');
-    //});
-    //
-    //promise.fulfill(function(){
-    //    console.log('fulfill');
-    //});
+    function addUser(){
 
-    //console.log(promise.resolve);
-    //console.log(promise.reject);
-    //console.log(promise.fulfill);
+        var promise = user.addOne({
+            email           : email,
+            password        : _pass,
+            passwordConfirm : passwordConfirm,
+            username        : username,
+            phone           : phone,
+            qq              : qq,
+            sex             : sex
+        });
+
+        promise.then(function(err){
+            res.send('success');
+        });
+    }
+
+
 
 }
 
