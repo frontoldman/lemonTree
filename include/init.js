@@ -13,7 +13,6 @@ global.VARS = {
     config:config
 }
 
-
 var app = express();
 
 //初始化数据库连接

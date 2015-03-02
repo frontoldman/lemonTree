@@ -19,8 +19,6 @@ router.get('/login', function (req, res) {
 
 router.post('/login',user.login);
 
-router.get('/list',function(req,res){
-    res.render('user/list',{message:''});
-});
+router.get('/list',user.userList);
 
 module.exports = router;

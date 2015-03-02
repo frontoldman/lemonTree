@@ -3,7 +3,10 @@
  */
 
 var crypto = require('crypto');
+var _ = require('lodash');
 var user = require('../proxy/').user;
+var util = require('../util');
+
 
 function addUser(req, res, next) {
 
@@ -82,7 +85,24 @@ function login(req,res){
 }
 
 function userList(req,res){
+    user.findAll(0,10)
+        .then(function(users){
+            if(users){
 
+
+                users.forEach(function(user){
+
+                    user._loginTime = util.dateFormat(user.loginTime);
+                    user._registerTime = util.dateFormat(user.registerTime);
+                });
+
+                res.render('user/list',{
+                    userList:users
+                });
+            }else{
+                res.send('查找失败');
+            }
+        });
 }
 
 module.exports.addUser = addUser;

@@ -14,8 +14,12 @@ function findOne(options){
     return User.findOne(options).exec();
 }
 
-function findAll(){
-    return User.find().exec();
+//查找所有用户
+function findAll(options,start,limit){
+    return User.find(options)
+        .skip(start*limit)
+        .limit(limit)
+        .exec();
 }
 
 

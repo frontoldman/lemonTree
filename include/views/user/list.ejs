@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 user-list">
+        <div class="col-md-10 col-md-offset-1 user-list">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -22,10 +22,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% userList.forEach(function(){ %>
+                    <% userList.forEach(function(user){ %>
                     <tr>
                         <td>
-
+                            <%= user.email %>
+                        </td>
+                        <td>
+                            <%= user.username %>
+                        </td>
+                        <td>
+                            <%= user.sex %>
+                        </td>
+                        <td>
+                            <%= user.office %>
+                        </td>
+                        <td>
+                            <%= user._loginTime  %>
+                        </td>
+                        <td>
+                            <%= user._registerTime  %>
                         </td>
                     </tr>
                     <% }) %>
