@@ -89,9 +89,8 @@ function userList(req,res){
         .then(function(users){
             if(users){
 
-
                 users.forEach(function(user){
-
+                    user._sex = (['女','男'])[user.sex];
                     user._loginTime = util.dateFormat(user.loginTime);
                     user._registerTime = util.dateFormat(user.registerTime);
                 });
@@ -99,6 +98,7 @@ function userList(req,res){
                 res.render('user/list',{
                     userList:users
                 });
+
             }else{
                 res.send('查找失败');
             }
