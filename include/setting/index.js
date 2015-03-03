@@ -9,8 +9,9 @@ module.exports = function(app){
     app.set('views', path.join(VARS.EXECUTE_ROOT, 'views'));
     app.set('view engine', 'ejs');
 
-    app.locals.message = null;
+    //app.locals.message = null;
 
+    app.locals.title = 'lemon tree';
 
 
 

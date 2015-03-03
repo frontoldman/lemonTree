@@ -1,7 +1,10 @@
 
 var user = require('./user');
+var dashboard = require('./dashboard');
 
 module.exports = function(app){
+
+  app.use('/dashboard',dashboard);
 
   app.use('/user', user);
 
