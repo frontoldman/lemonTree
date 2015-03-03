@@ -25,9 +25,7 @@ function addUser(req, res, next) {
         return;
     }
 
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(password);
-    var _pass = sha1.digest('hex');
+    var _pass = util.crypto(password);
 
     user.findOne({email:email})
         .then(function(user){
@@ -68,9 +66,7 @@ function login(req,res){
     var email           = req.param('email'),
         password        = req.param('password');
 
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(password);
-    var _pass = sha1.digest('hex');
+    var _pass = util.crypto(password);
 
     user.findOne({email:email,password:_pass})
         .then(function(user){
