@@ -6,7 +6,10 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
+
+var auth = require('./auth');
 
 module.exports = function (app) {
     // uncomment after placing your favicon in /public
@@ -15,6 +18,21 @@ module.exports = function (app) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
+    app.use(session({
+        secret: VARS.config.session_secret,
+        key: 'sid',
+//    store: new MongoStore({
+//        db: config.db_name
+//    }),
+        resave: true,
+        saveUninitialized: true
+    }));
     app.use(express.static(path.join(VARS.DOCUMENT_ROOT, 'public')));
+
+    app.use(auth.checkLogin);
+
+    app.get('/user/login',auth.loginAuth);
+    app.get('/user/register',auth.loginAuth);
+
 
 };

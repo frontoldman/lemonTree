@@ -7,7 +7,6 @@ var _ = require('lodash');
 var user = require('../proxy/').user;
 var util = require('../util');
 
-
 function addUser(req, res, next) {
 
     var email           = req.param('email'),
@@ -64,14 +63,23 @@ function addUser(req, res, next) {
 
 function login(req,res){
     var email           = req.param('email'),
-        password        = req.param('password');
+        password        = req.param('password'),
+        remember        = req.param('remember');
 
     var _pass = util.crypto(password);
 
     user.findOne({email:email,password:_pass})
         .then(function(user){
             if(user){
-                res.send('登陆成功');
+                req.session.user = user;
+                if(remember){
+                    res.cookie('userId',user._id,{
+                        expires: new Date(Date.now() + VARS.config.cookie_expires),
+                        httpOnly : true,
+                        path     : '/'
+                    });
+                }
+                res.redirect('/dashboard');
             }else{
                 res.render('user/login',{
                     message : '用户名密码不正确'
