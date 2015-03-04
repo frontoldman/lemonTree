@@ -10,6 +10,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 
 var auth = require('./auth');
+var routes = require('./routes');
 
 module.exports = function (app) {
     // uncomment after placing your favicon in /public
@@ -29,8 +30,10 @@ module.exports = function (app) {
     }));
     app.use(express.static(path.join(VARS.DOCUMENT_ROOT, 'public')));
 
-    app.use(auth.checkLogin);
+    app.use(routes.routeStatus);
 
+    //检查登陆状态
+    app.use(auth.checkLogin);
     app.get('/user/login',auth.loginAuth);
     app.get('/user/register',auth.loginAuth);
 

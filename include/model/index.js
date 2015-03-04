@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var User = require('./user');
+var Project = require('./project');
 
 function initDb(){
     //连接数据库
@@ -19,3 +20,4 @@ function initDb(){
 
 module.exports = initDb;
 module.exports.User = mongoose.model('User');
+module.exports.Project = mongoose.model('Project');

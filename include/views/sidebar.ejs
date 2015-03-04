@@ -1,8 +1,10 @@
 <div class="col-md-2">
 	<div class="list-group">
-		<a href="#" class="list-group-item active">首页</a>
-		<a href="#" class="list-group-item">项目</a>
-		<a href="#" class="list-group-item">任务</a>
-		<a href="#" class="list-group-item">bug</a>
+		<a href="/dashboard/" class="list-group-item <% if(routes.dashboard){ %>active<% } %>">首页</a>
+		<a href="/project/" class="list-group-item <% if(routes.project){ %>active<% } %>">项目</a>
+		<a href="/task/" class="list-group-item <% if(routes.task){ %>active<% } %>">任务</a>
+		<a href="/bug/" class="list-group-item  <% if(routes.bug){ %>active<% } %>">bug</a>
 	</div>
+
+
 </div>

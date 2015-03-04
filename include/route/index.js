@@ -1,12 +1,15 @@
 
 var user = require('./user');
 var dashboard = require('./dashboard');
+var project = require('./project');
 
 module.exports = function(app){
 
   app.use('/dashboard',dashboard);
 
   app.use('/user', user);
+
+  app.use('/project', project);
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

@@ -12,7 +12,6 @@ module.exports = function(app){
     //app.locals.message = null;
 
     app.locals.title = 'lemon tree';
-
-
+    app.locals.routes = {};
 
 };
