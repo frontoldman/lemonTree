@@ -5,11 +5,24 @@
 	<title><%= title %></title>
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/css/dashboard.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row bg-primary dashboard-header">
 		<div class="col-md-2 col-md-offset-10">
+
+
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">个人中心</a></li>
+					<li><a href="/user/logout">退出登陆</a></li>
+				</ul>
+			</div>
 			<%= user.username %>
 		</div>
 	</div>

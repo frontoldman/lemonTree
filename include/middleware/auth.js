@@ -15,21 +15,15 @@ module.exports.checkLogin = function(req,res,next){
     checkLogStatus(req,res,next,1,function(){
         res.redirect('/user/login');
     });
-
 };
 
 module.exports.loginAuth = function(req,res,next){
-
     checkLogStatus(req,res,next,2,function(){
         res.redirect('/dashboard');
     });
-
-    next();
 };
 
 function checkLogStatus(req,res,next,status,callback){
-
-    console.log(req.session.user);
 
     if(req.session.user){   //有session next()
         if(status == 1){

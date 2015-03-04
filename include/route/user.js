@@ -21,4 +21,6 @@ router.post('/login',user.login);
 
 router.get('/list',user.userList);
 
+router.get('/logout',user.logout);
+
 module.exports = router;

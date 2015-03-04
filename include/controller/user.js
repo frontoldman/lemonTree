@@ -109,6 +109,22 @@ function userList(req,res){
         });
 }
 
+
+function logout(req,res,next){
+
+    req.session.user = null;
+    res.cookie('userId',null,{
+        expires: new Date(Date.now() - 100),
+        httpOnly : true,
+        path     : '/'
+    });
+
+    res.redirect('/user/login');
+
+}
+
+
 module.exports.addUser = addUser;
 module.exports.login = login;
 module.exports.userList = userList;
+module.exports.logout = logout;
