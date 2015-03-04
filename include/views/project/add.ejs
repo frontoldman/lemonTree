@@ -50,4 +50,18 @@
 		</div>
 	</div>
 </div>
+
+<% include ../script %>
+<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+<script>
+	$('#start_time').datepicker({
+		todayBtn: true,
+		clearBtn: true
+	});
+
+	$('#end_time').datepicker({
+		todayBtn: true,
+		clearBtn: true
+	});
+</script>
 <% include ../footer %>
