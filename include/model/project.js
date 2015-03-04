@@ -6,13 +6,12 @@ var Schema = mongoose.Schema;
 
 var ProjectSchema = new Schema({
     name            : { type : String },
+    code            : { type : String },
     startTime       : { type : Date },
     endTime         : { type : Date },
     status          : { type : Number },
-    estimatedTime   : { type : Number },
-    consumptionTime : { type : Number },
-    remainingTime   : { type : Number },
     progress        : { type : Number },
+    description     : { type : String },
     createTime      : { type : Date },
     createUser      : { type : String }
 });

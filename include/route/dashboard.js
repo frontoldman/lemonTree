@@ -7,9 +7,7 @@ var user = require('../controller/').user;
 var router = express.Router();
 
 router.get('/',function(req,res){
-    res.render('dashboard',{
-        user : req.session.user
-    });
+    res.render('dashboard');
 });
 
 module.exports = router;

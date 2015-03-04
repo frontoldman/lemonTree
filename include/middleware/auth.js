@@ -26,11 +26,13 @@ module.exports.loginAuth = function(req,res,next){
 function checkLogStatus(req,res,next,status,callback){
 
     if(req.session.user){   //有session next()
+        res.locals.user = user;
         if(status == 1){
             next();
         }else{
             callback();
         }
+
 
     }else if(req.cookies.userId){   //没有session,有cookie，则查找此人
         var userId = req.cookies.userId;
@@ -39,6 +41,7 @@ function checkLogStatus(req,res,next,status,callback){
         }).then(function(userItem){     //找到则附在session上
             if(userItem){
                 req.session.user = userItem;
+                res.locals.user = userItem;
 
                 if(status == 1){
                     next();

@@ -1,11 +1,33 @@
 <% include ../header %>
-<div class="container-fluid dashboard-body">
+<div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
 	<div class="row">
 
 		<% include ../sidebar %>
 
 		<div class="col-md-10">
-			<div class="panel panel-default">
+
+			<div class="row">
+				<div class="col-md-9">
+					<div class="row">
+						<div class="col-md-2 text-right"><h5>过滤项：</h5></div>
+						<div class="col-md-9">
+							<div class="btn-group" role="group" aria-label="">
+								<a href="#" class="btn btn-default">开始时间</a>
+								<a href="#" class="btn btn-default">结束时间</a>
+								<a href="#" class="btn btn-default">状态</a>
+								<a href="#" class="btn btn-default">进度</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 ">
+					<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+						<a href="/project/new" class="btn btn-primary" role="button">创建新项目</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default mt15">
 				<div class="panel-heading">
 					<h3 class="panel-title">项目列表</h3>
 				</div>

@@ -30,6 +30,7 @@ module.exports = function (app) {
     }));
     app.use(express.static(path.join(VARS.DOCUMENT_ROOT, 'public')));
 
+    //中间件执行
     app.use(routes.routeStatus);
 
     //检查登陆状态

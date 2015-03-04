@@ -1,0 +1,53 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body">
+	<div class="row">
+		<% include ../sidebar %>
+		<div class="col-md-10">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加新项目</h3>
+				</div>
+				<div class="panel-body">
+					<form role="form" method="post" action="add" class="form-horizontal">
+						<fieldset>
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="name" id="name" placeholder="输入项目名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="code_number" class="col-sm-2 control-label">项目代号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="code" id="code_number" placeholder="输入项目代号">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="start_time" class="col-sm-2 control-label">开始日期</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="startTime" id="start_time" placeholder="开始日期">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="end_time" class="col-sm-2 control-label">结束日期</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="endTime" id="end_time" placeholder="结束日期">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="description" class="col-sm-2 control-label">项目描述</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="description" id="description" placeholder="项目描述"></textarea>
+								</div>
+							</div>
+							<div class="col-md-2 col-md-offset-5">
+								<button class="btn btn-lg btn-success btn-block">添加</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% include ../footer %>
