@@ -26,7 +26,7 @@ module.exports.loginAuth = function(req,res,next){
 function checkLogStatus(req,res,next,status,callback){
 
     if(req.session.user){   //有session next()
-        res.locals.user = user;
+        res.locals.user = req.session.user;
         if(status == 1){
             next();
         }else{

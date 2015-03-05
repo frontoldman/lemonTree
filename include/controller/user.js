@@ -72,6 +72,7 @@ function login(req,res){
         .then(function(user){
             if(user){
                 req.session.user = user;
+
                 if(remember){
                     res.cookie('userId',user._id,{
                         expires: new Date(Date.now() + VARS.config.cookie_expires),
