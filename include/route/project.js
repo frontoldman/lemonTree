@@ -6,9 +6,7 @@ var router = express.Router();
 
 var project = require('../controller/').project;
 
-router.get('/',function(req,res){
-    res.render('project/list');
-});
+router.get('/',project.list);
 
 router.get('/add',function(req,res){
     res.render('project/add');

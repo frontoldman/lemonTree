@@ -45,18 +45,20 @@
 					</tr>
 					</thead>
 					<tbody>
+					<% list.forEach(function(item){ %>
 					<tr>
-						<td>mofi</td>
-						<td>2010-01-01</td>
-						<td>2010-02-01</td>
-						<td>进行中</td>
+						<td><%= item.name %></td>
+						<td><%= item.startTime %></td>
+						<td><%= item.endTime %></td>
+						<td><%= item.status %></td>
 						<td>100</td>
 						<td>80</td>
 						<td>20</td>
 						<td>
-							80%
+							<%= item.progress %>%
 						</td>
 					</tr>
+					<% }) %>
 					</tbody>
 				</table>
 			</div>

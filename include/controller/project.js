@@ -20,17 +20,40 @@ function add(req,res,next){
     var promise = project.addOne({
         name        : name,
         code        : code,
+        status      : 1,
+        progress    : 0,
         startTime   : moment(startTime),
         endTime     : moment(endTime),
-        description : description
+        description : description,
+        createTime  : new Date(),
+        createUser  : req.session.user._id
     });
 
     promise.then(function(projectItem){
-        res.send('添加成功');
+        res.redirect('/project/');
     },function(){
         res.send('添加失败');
     });
 
 };
 
+function list(req,res,next){
+
+    project.findAll()
+        .then(function(projects){
+            if(Array.isArray(projects)){
+                res.render('project/list',{
+                    list:projects
+                });
+            }
+        },function(){
+            res.render('project/list',{
+                list:[]
+            });
+        });
+
+
+}
+
 module.exports.add = add;
+module.exports.list = list;
