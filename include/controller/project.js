@@ -51,7 +51,7 @@ function list(req,res,next){
 
     page = page < 0 ? 0 : page;
 
-    var perpage = 2;
+    var perpage = 10;
     var queryQ = Q.all([
         project.findAll({},page,perpage),
         project.count({})
