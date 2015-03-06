@@ -42,20 +42,24 @@
 						<th>总消耗</th>
 						<th>总剩余</th>
 						<th>进度</th>
+						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
 					<% list.forEach(function(item){ %>
 					<tr>
 						<td><%= item.name %></td>
-						<td><%= item.startTime %></td>
-						<td><%= item.endTime %></td>
+						<td><%= item._startTime %></td>
+						<td><%= item._endTime %></td>
 						<td><%= item.status %></td>
-						<td>100</td>
-						<td>80</td>
-						<td>20</td>
+						<td><%= item.total %></td>
+						<td><%= item.used %></td>
+						<td><%= item.reset %></td>
 						<td>
 							<%= item.progress %>%
+						</td>
+						<td>
+							<a href="#"></a>
 						</td>
 					</tr>
 					<% }) %>

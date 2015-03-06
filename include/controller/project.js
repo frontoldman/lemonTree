@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var project = require('../proxy/').project;
+var util = require('../util');
 
 function add(req,res,next){
     var name        = req.param('name'),
@@ -42,6 +43,19 @@ function list(req,res,next){
     project.findAll()
         .then(function(projects){
             if(Array.isArray(projects)){
+
+                projects.forEach(function(project){
+                    project._startTime = util.dateFormat(project.startTime);
+                    project._endTime = util.dateFormat(project.endTime);
+                    project.total = util.getWorkingHours(project.startTime,project.endTime);
+
+                    var now = new Date();
+                    project.used = util.getWorkingHours(project.startTime,now);
+                    var start = now.getTime() < project.startTime.getTime() ? project.startTime : now;
+                    project.reset = util.getWorkingHours(start,project.endTime);
+
+                });
+
                 res.render('project/list',{
                     list:projects
                 });
