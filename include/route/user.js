@@ -23,4 +23,6 @@ router.get('/list',user.userList);
 
 router.get('/logout',user.logout);
 
+router.get('/users',user.users);
+
 module.exports = router;

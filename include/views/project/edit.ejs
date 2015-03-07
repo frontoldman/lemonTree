@@ -8,7 +8,7 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">编辑项目</h3>
+					<h3 class="panel-title"><%= project.name %>->编辑项目</h3>
 				</div>
 				<div class="panel-body">
 					<form role="form" method="post" action="/project/edit" class="form-horizontal">
@@ -39,6 +39,30 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="project_man" class="col-sm-2 control-label">项目负责人</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="projectMan" value="<%= project.projectMan || '' %>" id="project_man" placeholder="项目负责人">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="product_man" class="col-sm-2 control-label">产品负责人</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="productMan" value="<%= project.productMan || '' %>" id="product_man" placeholder="项目负责人">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="test_man" class="col-sm-2 control-label">测试负责人</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="testMan" value="<%= project.testMan || '' %>" id="test_man" placeholder="测试负责人">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="publish_man" class="col-sm-2 control-label">发布负责人</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="publishMan" value="<%= project.publishMan || '' %>" id="publish_man" placeholder="发布负责人">
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="description" class="col-sm-2 control-label">项目描述</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" name="description" id="description" placeholder="项目描述"><%= project.description %></textarea>
@@ -59,4 +83,24 @@
 </div>
 
 <% include ../script %>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script>
+	$('#start_time').datepicker({
+		dateFormat: "yy-mm-dd"
+	});
+
+	$('#end_time').datepicker({
+		dateFormat: "yy-mm-dd"
+	});
+
+	$('#project_man').autocomplete({
+		source:'/user/users',
+		select: function( event, ui ) {
+			console.log( ui.item ?
+			"Selected: " + ui.item.value + " aka " + ui.item.id :
+			"Nothing selected, input was " + this.value );
+		}
+
+	})
+</script>
 <% include ../footer %>

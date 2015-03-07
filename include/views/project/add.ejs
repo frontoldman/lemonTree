@@ -55,14 +55,14 @@
 </div>
 
 <% include ../script %>
-<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script>
 	$('#start_time').datepicker({
-		format: "yyyy-mm-dd"
+		dateFormat: "yy-mm-dd"
 	});
 
 	$('#end_time').datepicker({
-		format: "yyyy-mm-dd"
+		dateFormat: "yy-mm-dd"
 	});
 </script>
 <% include ../footer %>

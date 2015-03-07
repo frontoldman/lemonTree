@@ -11,6 +11,10 @@ var ProjectSchema = new Schema({
     endTime         : { type : Date },
     status          : { type : Number },
     progress        : { type : Number },
+    projectMan      : { type : String },
+    productMan      : { type : String },
+    testMan         : { type : String },
+    publishMan      : { type : String },
     description     : { type : String },
     createTime      : { type : Date },
     createUser      : { type : String }

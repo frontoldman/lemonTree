@@ -124,8 +124,34 @@ function logout(req,res,next){
 
 }
 
+function users(req,res,next){
+
+    var term = req.param('term');
+
+    var termReg = new RegExp(term,'i');
+
+    user.findAll({username:termReg})
+        .then(function(users){
+
+            var _users = [];
+            users.forEach(function(userItem){
+                _users.push({
+                    id:userItem._id,
+                    value:userItem.username
+                })
+            });
+
+            res.json(_users);
+
+        },function(){
+            res.json([]);
+        });
+
+
+}
 
 module.exports.addUser = addUser;
 module.exports.login = login;
 module.exports.userList = userList;
 module.exports.logout = logout;
+module.exports.users = users;

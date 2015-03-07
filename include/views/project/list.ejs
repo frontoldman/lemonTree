@@ -42,6 +42,7 @@
 						<th>总消耗</th>
 						<th>总剩余</th>
 						<th>进度</th>
+						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -56,6 +57,9 @@
 						<td><%= item.reset %></td>
 						<td>
 							<%= item.progress %>%
+						</td>
+						<td>
+							<a href="/project/edit/<%= item._id %>">编辑</a>
 						</td>
 					</tr>
 					<% }) %>
