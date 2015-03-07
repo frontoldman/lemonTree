@@ -14,4 +14,7 @@ router.get('/add',function(req,res){
 
 router.post('/add',project.add);
 
+router.get('/edit/:id',project.edit);
+router.post('/edit',project.update);
+
 module.exports = router;

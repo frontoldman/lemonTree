@@ -47,7 +47,7 @@
 					<tbody>
 					<% list.forEach(function(item){ %>
 					<tr>
-						<td><%= item.name %></td>
+						<td><a href="/project/edit/<%= item._id %>"><%= item.name %></a></td>
 						<td><%= item._startTime %></td>
 						<td><%= item._endTime %></td>
 						<td><%= item.status %></td>

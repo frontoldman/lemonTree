@@ -41,6 +41,37 @@ function count(options){
 }
 
 
+function findOne(options){
+    var deferred = Q.defer();
+
+    Project.findOne(options,function(err,project){
+        if(err){
+            deferred.reject(err);
+        }else{
+            deferred.resolve(project);
+        }
+    });
+
+    return deferred.promise;
+}
+
+function update(options){
+    var deferred = Q.defer();
+
+    Project.where({ _id: options._id }).update(options,function(err,project){
+        //console.log(project)
+        if(err){
+            deferred.reject();
+        }else{
+            deferred.resolve(project);
+        }
+    });
+
+    return deferred.promise;
+}
+
 module.exports.addOne = addOne;
 module.exports.findAll = findAll;
 module.exports.count = count;
+module.exports.findOne = findOne;
+module.exports.update = update;

@@ -34,7 +34,7 @@ function add(req,res,next){
     promise.then(function(projectItem){
         res.redirect('/project/');
     },function(){
-        res.send('添加失败');
+        next();
     });
 
 };
@@ -98,5 +98,60 @@ function list(req,res,next){
 
 }
 
+function edit(req,res,next){
+
+    var id = req.param('id');
+
+    var queryQ = project.findOne({_id:id});
+    queryQ.done(function(project){
+        project._startTime = util.dateFormat(project.startTime);
+        project._endTime = util.dateFormat(project.endTime);
+
+        res.render('project/edit',{
+            project:project
+        })
+    });
+
+    queryQ.fail(function(){
+        next();
+    });
+}
+
+function update(req,res,next){
+    var id          = req.param('id'),
+        name        = req.param('name'),
+        code        = req.param('code'),
+        startTime   = req.param('startTime'),
+        endTime     = req.param('endTime'),
+        description = req.param('description');
+
+    if(!name || !startTime || !endTime){
+        res.render('project/add',{
+            message:'必填项不能不填啊'
+        });
+    }
+
+    var promise = project.update({
+        _id          : id,
+        name        : name,
+        code        : code,
+        status      : 1,
+        progress    : 0,
+        startTime   : moment(startTime),
+        endTime     : moment(endTime),
+        description : description,
+        createTime  : new Date(),
+        createUser  : req.session.user._id
+    });
+
+    promise.then(function(projectItem){
+        res.redirect('/project/');
+    },function(){
+        next();
+    });
+}
+
 module.exports.add = add;
 module.exports.list = list;
+module.exports.edit = edit;
+module.exports.update = update;
