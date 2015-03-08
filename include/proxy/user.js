@@ -11,7 +11,17 @@ function addOne(params){
 
 //查找单个用户
 function findOne(options){
-    return User.findOne(options).exec();
+    var deferred = Q.defer();
+
+    var queryQ = User.findOne(options).exec();
+
+    queryQ.then(function(userItem){
+        deferred.resolve(userItem);
+    },function(){
+        deferred.reject();
+    });
+
+    return deferred.promise;
 }
 
 //查找所有用户

@@ -4,6 +4,7 @@
 var moment = require('moment');
 var Q = require('q');
 var project = require('../proxy/').project;
+var user = require('../proxy/').user;
 var util = require('../util');
 
 function add(req,res,next){
@@ -103,27 +104,66 @@ function edit(req,res,next){
     var id = req.param('id');
 
     var queryQ = project.findOne({_id:id});
-    queryQ.done(function(project){
+    queryQ.then(getUserNames)
+        .then(function(dataArray){
+
+            console.log(dataArray);
+            res.render('project/edit',{
+                project    : dataArray[0],
+                projectMan : dataArray[1],
+                productMan : dataArray[2],
+                testMan    : dataArray[3],
+                publishMan : dataArray[4]
+            });
+        });
+
+    //console.log(x);
+    //res.send('array')
+        //.then(function(dataArray){
+        //    res.send('array');
+        //});
+    //queryQ.done(function(project){
+    //    project._startTime = util.dateFormat(project.startTime);
+    //    project._endTime = util.dateFormat(project.endTime);
+    //
+    //    res.render('project/edit',{
+    //        project:project
+    //    });
+    //});
+
+    function getUserNames(project){
+
+        var deferred = Q.defer();
+
         project._startTime = util.dateFormat(project.startTime);
         project._endTime = util.dateFormat(project.endTime);
 
-        res.render('project/edit',{
-            project:project
-        })
-    });
+        return Q.all([
+            project,
+            user.findOne({_id:project.projectManId}),
+            user.findOne({_id:project.productManId}),
+            user.findOne({_id:project.testManId}),
+            user.findOne({_id:project.publishManId})]);
 
-    queryQ.fail(function(){
-        next();
-    });
+        //return deferred.promise;
+    }
+
+    //queryQ.fail(function(){
+    //    next();
+    //});
 }
 
 function update(req,res,next){
-    var id          = req.param('id'),
-        name        = req.param('name'),
-        code        = req.param('code'),
-        startTime   = req.param('startTime'),
-        endTime     = req.param('endTime'),
-        description = req.param('description');
+    var id           = req.param('id'),
+        name         = req.param('name'),
+        code         = req.param('code'),
+        startTime    = req.param('startTime'),
+        endTime      = req.param('endTime'),
+        projectManId = req.param('projectManId'),
+        productManId = req.param('productManId'),
+        testManId    = req.param('testManId'),
+        publishManId = req.param('publishManId'),
+        description  = req.param('description');
 
     if(!name || !startTime || !endTime){
         res.render('project/add',{
@@ -133,15 +173,15 @@ function update(req,res,next){
 
     var promise = project.update({
         _id          : id,
-        name        : name,
-        code        : code,
-        status      : 1,
-        progress    : 0,
-        startTime   : moment(startTime),
-        endTime     : moment(endTime),
-        description : description,
-        createTime  : new Date(),
-        createUser  : req.session.user._id
+        name         : name,
+        code         : code,
+        startTime    : moment(startTime),
+        endTime      : moment(endTime),
+        projectManId : projectManId,
+        productManId : productManId,
+        testManId    : testManId,
+        publishManId : publishManId,
+        description  : description
     });
 
     promise.then(function(projectItem){
