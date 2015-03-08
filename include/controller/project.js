@@ -116,7 +116,6 @@ function edit(req,res,next){
         });
 
 
-
 }
 
 function update(req,res,next){
@@ -138,16 +137,16 @@ function update(req,res,next){
     }
 
     var promise = project.update({
-        _id          : id,
-        name         : name,
-        code         : code,
-        startTime    : moment(startTime),
-        endTime      : moment(endTime),
-        projectManId : projectManId,
-        productManId : productManId,
-        testManId    : testManId,
-        publishManId : publishManId,
-        description  : description
+        _id         : id,
+        name        : name,
+        code        : code,
+        startTime   : moment(startTime),
+        endTime     : moment(endTime),
+        projectMan  : { id : projectManId , joinTime : new Date() },
+        productMan  : { id : productManId , joinTime : new Date() },
+        testMan     : { id : testManId    , joinTime : new Date() },
+        publishMan  : { id : publishManId , joinTime : new Date() },
+        description : description
     });
 
     promise.then(function(projectItem){
@@ -185,6 +184,32 @@ function remove(req,res,next){
 
 }
 
+function getMembers(req,res,next){
+
+    var id = req.param('id');
+
+    var queryQ = project.findOne({_id:id});
+    queryQ.then(getUserNames)
+        .then(function(dataArray){
+
+            var projectItem = dataArray[0];
+
+            projectItem.projectMan._joinTime = util.dateFormat(projectItem.projectMan.joinTime);
+            projectItem.productMan._joinTime = util.dateFormat(projectItem.productMan.joinTime);
+            projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
+            projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
+
+            res.render('project/memberList',{
+                project    : projectItem,
+                projectMan : dataArray[1]||{},
+                productMan : dataArray[2]||{},
+                testMan    : dataArray[3]||{},
+                publishMan : dataArray[4]||{}
+            });
+        });
+
+}
+
 //根据project获取用户详细信息
 function getUserNames(project){
 
@@ -193,10 +218,10 @@ function getUserNames(project){
 
     return Q.all([
         project,
-        user.findOne({_id:project.projectManId}),
-        user.findOne({_id:project.productManId}),
-        user.findOne({_id:project.testManId}),
-        user.findOne({_id:project.publishManId})]);
+        user.findOne({_id:project.projectMan.id}),
+        user.findOne({_id:project.productMan.id}),
+        user.findOne({_id:project.testMan.id}),
+        user.findOne({_id:project.publishMan.id})]);
 
 }
 
@@ -206,3 +231,4 @@ module.exports.edit = edit;
 module.exports.update = update;
 module.exports.detail = detail;
 module.exports.remove = remove;
+module.exports.getMembers = getMembers;

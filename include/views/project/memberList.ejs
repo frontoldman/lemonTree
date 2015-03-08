@@ -1,0 +1,57 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
+	<div class="row">
+
+		<% include ../sidebar %>
+
+		<div class="col-md-10">
+
+			<div class="panel panel-default mt15">
+				<div class="panel-heading">
+					<h3 class="panel-title"><%= project.name %>->团队成员</h3>
+				</div>
+				<table class="table table-bordered table-hover">
+					<thead>
+					<tr>
+						<th>用户</th>
+						<th>角色</th>
+						<th>加入时间</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td><%= projectMan.username || '--' %></td>
+						<td>项目负责人</td>
+						<td><%= project.projectMan._joinTime %></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><%= productMan.username || '--' %></td>
+						<td>产品负责人</td>
+						<td><%= project.productMan._joinTime %></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><%= testMan.username || '--' %></td>
+						<td>测试负责人</td>
+						<td><%= project.testMan._joinTime %></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><%= publishMan.username || '--' %></td>
+						<td>发布负责人</td>
+						<td><%= project.publishMan._joinTime %></td>
+						<td></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+<% include ../script %>
+<% include ../footer %>

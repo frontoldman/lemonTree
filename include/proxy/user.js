@@ -16,6 +16,7 @@ function findOne(options){
     var queryQ = User.findOne(options).exec();
 
     queryQ.then(function(userItem){
+        console.log(userItem);
         deferred.resolve(userItem);
     },function(){
         deferred.reject();

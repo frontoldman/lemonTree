@@ -21,4 +21,6 @@ router.get('/detail/:id',project.detail);
 
 router.get('/delete/:id',project.remove);
 
+router.get('/members/:id',project.getMembers);
+
 module.exports = router;
