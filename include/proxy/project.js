@@ -70,8 +70,23 @@ function update(options){
     return deferred.promise;
 }
 
+function remove(options){
+    var deferred = Q.defer();
+
+    Project.remove(options, function(err,projectItem){
+       if(err){
+           deferred.reject();
+       }else{
+            deferred.resolve(projectItem);
+       }
+    });
+
+    return deferred.promise;
+}
+
 module.exports.addOne = addOne;
 module.exports.findAll = findAll;
 module.exports.count = count;
 module.exports.findOne = findOne;
 module.exports.update = update;
+module.exports.remove = remove;

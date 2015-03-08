@@ -48,7 +48,7 @@
 					<tbody>
 					<% list.forEach(function(item){ %>
 					<tr>
-						<td><a href="/project/edit/<%= item._id %>"><%= item.name %></a></td>
+						<td><a href="/project/detail/<%= item._id %>"><%= item.name %></a></td>
 						<td><%= item._startTime %></td>
 						<td><%= item._endTime %></td>
 						<td><%= item.status %></td>
@@ -60,6 +60,7 @@
 						</td>
 						<td>
 							<a href="/project/edit/<%= item._id %>">编辑</a>
+							<a href="/project/delete/<%= item._id %>">删除</a>
 						</td>
 					</tr>
 					<% }) %>

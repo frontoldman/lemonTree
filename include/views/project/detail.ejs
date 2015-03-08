@@ -1,0 +1,83 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
+	<div class="row">
+
+		<% include ../sidebar %>
+
+		<div class="col-md-10">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-sm-10">
+							<h3 class="panel-title"><%= project.name %>->项目详情</h3>
+						</div>
+						<div class="col-sm-2">
+							<a href="/project/edit/<%= project._id %>">编辑</a>
+							<a href="/project/delete/<%= project._id %>">删除</a>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<table class="table project-detail">
+						<tr>
+							<th>项目名称:</th>
+							<td><%= project.name %></td>
+						</tr>
+						<tr>
+							<th>项目代号:</th>
+							<td><%= project.code %></td>
+						</tr>
+						<tr>
+							<th>开始时间:</th>
+							<td><%= project._startTime %></td>
+						</tr>
+						<tr>
+							<th>结束时间:</th>
+							<td><%= project._endTime %></td>
+						</tr>
+						<tr>
+							<th>状态:</th>
+							<td><%= project.status %></td>
+						</tr>
+						<tr>
+							<th>进度:</th>
+							<td><%= project.progress %>%</td>
+						</tr>
+						<tr>
+							<th>项目负责人:</th>
+							<td><%= projectMan.username %></td>
+						</tr>
+						<tr>
+							<th>产品负责人:</th>
+							<td><%= productMan.username %></td>
+						</tr>
+						<tr>
+							<th>测试负责人:</th>
+							<td><%= testMan.username %></td>
+						</tr>
+						<tr>
+							<th>发布负责人:</th>
+							<td><%= publishMan.username %></td>
+						</tr>
+						<tr>
+							<th>项目描述:</th>
+							<td><%= project.description %></td>
+						</tr>
+
+
+
+					</table>
+				</div>
+
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+
+<% include ../script %>
+
+<% include ../footer %>

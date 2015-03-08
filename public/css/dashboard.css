@@ -8,3 +8,7 @@
 .mt15{
     margin-top: 15px;
 }
+.project-detail th{
+    width: 20%;
+    text-align: right;
+}

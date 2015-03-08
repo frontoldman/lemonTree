@@ -17,4 +17,8 @@ router.post('/add',project.add);
 router.get('/edit/:id',project.edit);
 router.post('/edit',project.update);
 
+router.get('/detail/:id',project.detail);
+
+router.get('/delete/:id',project.remove);
+
 module.exports = router;

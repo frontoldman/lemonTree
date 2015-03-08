@@ -83,7 +83,7 @@ function list(req,res,next){
                 pages:{
                     link:'/project',
                     total:total,
-                    current:page
+                    current:page+1 > total ? total : page
                 }
             });
         }
@@ -106,51 +106,17 @@ function edit(req,res,next){
     var queryQ = project.findOne({_id:id});
     queryQ.then(getUserNames)
         .then(function(dataArray){
-
-            console.log(dataArray);
             res.render('project/edit',{
                 project    : dataArray[0],
-                projectMan : dataArray[1],
-                productMan : dataArray[2],
-                testMan    : dataArray[3],
-                publishMan : dataArray[4]
+                projectMan : dataArray[1]||{},
+                productMan : dataArray[2]||{},
+                testMan    : dataArray[3]||{},
+                publishMan : dataArray[4]||{}
             });
         });
 
-    //console.log(x);
-    //res.send('array')
-        //.then(function(dataArray){
-        //    res.send('array');
-        //});
-    //queryQ.done(function(project){
-    //    project._startTime = util.dateFormat(project.startTime);
-    //    project._endTime = util.dateFormat(project.endTime);
-    //
-    //    res.render('project/edit',{
-    //        project:project
-    //    });
-    //});
 
-    function getUserNames(project){
 
-        var deferred = Q.defer();
-
-        project._startTime = util.dateFormat(project.startTime);
-        project._endTime = util.dateFormat(project.endTime);
-
-        return Q.all([
-            project,
-            user.findOne({_id:project.projectManId}),
-            user.findOne({_id:project.productManId}),
-            user.findOne({_id:project.testManId}),
-            user.findOne({_id:project.publishManId})]);
-
-        //return deferred.promise;
-    }
-
-    //queryQ.fail(function(){
-    //    next();
-    //});
 }
 
 function update(req,res,next){
@@ -191,7 +157,52 @@ function update(req,res,next){
     });
 }
 
+function detail(req,res,next){
+    var id = req.param('id');
+
+    var queryQ = project.findOne({_id:id});
+    queryQ.then(getUserNames)
+        .then(function(dataArray){
+            res.render('project/detail',{
+                project    : dataArray[0],
+                projectMan : dataArray[1]||{},
+                productMan : dataArray[2]||{},
+                testMan    : dataArray[3]||{},
+                publishMan : dataArray[4]||{}
+            });
+        });
+}
+
+function remove(req,res,next){
+    var id = req.param('id');
+
+    project.remove({_id:id})
+        .then(function(){
+            res.redirect('/project/');
+        },function(){
+            next();
+        });
+
+}
+
+//根据project获取用户详细信息
+function getUserNames(project){
+
+    project._startTime = util.dateFormat(project.startTime);
+    project._endTime = util.dateFormat(project.endTime);
+
+    return Q.all([
+        project,
+        user.findOne({_id:project.projectManId}),
+        user.findOne({_id:project.productManId}),
+        user.findOne({_id:project.testManId}),
+        user.findOne({_id:project.publishManId})]);
+
+}
+
 module.exports.add = add;
 module.exports.list = list;
 module.exports.edit = edit;
 module.exports.update = update;
+module.exports.detail = detail;
+module.exports.remove = remove;
