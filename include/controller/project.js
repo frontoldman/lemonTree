@@ -210,6 +210,49 @@ function getMembers(req,res,next){
 
 }
 
+function editMembers(req,res,next){
+    var id = req.param('id');
+
+    var queryQ = project.findOne({_id:id});
+    queryQ.then(getUserNames)
+        .then(function(dataArray){
+
+            var projectItem = dataArray[0];
+
+            projectItem.projectMan._joinTime = util.dateFormat(projectItem.projectMan.joinTime);
+            projectItem.productMan._joinTime = util.dateFormat(projectItem.productMan.joinTime);
+            projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
+            projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
+
+            res.render('project/memberEdit',{
+                project    : projectItem,
+                projectMan : dataArray[1]||{},
+                productMan : dataArray[2]||{},
+                testMan    : dataArray[3]||{},
+                publishMan : dataArray[4]||{}
+            });
+        });
+}
+
+function updateMembers(req,res,next){
+
+    var memberNames = req.param('memberName'),
+        roles = req.param('role'),
+        joinTimes = req.param('joinTime');
+
+    var members = [];
+
+    memberNames.forEach(function(name,index){
+        members.push({
+            userId:name,
+            role:roles[index],
+            joinTime:joinTimes[index]
+        })
+    });
+
+    res.send('hi');
+}
+
 //根据project获取用户详细信息
 function getUserNames(project){
 
@@ -232,3 +275,5 @@ module.exports.update = update;
 module.exports.detail = detail;
 module.exports.remove = remove;
 module.exports.getMembers = getMembers;
+module.exports.editMembers = editMembers;
+module.exports.updateMembers = updateMembers;

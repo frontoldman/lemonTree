@@ -23,4 +23,7 @@ router.get('/delete/:id',project.remove);
 
 router.get('/members/:id',project.getMembers);
 
+router.get('/members/edit/:id',project.editMembers);
+router.post('/members/edit/',project.updateMembers);
+
 module.exports = router;
