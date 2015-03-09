@@ -25,7 +25,7 @@
 						<th>操作</th>
 					</tr>
 					</thead>
-					<tbody>
+					<tbody id="body_content">
 					<tr>
 						<td><input type="text" disabled value="<%= projectMan.username || '--' %>"/></td>
 						<td><input type="text" disabled value="项目负责人"/></td>
@@ -50,23 +50,27 @@
 						<td><input type="text" disabled value="<%= project.testMan._joinTime %>"/></td>
 						<td></td>
 					</tr>
+					<% members.forEach(function(member,index){ %>
 					<tr>
 						<td>
-							<input type="text" name="memberName"/>
+							<input type="text" name="memberName" value="<%= member.username %>" id="member_name_<%= index %>"/>
+							<input type="hidden" name="memberId" value="<%= member.id %>" id="member_id_<%= index %>"/>
 						</td>
 						<td>
-							<input type="text" name="role"/>
+							<input type="text" name="role" value="<%= member.role %>"/>
 						</td>
 						<td>
-							<input type="hidden" name="joinTime" />
+							<input type="hidden" name="joinTime" value="<%= member.joinTime %>"/>
 						</td>
 						<td>
-							<a href="#">删除</a>
+							<a href="javascript:;" class="line-del">删除</a>
 						</td>
 					</tr>
-					<tr>
+					<% }) %>
+					<tr class="new-line">
 						<td>
-							<input type="text" name="memberName"/>
+							<input type="text" name="memberName" class="member-name"/>
+							<input type="hidden" name="memberId" class="member-id"/>
 						</td>
 						<td>
 							<input type="text" name="role"/>
@@ -75,14 +79,23 @@
 							<input type="hidden" name="joinTime" />
 						</td>
 						<td>
-							<a href="#">删除</a>
+							<a href="javascript:;" class="line-del">删除</a>
 						</td>
 					</tr>
 					</tbody>
+					<tfoot>
+					<tr>
+						<td colspan="4" class="text-right">
+							<a href="javascript:;" id="add_one_line" class="btn btn-primary">增加一行</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="text-center">
+							<button type="submit" class="btn btn-lg btn-success">提交</button>
+						</td>
+					</tr>
+					</tfoot>
 				</table>
-				<div class="row text-center">
-					<button type="submit" class="btn btn-lg btn-success">提交</button>
-				</div>
 				</form>
 			</div>
 
@@ -92,4 +105,33 @@
 </div>
 
 <% include ../script %>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script>
+
+	var $newLine = $('.new-line');
+
+	var $newLineCloned = $newLine.clone();
+
+	$('#add_one_line').on('click',function(){
+		var $clonedNode = $newLineCloned.clone();
+		$('#body_content').append($clonedNode);
+		initAutoComplete($clonedNode);
+	});
+
+	$(document).on('click','.line-del',function(){
+		var $this = $(this);
+		$this.closest('tr').remove();
+	})
+
+	initAutoComplete($newLine);
+
+	function initAutoComplete(node){
+		node.find('.member-name').autocomplete({
+			source:'/user/users',
+			select: function( event, ui ) {
+				node.find('.member-id').val(ui.item.id);
+			}
+		});
+	}
+</script>
 <% include ../footer %>

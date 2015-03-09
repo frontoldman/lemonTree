@@ -199,13 +199,35 @@ function getMembers(req,res,next){
             projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
             projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
 
-            res.render('project/memberList',{
-                project    : projectItem,
-                projectMan : dataArray[1]||{},
-                productMan : dataArray[2]||{},
-                testMan    : dataArray[3]||{},
-                publishMan : dataArray[4]||{}
+            var membersQAry = [];
+            projectItem.members.forEach(function(member){
+                membersQAry.push(user.findOne({_id:member.userId}))
             });
+
+            Q.all(membersQAry)
+                .then(function(members){
+
+                    var _members = [];
+                    members.forEach(function(member,index){
+                        _members.push({
+                            username:member.username,
+                            joinTime:util.dateFormat(projectItem.members[index].joinTime),
+                            role:projectItem.members[index].role
+                        })
+                    });
+
+
+                    res.render('project/memberList',{
+                        project    : projectItem,
+                        projectMan : dataArray[1]||{},
+                        productMan : dataArray[2]||{},
+                        testMan    : dataArray[3]||{},
+                        publishMan : dataArray[4]||{},
+                        members    : _members
+                    });
+                });
+
+
         });
 
 }
@@ -224,33 +246,68 @@ function editMembers(req,res,next){
             projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
             projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
 
-            res.render('project/memberEdit',{
-                project    : projectItem,
-                projectMan : dataArray[1]||{},
-                productMan : dataArray[2]||{},
-                testMan    : dataArray[3]||{},
-                publishMan : dataArray[4]||{}
+            var membersQAry = [];
+            projectItem.members.forEach(function(member){
+                membersQAry.push(user.findOne({_id:member.userId}))
             });
+
+
+            Q.all(membersQAry)
+                .then(function(members){
+
+                    var _members = [];
+                    members.forEach(function(member,index){
+                        _members.push({
+                            id:member._id,
+                            username:member.username,
+                            joinTime:util.dateFormat(projectItem.members[index].joinTime),
+                            role:projectItem.members[index].role
+                        })
+                    });
+
+                    res.render('project/memberEdit',{
+                        project    : projectItem,
+                        projectMan : dataArray[1]||{},
+                        productMan : dataArray[2]||{},
+                        testMan    : dataArray[3]||{},
+                        publishMan : dataArray[4]||{},
+                        members    : _members
+                    });
+                });
         });
 }
 
 function updateMembers(req,res,next){
 
-    var memberNames = req.param('memberName'),
+    var id = req.param('id'),
+        memberIds = req.param('memberId'),
+        memberNames = req.param('memberName'),
         roles = req.param('role'),
         joinTimes = req.param('joinTime');
 
     var members = [];
 
-    memberNames.forEach(function(name,index){
+    memberIds.forEach(function(id,index){
         members.push({
-            userId:name,
+            userId:id,
             role:roles[index],
-            joinTime:joinTimes[index]
-        })
+            joinTime:joinTimes[index] || new Date()
+        });
     });
 
-    res.send('hi');
+    var updateQ = project.update({
+        _id:id,
+        members:members
+    });
+
+    updateQ.done(function(){
+        res.redirect('/project/members/' + id);
+    });
+
+    updateQ.fail(function(){
+        next();
+    });
+
 }
 
 //根据project获取用户详细信息

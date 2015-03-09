@@ -53,6 +53,14 @@
 						<td><%= project.publishMan._joinTime %></td>
 						<td></td>
 					</tr>
+					<% members.forEach(function(member){ %>
+					<tr>
+						<td><%= member.username %></td>
+						<td><%= member.role %></td>
+						<td><%= member.joinTime %></td>
+						<td></td>
+					</tr>
+					<% }) %>
 					</tbody>
 				</table>
 			</div>
