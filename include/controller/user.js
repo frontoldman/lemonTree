@@ -43,7 +43,6 @@ function addUser(req, res, next) {
         var promise = user.addOne({
             email           : email,
             password        : _pass,
-            passwordConfirm : passwordConfirm,
             username        : username,
             phone           : phone,
             qq              : qq,
@@ -150,8 +149,56 @@ function users(req,res,next){
 
 }
 
+function addFresh(req,res,next){
+    var email = req.param('email'),
+        username = req.param('username');
+
+    if(!email || !username){
+        res.render('user/add',{
+            message:'邮箱和用户名必须填！'
+        });
+        return;
+    }
+
+    user.findOne({email:email})
+        .then(function(user){
+            if(!user){
+                addFreshUser();
+            }else{
+                res.render('user/add',{
+                    message:'此用户已存在！'
+                });
+            }
+        });
+
+    function addFreshUser(){
+
+        var promise = user.addOne({
+            email        : email,
+            password     : util.crypto(VARS.config.defaultPass),
+            username     : username,
+            sex          : 1,
+            office       : 2,
+            registerTime : new Date(),
+            loginTime    : new Date(),
+            loginTimes   : 0
+        });
+
+        console.log(11);
+
+        console.log(promise);
+
+        promise.then(function(err){
+            res.render('user/add',{
+                message:'添加成功！'
+            });
+        });
+    }
+}
+
 module.exports.addUser = addUser;
 module.exports.login = login;
 module.exports.userList = userList;
 module.exports.logout = logout;
 module.exports.users = users;
+module.exports.addFresh = addFresh;

@@ -25,4 +25,10 @@ router.get('/logout',user.logout);
 
 router.get('/users',user.users);
 
+router.get('/add',function(req,res,next){
+    res.render('user/add');
+});
+
+router.post('/add',user.addFresh);
+
 module.exports = router;

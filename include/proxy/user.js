@@ -6,7 +6,7 @@ var User = require('../model/').User;
 
 //新增一个用户
 function addOne(params){
-    return User.create(params)
+    return User.create(params);
 }
 
 //查找单个用户
