@@ -15,7 +15,12 @@
 					</div>
 				</div>
 				<form method="post" action="/project/members/edit">
-					<input type="hidden" name="id" value="<%= project._id %>"/>
+				<input type="hidden" name="id" value="<%= project._id %>"/>
+
+				<% if(memberError){ %>
+					<div class="alert alert-danger mt15" role="alert"><%= memberError %></div>
+				<% } %>
+
 				<table class="table table-bordered table-hover">
 					<thead>
 					<tr>

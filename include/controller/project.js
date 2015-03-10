@@ -235,6 +235,9 @@ function getMembers(req,res,next){
 function editMembers(req,res,next){
     var id = req.param('id');
 
+    var memberError = req.session.memberError
+    req.session.memberError = null;
+
     var queryQ = project.findOne({_id:id});
     queryQ.then(getUserNames)
         .then(function(dataArray){
@@ -266,12 +269,13 @@ function editMembers(req,res,next){
                     });
 
                     res.render('project/memberEdit',{
-                        project    : projectItem,
-                        projectMan : dataArray[1]||{},
-                        productMan : dataArray[2]||{},
-                        testMan    : dataArray[3]||{},
-                        publishMan : dataArray[4]||{},
-                        members    : _members
+                        project     : projectItem,
+                        projectMan  : dataArray[1]||{},
+                        productMan  : dataArray[2]||{},
+                        testMan     : dataArray[3]||{},
+                        publishMan  : dataArray[4]||{},
+                        members     : _members,
+                        memberError : memberError
                     });
                 });
         });
@@ -290,22 +294,55 @@ function updateMembers(req,res,next){
         testManId = req.param('testManId'),
         publishManId = req.param('publishManId');
 
-    memberIds.forEach(function(id){
-        if(id == projectManId || id == productManId || id == testManId || id == publishManId){
 
-            return true;
-        }
-    });
-
+    var hasError = false;
+    var hash = {};
     var members = [];
+    hash[projectManId] = true;
+    hash[productManId] = true;
+    hash[testManId] = true;
+    hash[publishManId] = true;
 
-    memberIds.forEach(function(id,index){
-        members.push({
-            userId:id,
-            role:roles[index],
-            joinTime:joinTimes[index] || new Date()
+    if(memberIds){
+
+        if(!Array.isArray(memberIds)){
+            memberIds = [memberIds];
+            memberNames = [memberNames];
+            roles = [roles];
+            joinTimes = [joinTimes];
+        }
+
+        memberIds.forEach(function(id){
+
+            if(hash[id]){
+                hasError = true;
+                return true;
+            }else{
+                hash[id] = true;
+            }
         });
-    });
+
+        function updateErrorHandler(){
+            req.session.memberError = '不能添加重复成员';
+            res.redirect('/project/members/edit/' + id);
+        }
+
+        if(hasError){
+            updateErrorHandler();
+            return;
+        }
+
+        memberIds.forEach(function(id,index){
+            if(id){
+                members.push({
+                    userId:id,
+                    role:roles[index],
+                    joinTime:joinTimes[index] || new Date()
+                });
+            }
+
+        });
+    }
 
     var updateQ = project.update({
         _id:id,
