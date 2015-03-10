@@ -27,25 +27,37 @@
 					</thead>
 					<tbody id="body_content">
 					<tr>
-						<td><input type="text" disabled value="<%= projectMan.username || '--' %>"/></td>
+						<td>
+							<input type="text" disabled value="<%= projectMan.username || '--' %>"/>
+							<input type="hidden" name="projectManId" value="<%= projectMan._id %>"/>
+						</td>
 						<td><input type="text" disabled value="项目负责人"/></td>
 						<td><input type="text" disabled value="<%= project.projectMan._joinTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><input type="text" disabled value="<%= productMan.username || '--' %>"/></td>
+						<td>
+							<input type="text" disabled value="<%= productMan.username || '--' %>"/>
+							<input type="hidden" name="productManId" value="<%= productMan._id %>"/>
+						</td>
 						<td><input type="text" disabled value="产品负责人"/></td>
 						<td><input type="text" disabled value="<%= project.productMan._joinTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><input type="text" disabled value="<%= testMan.username || '--' %>"/></td>
+						<td>
+							<input type="text" disabled value="<%= testMan.username || '--' %>"/>
+							<input type="hidden" name="testManId" value="<%= testMan._id %>"/>
+						</td>
 						<td><input type="text" disabled value="测试负责人"/></td>
 						<td><input type="text" disabled value="<%= project.testMan._joinTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><input type="text" disabled value="<%= publishMan.username || '--' %>"/></td>
+						<td>
+							<input type="text" disabled value="<%= publishMan.username || '--' %>"/>
+							<input type="hidden" name="publishManId" value="<%= publishMan._id %>"/>
+						</td>
 						<td><input type="text" disabled value="发布负责人"/></td>
 						<td><input type="text" disabled value="<%= project.testMan._joinTime %>"/></td>
 						<td></td>

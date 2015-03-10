@@ -285,6 +285,18 @@ function updateMembers(req,res,next){
         roles = req.param('role'),
         joinTimes = req.param('joinTime');
 
+    var projectManId = req.param('projectManId'),
+        productManId = req.param('productManId'),
+        testManId = req.param('testManId'),
+        publishManId = req.param('publishManId');
+
+    memberIds.forEach(function(id){
+        if(id == projectManId || id == productManId || id == testManId || id == publishManId){
+
+            return true;
+        }
+    });
+
     var members = [];
 
     memberIds.forEach(function(id,index){
