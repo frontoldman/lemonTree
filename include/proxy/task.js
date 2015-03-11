@@ -5,6 +5,20 @@
 var Q = require('q');
 var Task = require('../model/').Task;
 
+function findOne(options){
+    var deferred = Q.defer();
+
+    Task.findOne(options,function(err,project){
+        if(err){
+            deferred.reject(err);
+        }else{
+            deferred.resolve(project);
+        }
+    });
+
+    return deferred.promise;
+}
+
 //新增一个任务
 function addOne(params){
     return Task.create(params);
@@ -42,6 +56,7 @@ function count(options){
     return deferred.promise;
 }
 
+module.exports.findOne = findOne ;
 module.exports.addOne = addOne ;
 module.exports.findAll = findAll ;
 module.exports.count = count ;

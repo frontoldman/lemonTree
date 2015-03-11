@@ -128,9 +128,23 @@ function edit(req,res,next){
 
     var id = req.param('id');
 
-    res.render('task/edit',{
-        id:id
-    });
+    task.findOne({_id:id})
+        .then(function(taskItem){
+
+            taskItem._startTime = util.dateFormat(taskItem.startTime);
+            taskItem._endTime = util.dateFormat(taskItem.endTime);
+
+            user.findOne({_id:taskItem.assigner})
+                .then(function(user){
+                    res.render('task/edit',{
+                        id : id,
+                        task : taskItem,
+                        assigner : user
+                    });
+                });
+
+        })
+
 }
 
 function update(req,res,next){
