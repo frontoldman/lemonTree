@@ -38,7 +38,16 @@
 						<td><a href="/project/detail/<%= item._id %>"><%= item.name %></a></td>
 						<td><%= item._startTime %></td>
 						<td><%= item._endTime %></td>
-						<td><%= item.status %></td>
+						<% if(item.status == 1){ %>
+						<td class="text-muted">
+						<% }else if(item.status == 2){ %>
+						<td class="text-danger">
+						<% }else if(item.status == 3){ %>
+						<td class="text-warning">
+						<% }else if(item.status == 4){ %>
+						<td class="text-danger">
+						<% } %>
+						<%= item._status %></td>
 						<td><%= item.total %></td>
 						<td><%= item.used %></td>
 						<td><%= item.reset %></td>

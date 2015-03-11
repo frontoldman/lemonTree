@@ -43,6 +43,7 @@ function add(req,res,next){
 function list(req,res,next){
 
     var page = req.param('page');
+    var projectStatus = VARS.config.projectStatus;
 
     if(!page){
         page = 0;
@@ -75,7 +76,7 @@ function list(req,res,next){
                 project.used = util.getWorkingHours(project.startTime,now);
                 var start = now.getTime() < project.startTime.getTime() ? project.startTime : now;
                 project.reset = util.getWorkingHours(start,project.endTime);
-
+                project._status = projectStatus[project.status];
             });
 
             res.render('project/list',{

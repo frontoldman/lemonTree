@@ -4,3 +4,4 @@
 
 module.exports.user    = require('./user');
 module.exports.project = require('./project');
+module.exports.task = require('./task');

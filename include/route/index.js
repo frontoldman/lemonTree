@@ -2,6 +2,7 @@
 var user = require('./user');
 var dashboard = require('./dashboard');
 var project = require('./project');
+var task = require('./task');
 
 module.exports = function(app){
 
@@ -10,6 +11,8 @@ module.exports = function(app){
   app.use('/user', user);
 
   app.use('/project', project);
+
+  app.use('/task', task);
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
