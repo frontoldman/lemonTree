@@ -124,6 +124,21 @@ function list(req,res,next){
 
 }
 
+function edit(req,res,next){
+
+    var id = req.param('id');
+
+    res.render('task/edit',{
+        id:id
+    });
+}
+
+function update(req,res,next){
+
+}
+
 module.exports.add = add;
 module.exports.addAndSave = addAndSave;
 module.exports.list = list;
+module.exports.edit = edit;
+module.exports.update = update;

@@ -12,6 +12,7 @@ router.get('/',task.list);
 router.get('/add/:id',task.add);
 router.post('/add',task.addAndSave);
 
-
+router.get('/edit/:id',task.edit);
+router.post('/edit/',task.update);
 
 module.exports = router;
