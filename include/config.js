@@ -7,7 +7,7 @@ var config = {
     db             : 'mongodb://127.0.0.1:12345/lemontree',
     session_secret : 'lemontree',
     cookie_expires : 60*60*60*24*7,
-    defaultPass    : 1
+    defaultPass    : '1'
 };
 
 config = Object.freeze(config);

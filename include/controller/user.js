@@ -163,6 +163,7 @@ function addFresh(req,res,next){
     user.findOne({email:email})
         .then(function(user){
             if(!user){
+                console.log(user);
                 addFreshUser();
             }else{
                 res.render('user/add',{
@@ -172,6 +173,7 @@ function addFresh(req,res,next){
         });
 
     function addFreshUser(){
+
 
         var promise = user.addOne({
             email        : email,
@@ -183,10 +185,6 @@ function addFresh(req,res,next){
             loginTime    : new Date(),
             loginTimes   : 0
         });
-
-        console.log(11);
-
-        console.log(promise);
 
         promise.then(function(err){
             res.render('user/add',{
