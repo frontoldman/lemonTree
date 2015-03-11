@@ -15,7 +15,7 @@ var TaskSchema = new Schema({
     project     : { type : String },
     log         : { type : Array , default : [] },
     progress    : { type : Number , default : 0 },
-    status      : { type : Number , default : 0 },
+    status      : { type : Number , default : 1 },
     adder       : { type : String },
     addTime     : { type : Date }
 });

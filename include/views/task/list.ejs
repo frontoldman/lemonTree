@@ -15,6 +15,7 @@
 							<th>任务名称</th>
 							<th>截至日期</th>
 							<th>状态</th>
+							<th>指派者</th>
 							<th>创建者</th>
 							<th>创建时间</th>
 							<th>操作</th>
@@ -24,13 +25,17 @@
 					<% list.forEach(function(task){ %>
 					<tr>
 						<td><%= task.level %></td>
-						<td><%= task.project %></td>
-						<td><%= task.name %></td>
-						<td><%= task.endTime %></td>
-						<td><%= task.status %></td>
-						<td><%= task.adder %></td>
-						<td><%= task.addTime %></td>
-						<td></td>
+						<td><%= task._project.name %></td>
+						<td><a href="#"><%= task.name %></a></td>
+						<td><%= task._endTime %></td>
+						<td><%= task._status %></td>
+						<td><%= task._assigner.username %></td>
+						<td><%= task._adder.username %></td>
+						<td><%= task._addTime %></td>
+						<td>
+							<a href="#">编辑</a>
+							<a href="#">删除</a>
+						</td>
 					</tr>
 					<% }) %>
 

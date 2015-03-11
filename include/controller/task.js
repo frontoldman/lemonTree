@@ -1,9 +1,11 @@
 /**
  * Created by zhangran on 15/3/11.
  */
-var Q = require('Q');
+var Q = require('q');
 var moment = require('moment');
 var task = require('../proxy/').task;
+var user = require('../proxy/').user;
+var project = require('../proxy/').project;
 var util = require('../util');
 
 function add(req,res,next){
@@ -35,7 +37,7 @@ function addAndSave(req,res,next){
     });
 
     promise.then(function(){
-        res.redirect('/task/list');
+        res.redirect('/task/');
     },function(){
         next();
     });
@@ -44,7 +46,7 @@ function addAndSave(req,res,next){
 function list(req,res,next){
 
     var page = req.param('page');
-    var projectStatus = VARS.config.projectStatus;
+    var taskStatus = VARS.config.taskStatus;
 
     if(!page){
         page = 0;
@@ -64,14 +66,60 @@ function list(req,res,next){
 
         var total = Math.ceil(data[1]/perpage);
 
-        res.render('task/list',{
-            list  : data[0],
-            pages : {
-                link:'/task',
-                total:total,
-                current:page+1 > total ? total : page
-            }
-        });
+        var taskList = data[0];
+
+        if(Array.isArray(taskList)){
+
+            var getNamesQAry = [];
+
+            taskList.forEach(function(task){
+                task._startTime = util.dateFormat(task.startTime);
+                task._endTime = util.dateFormat(task.endTime);
+                task._status = taskStatus[task.status];
+                task._addTime = util.dateFormat(task.addTime);
+
+
+                getNamesQAry.push(project.findOne({_id:task.project}));
+                getNamesQAry.push(user.findOne({_id:task.assigner}));
+                getNamesQAry.push(user.findOne({_id:task.adder}));
+
+
+            });
+
+            Q.all(getNamesQAry)
+                .then(function(data){
+
+                    for(var i = 0;i<data.length;i+=3){
+                        taskList[i/3]._project = data[i];
+                        taskList[i/3]._assigner = data[i+1];
+                        taskList[i/3]._adder = data[i+2];
+                    }
+
+                    res.render('task/list',{
+                        list  : taskList,
+                        pages : {
+                            link:'/task',
+                            total:total,
+                            current:page+1 > total ? total : page
+                        }
+                    });
+                });
+
+
+
+
+        }else{
+            res.render('task/list',{
+                list : [],
+                pages:{
+                    link:'/task',
+                    total:0,
+                    current:1
+                }
+            })
+        }
+
+
     });
 
 }

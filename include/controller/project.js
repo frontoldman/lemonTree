@@ -43,7 +43,7 @@ function add(req,res,next){
 function list(req,res,next){
 
     var page = req.param('page');
-    var projectStatus = VARS.config.projectStatus;
+    var projectStatus = VARS.config.taskStatus;
 
     if(!page){
         page = 0;
@@ -87,6 +87,15 @@ function list(req,res,next){
                     current:page+1 > total ? total : page
                 }
             });
+        }else{
+            res.render('project/list',{
+                list : [],
+                pages:{
+                    link:'/project',
+                    total:0,
+                    current:1
+                }
+            })
         }
     });
 
