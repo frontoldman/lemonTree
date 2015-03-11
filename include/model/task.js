@@ -12,9 +12,10 @@ var TaskSchema = new Schema({
     endTime     : { type : Date },
     description : { type : String },
     assigner    : { type : String },
+    project     : { type : String },
     log         : { type : Array , default : [] },
     progress    : { type : Number , default : 0 },
-    status      : { type : Number },
+    status      : { type : Number , default : 0 },
     adder       : { type : String },
     addTime     : { type : Date }
 });
