@@ -1,0 +1,63 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body">
+	<div class="row">
+		<% include ../sidebar %>
+		<div class="col-md-10">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">任务详情</h3>
+				</div>
+				<div class="panel-body">
+					<table class="table project-detail">
+						<tr>
+							<th>任务名称:</th>
+							<td><%= task.name %></td>
+						</tr>
+						<tr>
+							<th>所属项目:</th>
+							<td><%= task.projectName %></td>
+						</tr>
+						<tr>
+							<th>优先级:</th>
+							<td><%= task.level %></td>
+						</tr>
+						<tr>
+							<th>开始时间:</th>
+							<td><%= task._startTime %></td>
+						</tr>
+						<tr>
+							<th>结束时间:</th>
+							<td><%= task._endTime %></td>
+						</tr>
+						<tr>
+							<th>状态:</th>
+							<td><%= task.status %></td>
+						</tr>
+						<tr>
+							<th>进度:</th>
+							<td><%= task.progress %>%</td>
+						</tr>
+						<tr>
+							<th>指派给:</th>
+							<td><%= task.assignerName || '--' %></td>
+						</tr>
+						<tr>
+							<th>创建者:</th>
+							<td><%= task.adderName || '--' %></td>
+						</tr>
+						<tr>
+							<th>任务描述:</th>
+							<td><%= task.description %></td>
+						</tr>
+
+
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include ../script %>
+<% include ../footer %>

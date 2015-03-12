@@ -137,7 +137,6 @@ function edit(req,res,next){
             user.findOne({_id:taskItem.assigner})
                 .then(function(user){
                     res.render('task/edit',{
-                        id : id,
                         task : taskItem,
                         assigner : user
                     });
@@ -149,6 +148,105 @@ function edit(req,res,next){
 
 function update(req,res,next){
 
+    var id = req.param('id'),
+        name = req.param('name'),
+        level = req.param('level'),
+        startTime = req.param('startTime'),
+        endTime = req.param('endTime'),
+        assignerId = req.param('assignerId'),
+        description = req.param('description');
+
+    task.update({
+        _id:id,
+        name:name,
+        level:level,
+        startTime:startTime,
+        endTime:endTime,
+        assigner:assignerId,
+        description:description
+    }).then(function(num){
+        res.redirect('/task/');
+    });
+
+}
+
+function remove(req,res,next){
+    var id = req.param('id');
+    task.remove({_id:id})
+        .then(function(num){
+            res.redirect('/task/');
+        },function(){
+            next();
+        });
+}
+
+function detail(req,res,next){
+
+    var id = req.param('id');
+
+    task.findOne({_id:id})
+        .then(getNamesByIds)
+        .then(function(data){
+            var taskItem = data[0];
+            taskItem._startTime = util.dateFormat(taskItem.startTime);
+            taskItem._endTime = util.dateFormat(taskItem.endTime);
+            res.render('task/detail',{
+                task: taskItem
+            });
+        },function(){
+            next();
+        });
+
+    //获取指派人
+    function getAssigner(taskItem){
+        var deferred = Q.defer();
+
+        user.findOne({_id:taskItem.assigner})
+            .then(function(userItem){
+                taskItem.assignerName = userItem.username;
+                deferred.resolve(taskItem);
+            },function(){
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    }
+
+    //获取创建者
+    function getCreater(taskItem){
+        var deferred = Q.defer();
+
+        user.findOne({_id:taskItem.adder})
+            .then(function(userItem){
+                taskItem.adderName = userItem.username;
+                deferred.resolve(taskItem);
+            },function(){
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    }
+
+    //获取项目名称
+    function getProject(taskItem){
+        var deferred = Q.defer();
+
+        project.findOne({_id:taskItem.project})
+            .then(function(projectItem){
+                taskItem.projectName = projectItem.name;
+                deferred.resolve(taskItem);
+            },function(){
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    }
+
+
+    function getNamesByIds(task){
+        return Q.all([getAssigner(task),getCreater(task),getProject(task)])
+    }
+
 }
 
 module.exports.add = add;
@@ -156,3 +254,5 @@ module.exports.addAndSave = addAndSave;
 module.exports.list = list;
 module.exports.edit = edit;
 module.exports.update = update;
+module.exports.remove = remove;
+module.exports.detail = detail;

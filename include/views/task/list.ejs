@@ -26,7 +26,7 @@
 					<tr>
 						<td><%= task.level %></td>
 						<td><%= task._project.name %></td>
-						<td><a href="#"><%= task.name %></a></td>
+						<td><a href="/task/detail/<%= task._id %>"><%= task.name %></a></td>
 						<td><%= task._endTime %></td>
 						<td><%= task._status %></td>
 						<td><%= task._assigner.username %></td>
@@ -34,7 +34,7 @@
 						<td><%= task._addTime %></td>
 						<td>
 							<a href="/task/edit/<%= task._id %>">编辑</a>
-							<a href="#">删除</a>
+							<a href="/task/delete/<%= task._id %>">删除</a>
 						</td>
 					</tr>
 					<% }) %>

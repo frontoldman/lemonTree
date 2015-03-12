@@ -56,7 +56,38 @@ function count(options){
     return deferred.promise;
 }
 
+function update(options){
+    var deferred = Q.defer();
+
+    Task.where({ _id: options._id }).update(options,function(err,num){
+        if(err){
+            deferred.reject();
+        }else{
+            deferred.resolve(num);
+        }
+    });
+
+    return deferred.promise;
+}
+
+function remove(options){
+    var deferred = Q.defer();
+
+    Task.remove(options, function(err,num){
+        if(err){
+            deferred.reject();
+        }else{
+            deferred.resolve(num);
+        }
+    });
+
+    return deferred.promise;
+}
+
+
 module.exports.findOne = findOne ;
 module.exports.addOne = addOne ;
 module.exports.findAll = findAll ;
 module.exports.count = count ;
+module.exports.update = update ;
+module.exports.remove = remove ;

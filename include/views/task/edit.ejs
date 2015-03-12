@@ -9,7 +9,7 @@
 				</div>
 				<div class="panel-body">
 					<form role="form" method="post" action="/task/edit" class="form-horizontal">
-						<input type="hidden" name="id" value="<%= id %>"/>
+						<input type="hidden" name="id" value="<%= task._id %>"/>
 						<fieldset>
 							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
 								<div class="col-sm-5 col-sm-offset-2 alert alert-danger" role="alert"><%= message %></div>

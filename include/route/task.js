@@ -15,4 +15,8 @@ router.post('/add',task.addAndSave);
 router.get('/edit/:id',task.edit);
 router.post('/edit/',task.update);
 
+router.get('/delete/:id',task.remove);
+
+router.get('/detail/:id',task.detail);
+
 module.exports = router;
