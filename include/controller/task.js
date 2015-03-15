@@ -78,12 +78,9 @@ function list(req,res,next){
                 task._status = taskStatus[task.status];
                 task._addTime = util.dateFormat(task.addTime);
 
-
                 getNamesQAry.push(project.findOne({_id:task.project}));
                 getNamesQAry.push(user.findOne({_id:task.assigner}));
                 getNamesQAry.push(user.findOne({_id:task.adder}));
-
-
             });
 
             Q.all(getNamesQAry)
@@ -105,9 +102,6 @@ function list(req,res,next){
                     });
                 });
 
-
-
-
         }else{
             res.render('task/list',{
                 list : [],
@@ -120,6 +114,8 @@ function list(req,res,next){
         }
 
 
+    },function(){
+        next();
     });
 
 }
@@ -242,10 +238,117 @@ function detail(req,res,next){
         return deferred.promise;
     }
 
-
+    //同时获取所有的name user or project
     function getNamesByIds(task){
-        return Q.all([getAssigner(task),getCreater(task),getProject(task)])
+        return Q.all([getAssigner(task),getCreater(task),getProject(task),analysisLog(task)])
     }
+
+    //解析log
+    function analysisLog(taskItem){
+
+        var log = taskItem.log;
+
+        var logAry = [];
+        log.forEach(function(logItem){
+            logAry.push(logRules[logItem.operation](logItem));
+        });
+
+        return Q.all(logAry);
+    }
+
+    //解析log对应规则
+    var logRules = {
+        1:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 指派给了 ';
+                    user.findOne({_id:log.assigner})
+                        .then(function(assigner){
+                            title += assigner.username;
+                            log.title = title;
+                            deferred.resolve(log);
+                        });
+                });
+
+            return deferred.promise;
+        },
+        2:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 添加了日志';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        }
+    }
+
+
+
+
+}
+
+function designation(req,res,next){
+    var id = req.param('id'),
+        assigner = req.param('userId'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.designation,
+                assigner:assigner,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log,
+                assigner:assigner
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        })
+};
+
+function addLog(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.log,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
 
 }
 
@@ -256,3 +359,5 @@ module.exports.edit = edit;
 module.exports.update = update;
 module.exports.remove = remove;
 module.exports.detail = detail;
+module.exports.designation = designation;
+module.exports.addLog = addLog;

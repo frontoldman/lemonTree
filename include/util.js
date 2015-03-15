@@ -6,8 +6,11 @@ var crypto = require('crypto');
 
 module.exports = {
     //格式化日期格式
-    dateFormat: function (date) {
-        var result = moment(date).format('YYYY-MM-DD');
+    dateFormat: function (date,formater) {
+        if(!formater){
+            formater = 'YYYY-MM-DD';
+        }
+        var result = moment(date).format(formater);
         return result;
     },
     //加密

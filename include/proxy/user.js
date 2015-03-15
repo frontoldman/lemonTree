@@ -18,7 +18,7 @@ function findOne(options){
     queryQ.then(function(userItem){
         deferred.resolve(userItem);
     },function(){
-        deferred.reject();
+        deferred.resolve({});
     });
 
     return deferred.promise;

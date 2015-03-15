@@ -12,9 +12,8 @@
 										class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> 指派</a>
 							<a href="#"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
 							<a href="/task/"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 取消</a>
-							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-pencil"
-							                                           aria-hidden="true"></span> 编辑</a>
-							<a href="#"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
+							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</a>
+							<a href="#"  data-toggle="modal" data-target="#addLog"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
 						</div>
 					</div>
 				</div>
@@ -63,6 +62,20 @@
 					</table>
 				</div>
 			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">操作记录</h3>
+				</div>
+				<div class="panel-body">
+					<% task.log.forEach(function(logItem){ %>
+						<blockquote>
+							<p><%= logItem.title %></p>
+							<footer><%= logItem.note %></footer>
+						</blockquote>
+					<% }) %>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -76,7 +89,7 @@
 				<h4 class="modal-title">选择指派人</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="desForm" method="get" action="/">
+				<form class="form-horizontal" id="desForm" method="post" action="/task/designation/<%= task._id %>">
 					<div class="form-group">
 						<label for="desPerson" class="col-sm-3 control-label">选择指派人</label>
 						<div class="col-sm-9">
@@ -85,9 +98,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="Note" class="col-sm-3 control-label">添加备注</label>
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
 						<div class="col-sm-9">
-							<textarea id="Note" class="form-control"></textarea>
+							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
 					</div>
 				</form>
@@ -97,16 +110,50 @@
 				<button type="submit" form="desForm" class="btn btn-primary">保存</button>
 			</div>
 		</div>
-		<!-- /.modal-content -->
 	</div>
-	<!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="addLog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">添加备注</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="logForm" method="post" action="/task/log/<%= task._id %>">
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="logForm" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <% include ../script %>
-
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script>
 	$(function () {
-		//$('#myModal').modal()
+
+		initAutoComplete('desPerson','desPersonId');
+
+		function initAutoComplete(textId,valId){
+			$('#' + textId).autocomplete({
+				source:'/user/users',
+				select: function( event, ui ) {
+					$('#' + valId).val(ui.item.id);
+				}
+			});
+		}
 	})
 </script>
 <% include ../footer %>

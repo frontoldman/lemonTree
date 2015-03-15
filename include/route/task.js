@@ -19,4 +19,7 @@ router.get('/delete/:id',task.remove);
 
 router.get('/detail/:id',task.detail);
 
+router.post('/designation/:id',task.designation);
+router.post('/log/:id',task.addLog);
+
 module.exports = router;

@@ -13,7 +13,11 @@ var config = {
                         2 : '进行中',
                         3 : '已挂起',
                         4 : '已结束'
-                    }
+                    },
+    logOperation : {        //用户日志
+        'designation':1,     //指派
+        'log':2             //备注
+    }
 };
 
 config = Object.freeze(config);
