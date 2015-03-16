@@ -18,7 +18,8 @@ var config = {
         'create':1,         //新增任务
         'designation':2,     //指派
         'log':3,            //备注
-        'progress':4
+        'progress':4,       //修改进度
+        'upload':5          //上传附件
     }
 };
 

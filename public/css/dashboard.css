@@ -15,3 +15,12 @@
 .title-ico a{
     margin-right: 10px;
 }
+.progress-content{
+    width: 200px;
+    height: 15px;
+    border:1px solid #ddd;
+}
+.progress-content .progress-in{
+    height: 13px;
+    background: #428bca;
+}

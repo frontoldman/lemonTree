@@ -3,11 +3,13 @@
  */
 var express = require('express');
 var path = require('path');
+var moment = require('moment');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var multer  = require('multer')
 
 var auth = require('./auth');
 var routes = require('./routes');
@@ -16,6 +18,12 @@ module.exports = function (app) {
     // uncomment after placing your favicon in /public
     //app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use(logger('dev'));
+    app.use(multer({
+        dest: path.join(VARS.DOCUMENT_ROOT, 'uploads'),
+        rename:function(filedname,filename){
+            return filename + '-' + moment().format("YYYY-MM-DD HH:mm");
+        }
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
@@ -29,6 +37,7 @@ module.exports = function (app) {
         saveUninitialized: true
     }));
     app.use(express.static(path.join(VARS.DOCUMENT_ROOT, 'public')));
+    app.use(express.static(path.join(VARS.DOCUMENT_ROOT, 'uploads')));
 
     //中间件执行
     app.use(routes.routeStatus);

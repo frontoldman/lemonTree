@@ -314,18 +314,27 @@ function detail(req,res,next){
             var title = '';
             user.findOne({_id:log.operator})
                 .then(function(operator){
-                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 添加了进度' + log.progress + '%';
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 修改了进度为 ' + log.progress + '%';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        5:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 上传了附件 ' + '<a href="/'+ log.appendix.name +'">'+ log.appendix.name +'</a>' ;
                     log.title = title;
                     deferred.resolve(log);
                 });
 
             return deferred.promise;
         }
+
     }
-
-
-
-
 }
 
 function designation(req,res,next){
@@ -412,6 +421,34 @@ function modifyProgress(req,res,next){
         });
 }
 
+function upload(req,res,next){
+    var id = req.param('id'),
+        appendix = req.files.appendix,
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.upload,
+                appendix:appendix,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
 module.exports.add = add;
 module.exports.addAndSave = addAndSave;
 module.exports.list = list;
@@ -422,3 +459,4 @@ module.exports.detail = detail;
 module.exports.designation = designation;
 module.exports.addLog = addLog;
 module.exports.modifyProgress = modifyProgress;
+module.exports.upload = upload;
