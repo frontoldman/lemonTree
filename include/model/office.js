@@ -6,8 +6,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var OfficeSchema = new Schema({
-    office     : { type : Number },
-    officeRole : { type : String }
+    level : { type : Number , default : 3 },
+    name  : { type : String }
 });
 
 mongoose.model('Office', OfficeSchema);
