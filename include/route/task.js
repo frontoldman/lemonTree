@@ -21,5 +21,6 @@ router.get('/detail/:id',task.detail);
 
 router.post('/designation/:id',task.designation);
 router.post('/log/:id',task.addLog);
+router.post('/progress/:id',task.modifyProgress);
 
 module.exports = router;

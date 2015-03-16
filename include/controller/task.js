@@ -32,6 +32,12 @@ function addAndSave(req,res,next){
         description : description ,
         assigner : assignerId,
         project : id,
+        log : [{
+            operator:req.session.user._id,
+            time:new Date(),
+            operation:VARS.config.logOperation.create,
+            note:''
+        }],
         adder : req.session.user._id,
         addTime : new Date()
     });
@@ -265,13 +271,9 @@ function detail(req,res,next){
 
             user.findOne({_id:log.operator})
                 .then(function(operator){
-                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 指派给了 ';
-                    user.findOne({_id:log.assigner})
-                        .then(function(assigner){
-                            title += assigner.username;
-                            log.title = title;
-                            deferred.resolve(log);
-                        });
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 创建了任务';
+                    log.title = title;
+                    deferred.resolve(log);
                 });
 
             return deferred.promise;
@@ -283,7 +285,36 @@ function detail(req,res,next){
 
             user.findOne({_id:log.operator})
                 .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 指派给了 ';
+                    user.findOne({_id:log.assigner})
+                        .then(function(assigner){
+                            title += assigner.username;
+                            log.title = title;
+                            deferred.resolve(log);
+                        });
+                });
+
+            return deferred.promise;
+        },
+        3:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+
                     title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 添加了日志';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        4:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 添加了进度' + log.progress + '%';
                     log.title = title;
                     deferred.resolve(log);
                 });
@@ -352,6 +383,35 @@ function addLog(req,res,next){
 
 }
 
+function modifyProgress(req,res,next){
+    var id = req.param('id'),
+        progress = req.param('progress'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.progress,
+                progress:progress,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                progress:progress,
+                log:log
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
 module.exports.add = add;
 module.exports.addAndSave = addAndSave;
 module.exports.list = list;
@@ -361,3 +421,4 @@ module.exports.remove = remove;
 module.exports.detail = detail;
 module.exports.designation = designation;
 module.exports.addLog = addLog;
+module.exports.modifyProgress = modifyProgress;

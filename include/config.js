@@ -15,8 +15,10 @@ var config = {
                         4 : '已结束'
                     },
     logOperation : {        //用户日志
-        'designation':1,     //指派
-        'log':2             //备注
+        'create':1,         //新增任务
+        'designation':2,     //指派
+        'log':3,            //备注
+        'progress':4
     }
 };
 
