@@ -3,6 +3,7 @@
  */
 
 var user = require('../proxy/').user;
+var office = require('../proxy/').office;
 
 module.exports.checkLogin = function(req,res,next){
 
@@ -69,3 +70,9 @@ function checkLogStatus(req,res,next,status,callback){
 
     }
 }
+
+module.exports.checkPermission = function(req,res,next){
+    var user = req.session.user;
+
+
+};
