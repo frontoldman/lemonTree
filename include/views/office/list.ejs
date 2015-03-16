@@ -1,0 +1,47 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body">
+	<div class="row">
+		<% include ../sidebar %>
+		<div class="col-md-10">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">职位列表</h3>
+				</div>
+
+
+
+				<table class="table table-bordered table-hover">
+					<thead>
+					<tr>
+						<th>职位名称</th>
+						<th>职位级别</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<% list.forEach(function(office){ %>
+					<tr>
+						<td><%= office.name %></td>
+						<td><%= office.level %></td>
+						<td>
+							<a href="/office/edit/<%= office._id %>">编辑</a>
+							<a href="/office/delete/<%= office._id %>">删除</a>
+						</td>
+					</tr>
+					<% }) %>
+
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="create-line text-right">
+				<a href="/office/add" class="btn btn-primary">添加新职位</a>
+			</div>
+			<% include ../page %>
+		</div>
+	</div>
+</div>
+
+<% include ../script %>
+<% include ../footer %>

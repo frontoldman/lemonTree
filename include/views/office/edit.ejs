@@ -5,10 +5,11 @@
 		<div class="col-md-10">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">添加新职位</h3>
+					<h3 class="panel-title">修改职位</h3>
 				</div>
 				<div class="panel-body">
-					<form role="form" method="post" action="/office/add" class="form-horizontal">
+					<form role="form" method="post" action="/office/edit" class="form-horizontal">
+						<input type="hidden" name="id" value="<%= office._id %>"/>
 						<fieldset>
 							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
 								<div class="col-sm-5 col-sm-offset-2 alert alert-danger" role="alert"><%= message %></div>
@@ -16,7 +17,7 @@
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">职位名称</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="name" id="name" placeholder="输入职位名称">
+									<input type="text" class="form-control" value="<%= office.name %>" name="name" id="name" placeholder="输入职位名称">
 								</div>
 							</div>
 							<div class="form-group">
@@ -24,13 +25,17 @@
 								<div class="col-sm-4">
 									<select class="form-control" id="level" name="level">
 										<% for(var i = 1;i<= 6 ;i++){ %>
+										<% if(i == office.level){ %>
+										<option selected value="<%= i %>"><%= i %></option>
+										<% }else{%>
 										<option value="<%= i %>"><%= i %></option>
+										<% } %>
 										<% } %>
 									</select>
 								</div>
 							</div>
 							<div class="col-md-2 col-md-offset-5">
-								<button class="btn btn-lg btn-success btn-block">添加</button>
+								<button class="btn btn-lg btn-success btn-block">保存修改</button>
 							</div>
 						</fieldset>
 					</form>
