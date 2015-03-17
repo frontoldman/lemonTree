@@ -66,7 +66,14 @@ function list(req,res,next){
 
     var perpage = 10;
     var queryQ = Q.all([
-        project.findAll({},page,perpage),
+        project.findAll({
+            $or:[{
+                'projectMan.id':req.session.user._id,
+                'productMan.id':req.session.user._id,
+                'testMan.id':req.session.user._id,
+                'publishMan.id':req.session.user._id
+            }]
+        },page,perpage),
         project.count({})
     ]);
 
