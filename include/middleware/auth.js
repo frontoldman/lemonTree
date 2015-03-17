@@ -49,7 +49,14 @@ function checkLogStatus(req,res,next,status,callback){
                 }else{
                     callback();
                 }
+            }else{
+                if(status == 1){
+                    callback();
+                }else{
+                    next();
+                }
             }
+
         },function(data){   //否则跳转到登陆页
 
             if(status == 1){

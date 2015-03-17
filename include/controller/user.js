@@ -4,7 +4,9 @@
 
 var crypto = require('crypto');
 var _ = require('lodash');
+var Q = require('Q');
 var user = require('../proxy/').user;
+var office = require('../proxy/').office;
 var util = require('../util');
 
 function addUser(req, res, next) {
@@ -37,8 +39,22 @@ function addUser(req, res, next) {
             }
         });
 
+    Q.all([
+        user.findOne({email:email}),
+        office.findOne({name:'admin'})
+    ]).then(function(data){
+        if(data[0]){
+            res.render('user/register',{
+                message : '此用户已存在'
+            });
+            return;
+        }
 
-    function addUser(){
+        addUser(data[1]);
+    });
+
+
+    function addUser(office){
 
         var promise = user.addOne({
             email           : email,
@@ -47,17 +63,26 @@ function addUser(req, res, next) {
             phone           : phone,
             qq              : qq,
             sex             : sex,
-            office          : 0,    //默认管理员，admin
+            office          : office._id,
             registerTime    : new Date(),
             loginTime       : new Date(),
             loginTimes      : 1
         });
 
-        promise.then(function(err){
-            res.send('success');
+        promise.then(function(){
+            req.session.message1 = '注册管理员成功';
+            res.redirect('/user/login');
         });
     }
 
+}
+
+function loginGet(req,res,next){
+    var message = req.session.message1;
+    req.session.message = null;
+    res.render('user/login',{
+        message:message
+    });
 }
 
 function login(req,res){
@@ -108,7 +133,6 @@ function userList(req,res){
             }
         });
 }
-
 
 function logout(req,res,next){
 
@@ -192,6 +216,7 @@ function addFresh(req,res,next){
     }
 }
 
+module.exports.loginGet = loginGet;
 module.exports.addUser = addUser;
 module.exports.login = login;
 module.exports.userList = userList;

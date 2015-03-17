@@ -7,15 +7,13 @@ var user = require('../controller/').user;
 var router = express.Router();
 
 /* GET home page. */
-router.get('/register', function (req, res) {
-    res.render('user/register',{message:''});
+router.get('/register', function(req,res,next){
+    res.render('user/register');
 });
 
 router.post('/register', user.addUser);
 
-router.get('/login', function (req, res) {
-    res.render('user/login',{message:''});
-});
+router.get('/login', user.loginGet);
 
 router.post('/login',user.login);
 
