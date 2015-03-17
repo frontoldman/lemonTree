@@ -17,6 +17,7 @@ var ProjectSchema = new Schema({
     publishMan  : { type : Schema.Types.Mixed , default : {} },
     description : { type : String },
     members     : { type : Array              , default : [] },
+    log         : { type : Schema.Types.Mixed , default : [] },
     createTime  : { type : Date   },
     createUser  : { type : String }
 });

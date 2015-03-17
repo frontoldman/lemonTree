@@ -21,6 +21,10 @@ var config = {
         'progress':4,       //修改进度
         'upload':5          //上传附件
     },
+    projectOperation : {     //项目日志
+        'create':1,         //新增项目
+        "addMember":2       //新增成员
+    },
     premission:{
         admin:0,            //超级管理员
         modify:1,           //创建修改者

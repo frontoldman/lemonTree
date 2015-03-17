@@ -13,10 +13,9 @@
 							<h3 class="panel-title"><%= project.name %>->项目详情</h3>
 						</div>
 						<div class="col-sm-4">
-							<a href="/project/edit/<%= project._id %>">编辑</a>
-							<a href="/project/delete/<%= project._id %>">删除</a>
-							<a href="/task/add/<%= project._id %>">添加任务</a>
-							<a href="/project/members/<%= project._id %>">团队成员</a>
+							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
+							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加任务</a>
+							<a href="/project/members/<%= project._id %>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 团队成员</a>
 						</div>
 					</div>
 				</div>
@@ -66,20 +65,26 @@
 							<th>项目描述:</th>
 							<td><%= project.description %></td>
 						</tr>
-
-
-
 					</table>
 				</div>
-
 			</div>
 
-
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">操作记录</h3>
+				</div>
+				<div class="panel-body">
+					<% project.log.forEach(function(logItem){ %>
+					<dl>
+						<dt><%- logItem.title %></dt>
+						<dd><pre><%= logItem.note %></pre></dd>
+					</dl>
+					<% }) %>
+				</div>
+			</div>
 		</div>
-
 	</div>
 </div>
 
 <% include ../script %>
-
 <% include ../footer %>

@@ -20,6 +20,15 @@ function add(req,res,next){
         });
     }
 
+    var log = [];
+
+    log.push({
+        operator:req.session.user._id,
+        time:new Date(),
+        operation:VARS.config.projectOperation.create,
+        note:''
+    });
+
     var promise = project.addOne({
         name        : name,
         code        : code,
@@ -27,8 +36,10 @@ function add(req,res,next){
         progress    : 0,
         startTime   : moment(startTime),
         endTime     : moment(endTime),
+        projectMan  : { id : req.session.user._id },
         description : description,
         createTime  : new Date(),
+        log         : log,
         createUser  : req.session.user._id
     });
 
@@ -70,13 +81,13 @@ function list(req,res,next){
             projects.forEach(function(project){
                 project._startTime = util.dateFormat(project.startTime);
                 project._endTime = util.dateFormat(project.endTime);
-                project.total = util.getWorkingHours(project.startTime,project.endTime);
-
-                var now = new Date();
-                project.used = util.getWorkingHours(project.startTime,now);
-                var start = now.getTime() < project.startTime.getTime() ? project.startTime : now;
-                project.reset = util.getWorkingHours(start,project.endTime);
-                project._status = projectStatus[project.status];
+                //project.total = util.getWorkingHours(project.startTime,project.endTime);
+                //
+                //var now = new Date();
+                //project.used = util.getWorkingHours(project.startTime,now);
+                //var start = now.getTime() < project.startTime.getTime() ? project.startTime : now;
+                //project.reset = util.getWorkingHours(start,project.endTime);
+                //project._status = projectStatus[project.status];
             });
 
             res.render('project/list',{
@@ -170,16 +181,64 @@ function detail(req,res,next){
     var id = req.param('id');
 
     var queryQ = project.findOne({_id:id});
-    queryQ.then(getUserNames)
-        .then(function(dataArray){
+    //queryQ.then(getUserNames)
+    //    .then(function(dataArray){
+    //        res.render('project/detail',{
+    //            project    : dataArray[0],
+    //            projectMan : dataArray[1]||{},
+    //            productMan : dataArray[2]||{},
+    //            testMan    : dataArray[3]||{},
+    //            publishMan : dataArray[4]||{}
+    //        });
+    //    });
+
+    queryQ.then(getSecond)
+        .then(function(data){
             res.render('project/detail',{
-                project    : dataArray[0],
-                projectMan : dataArray[1]||{},
-                productMan : dataArray[2]||{},
-                testMan    : dataArray[3]||{},
-                publishMan : dataArray[4]||{}
-            });
+                            project    : data[0][0],
+                            projectMan : data[0][1]||{},
+                            productMan : data[0][2]||{},
+                            testMan    : data[0][3]||{},
+                            publishMan : data[0][4]||{}
+                        });
         });
+
+    function getSecond(projectItem){
+        return Q.all([
+            getUserNames(projectItem),
+            analysisLog(projectItem)
+        ])
+    }
+
+    //解析log
+    function analysisLog(projectItem){
+
+        var log = projectItem.log;
+
+        var logAry = [];
+        log.forEach(function(logItem){
+            logAry.push(logRules[logItem.operation](logItem));
+        });
+
+        return Q.all(logAry);
+    }
+
+    var logRules = {
+        1:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 创建了项目';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        }
+    }
 }
 
 function remove(req,res,next){

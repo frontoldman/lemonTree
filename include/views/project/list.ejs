@@ -13,13 +13,10 @@
 					<thead>
 					<tr>
 						<th>项目名称</th>
-						<th><a href="#">开始日期 <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> </a></th>
-						<th><a href="#">结束日期 <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> </a> </th>
-						<th><a href="#">状态 <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> </a></th>
-						<th>预计工时</th>
-						<th>总消耗</th>
-						<th>总剩余</th>
-						<th><a href="#">进度<span class="glyphicon glyphicon-sort" aria-hidden="true"></span> </a></th>
+						<th><a href="#">开始日期 </a></th>
+						<th><a href="#">结束日期 </a> </th>
+						<th><a href="#">状态 </a></th>
+						<th><a href="#">进度 </a></th>
 						<th>操作</th>
 					</tr>
 					</thead>
@@ -39,15 +36,12 @@
 						<td class="text-danger">
 						<% } %>
 						<%= item._status %></td>
-						<td><%= item.total %></td>
-						<td><%= item.used %></td>
-						<td><%= item.reset %></td>
 						<td>
 							<%= item.progress %>%
 						</td>
 						<td>
-							<a href="/project/edit/<%= item._id %>">编辑</a>
-							<a href="/project/delete/<%= item._id %>">删除</a>
+							<a href="/project/edit/<%= item._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+							<a href="/project/delete/<%= item._id %>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 						</td>
 					</tr>
 					<% }) %>
