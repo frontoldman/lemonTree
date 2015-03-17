@@ -71,11 +71,15 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script>
 	$('#startTime').datepicker({
-		dateFormat: "yy-mm-dd"
+		showAnim: 'slideDown',
+		dateFormat: "yy-mm-dd",
+		minDate:0
 	});
 
 	$('#endTime').datepicker({
-		dateFormat: "yy-mm-dd"
+		showAnim: 'slideDown',
+		dateFormat: "yy-mm-dd",
+		minDate:0
 	});
 
 	initAutoComplete('assigner','assignerId');

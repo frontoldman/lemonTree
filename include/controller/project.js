@@ -87,7 +87,7 @@ function list(req,res,next){
                 //project.used = util.getWorkingHours(project.startTime,now);
                 //var start = now.getTime() < project.startTime.getTime() ? project.startTime : now;
                 //project.reset = util.getWorkingHours(start,project.endTime);
-                //project._status = projectStatus[project.status];
+                project._status = projectStatus[project.status];
             });
 
             res.render('project/list',{
@@ -232,6 +232,34 @@ function detail(req,res,next){
             user.findOne({_id:log.operator})
                 .then(function(operator){
                     title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 创建了项目';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        3:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 新增了任务';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        4:function(){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 修改了进度为 ' + log.progress;
                     log.title = title;
                     deferred.resolve(log);
                 });
@@ -428,6 +456,33 @@ function updateMembers(req,res,next){
 
 }
 
+function modifyProgress(req,res,next){
+    var id = req.param('id'),
+        progress = req.param('progress'),
+        note = req.param('note');
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.progress,
+                note:note,
+                progress:progress
+            });
+
+            project.update({
+                _id:id,
+                progress:progress,
+                log:log
+            }).then(function(){
+               res.redirect('/project/detail/' + id);
+            });
+        })
+}
+
 //根据project获取用户详细信息
 function getUserNames(project){
 
@@ -452,3 +507,4 @@ module.exports.remove = remove;
 module.exports.getMembers = getMembers;
 module.exports.editMembers = editMembers;
 module.exports.updateMembers = updateMembers;
+module.exports.modifyProgress = modifyProgress;

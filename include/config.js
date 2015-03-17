@@ -23,7 +23,9 @@ var config = {
     },
     projectOperation : {     //项目日志
         'create':1,         //新增项目
-        "addMember":2       //新增成员
+        "addMember":2,       //新增成员
+        "addTask":3,
+        "progress":4        //修改进度
     },
     premission:{
         admin:0,            //超级管理员

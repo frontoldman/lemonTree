@@ -16,6 +16,7 @@
 							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
 							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加任务</a>
 							<a href="/project/members/<%= project._id %>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 团队成员</a>
+							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
 						</div>
 					</div>
 				</div>
@@ -43,7 +44,11 @@
 						</tr>
 						<tr>
 							<th>进度:</th>
-							<td><%= project.progress %>%</td>
+							<td>
+								<div class="progress-content">
+									<div style="width: <%= project.progress %>%" class="progress-in"></div>
+								</div>
+							</td>
 						</tr>
 						<tr>
 							<th>项目负责人:</th>
@@ -81,6 +86,42 @@
 					</dl>
 					<% }) %>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modifyProgress" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">修改进度</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="progressForm" method="post" action="/project/progress/<%= project._id %>">
+					<div class="form-group">
+						<label for="progress" class="col-sm-3 control-label">修改进度</label>
+						<div class="col-sm-9">
+							<select class="form-control" name="progress" id="progress">
+								<% for(var i = 0;i<=100;i+=5){ %>
+								<option value="<%= i %>"><%= i %>%</option>
+								<% } %>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="progressForm" class="btn btn-primary">保存</button>
 			</div>
 		</div>
 	</div>

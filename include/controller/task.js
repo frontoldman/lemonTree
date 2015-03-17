@@ -47,6 +47,21 @@ function addAndSave(req,res,next){
     },function(){
         next();
     });
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.addTask,
+                note:'新增任务'
+            })
+            project.update({
+                _id:id,
+                log:log
+            })
+        })
 }
 
 function list(req,res,next){
