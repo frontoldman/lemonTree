@@ -4,7 +4,9 @@
 		<a href="/project/" class="list-group-item <% if(routes.project){ %>active<% } %>">项目</a>
 		<a href="/task/" class="list-group-item <% if(routes.task){ %>active<% } %>">任务</a>
 		<a href="/bug/" class="list-group-item  <% if(routes.bug){ %>active<% } %>">bug</a>
-		<a href="/office/" class="list-group-item  <% if(routes.office){ %>active<% } %>">职位</a>
-		<a href="/office/" class="list-group-item  <% if(routes.office){ %>active<% } %>">用户</a>
+		<% if(user.level == 0){ %>
+			<a href="/office/" class="list-group-item  <% if(routes.office){ %>active<% } %>">职位</a>
+			<a href="/user/" class="list-group-item  <% if(routes.user){ %>active<% } %>">用户</a>
+		<% } %>
 	</div>
 </div>

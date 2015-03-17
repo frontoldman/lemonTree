@@ -6,7 +6,8 @@ var routesList = [
     /^\/(project)/,
     /^\/(task)/,
     /^\/(bug)/,
-    /^\/(office)/
+    /^\/(office)/,
+    /^\/(user)/
 ];
 
 function routeStatus(req,res,next){

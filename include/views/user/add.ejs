@@ -4,9 +4,9 @@
 
 		<% include ../sidebar %>
 
-		<div class="col-md-4 col-md-offset-2">
+		<div class="col-md-10">
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" >
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-sm-10">
@@ -15,27 +15,51 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<form role="form" method="post" action="/user/add">
+					<form class="form-horizontal" role="form" method="post" action="/user/add">
 						<fieldset>
 							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
 								<div class="alert alert-danger" role="alert"><%= message %></div>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+								<label for="email" class="col-sm-2 control-label">邮箱</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" name="email" id="email" placeholder="输入邮箱">
+								</div>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="username" name="username" type="text" value="">
+								<label for="username" class="col-sm-2 control-label">用户名</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="username" id="username" placeholder="输入用户名">
+								</div>
 							</div>
-							<button class="btn btn-lg btn-success btn-block">添加用户</button>
+							<div class="form-group">
+								<label for="office" class="col-sm-2 control-label">选择职位</label>
+								<div class="col-sm-2">
+									<select class="form-control" name="office" id="office">
+										<% officeList.forEach(function(office){ %>
+										<option value="<%= office._id %>"><%= office.name %></option>
+										<% }) %>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="level" class="col-sm-2 control-label">选择等级</label>
+								<div class="col-sm-2">
+									<select class="form-control" name="level" id="level">
+									<% for(var i in levels){ %>
+										<option value="<%= levels[i] %>"><%= i %></option>
+									<% } %>
+									</select>
+								</div>
+							</div>
+							<div class="text-center">
+								<button class="btn btn-lg btn-success">添加用户</button>
+							</div>
 						</fieldset>
 					</form>
 				</div>
-
 			</div>
-
-
 		</div>
-
 	</div>
 </div>
 

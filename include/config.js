@@ -20,6 +20,11 @@ var config = {
         'log':3,            //备注
         'progress':4,       //修改进度
         'upload':5          //上传附件
+    },
+    premission:{
+        admin:0,            //超级管理员
+        modify:1,           //创建修改者
+        use:2               //使用者
     }
 };
 

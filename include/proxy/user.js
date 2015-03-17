@@ -32,7 +32,21 @@ function findAll(options,start,limit){
         .exec();
 }
 
+function count(options){
+    var deferred = Q.defer();
+
+    User.where(options).count(function(err,count){
+        if(err){
+            deferred.reject();
+            return;
+        }
+        deferred.resolve(count);
+    });
+
+    return deferred.promise;
+}
 
 module.exports.addOne = addOne;
 module.exports.findOne = findOne;
 module.exports.findAll = findAll;
+module.exports.count = count;

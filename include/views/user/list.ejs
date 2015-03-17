@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>人员列表</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/register.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
+<% include ../header %>
+<div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1 user-list">
-            <table class="table table-bordered">
-                <thead>
+
+        <% include ../sidebar %>
+
+        <div class="col-md-10">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <h3 class="panel-title">添加用户</h3>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
                     <tr>
                         <th>email</th>
                         <th>姓名</th>
@@ -20,8 +24,8 @@
                         <th>最后登陆时间</th>
                         <th>注册时间</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <% userList.forEach(function(user){ %>
                     <tr>
                         <td>
@@ -34,7 +38,7 @@
                             <%= user._sex  %>
                         </td>
                         <td>
-                            <%= user.office %>
+                            <%= user._office %>
                         </td>
                         <td>
                             <%= user._loginTime  %>
@@ -44,11 +48,21 @@
                         </td>
                     </tr>
                     <% }) %>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="create-line text-right">
+                <a href="/user/add" class="btn btn-primary">添加新用户</a>
+            </div>
+            <% include ../page %>
+
         </div>
+
     </div>
 </div>
 
-</body>
-</html>
+<% include ../script %>
+<% include ../footer %>
+

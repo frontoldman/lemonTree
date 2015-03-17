@@ -17,15 +17,13 @@ router.get('/login', user.loginGet);
 
 router.post('/login',user.login);
 
-router.get('/list',user.userList);
+router.get('/',user.userList);
 
 router.get('/logout',user.logout);
 
 router.get('/users',user.users);
 
-router.get('/add',function(req,res,next){
-    res.render('user/add');
-});
+router.get('/add',user.addGet);
 
 router.post('/add',user.addFresh);
 

@@ -11,41 +11,41 @@ var util = require('../util');
 
 function addUser(req, res, next) {
 
-    var email           = req.param('email'),
-        password        = req.param('password'),
+    var email = req.param('email'),
+        password = req.param('password'),
         passwordConfirm = req.param('confirm-password'),
-        username        = req.param('username'),
-        phone           = req.param('phone'),
-        qq              = req.param('qq'),
-        sex             = req.param('sex');
+        username = req.param('username'),
+        phone = req.param('phone'),
+        qq = req.param('qq'),
+        sex = req.param('sex');
 
-    if(password != passwordConfirm){
-        res.render('user/register',{
-            message : '两次密码不一致'
+    if (password != passwordConfirm) {
+        res.render('user/register', {
+            message: '两次密码不一致'
         });
         return;
     }
 
     var _pass = util.crypto(password);
 
-    user.findOne({email:email})
-        .then(function(user){
-            if(!user){
+    user.findOne({email: email})
+        .then(function (user) {
+            if (!user) {
                 addUser();
-            }else{
-                res.render('user/register',{
-                    message : '此用户已存在'
+            } else {
+                res.render('user/register', {
+                    message: '此用户已存在'
                 });
             }
         });
 
     Q.all([
-        user.findOne({email:email}),
-        office.findOne({name:'admin'})
-    ]).then(function(data){
-        if(data[0]){
-            res.render('user/register',{
-                message : '此用户已存在'
+        user.findOne({email: email}),
+        office.findOne({name: 'admin'})
+    ]).then(function (data) {
+        if (data[0]) {
+            res.render('user/register', {
+                message: '此用户已存在'
             });
             return;
         }
@@ -54,22 +54,23 @@ function addUser(req, res, next) {
     });
 
 
-    function addUser(office){
+    function addUser(office) {
 
         var promise = user.addOne({
-            email           : email,
-            password        : _pass,
-            username        : username,
-            phone           : phone,
-            qq              : qq,
-            sex             : sex,
-            office          : office._id,
-            registerTime    : new Date(),
-            loginTime       : new Date(),
-            loginTimes      : 1
+            email: email,
+            password: _pass,
+            username: username,
+            phone: phone,
+            qq: qq,
+            sex: sex,
+            office: office._id,
+            level: VARS.config.premission.admin, //默认超级权限
+            registerTime: new Date(),
+            loginTime: new Date(),
+            loginTimes: 1
         });
 
-        promise.then(function(){
+        promise.then(function () {
             req.session.message1 = '注册管理员成功';
             res.redirect('/user/login');
         });
@@ -77,141 +78,185 @@ function addUser(req, res, next) {
 
 }
 
-function loginGet(req,res,next){
+function loginGet(req, res, next) {
     var message = req.session.message1;
     req.session.message = null;
-    res.render('user/login',{
-        message:message
+    res.render('user/login', {
+        message: message
     });
 }
 
-function login(req,res){
-    var email           = req.param('email'),
-        password        = req.param('password'),
-        remember        = req.param('remember');
+function login(req, res) {
+    var email = req.param('email'),
+        password = req.param('password'),
+        remember = req.param('remember');
 
     var _pass = util.crypto(password);
 
-    user.findOne({email:email,password:_pass})
-        .then(function(user){
-            if(user){
+    user.findOne({email: email, password: _pass})
+        .then(function (user) {
+            if (user) {
                 req.session.user = user;
 
-                if(remember){
-                    res.cookie('userId',user._id,{
+                if (remember) {
+                    res.cookie('userId', user._id, {
                         expires: new Date(Date.now() + VARS.config.cookie_expires),
-                        httpOnly : true,
-                        path     : '/'
+                        httpOnly: true,
+                        path: '/'
                     });
                 }
                 res.redirect('/dashboard');
-            }else{
-                res.render('user/login',{
-                    message : '用户名密码不正确'
+            } else {
+                res.render('user/login', {
+                    message: '用户名密码不正确'
                 });
             }
         });
 }
 
-function userList(req,res){
-    user.findAll(0,10)
-        .then(function(users){
-            if(users){
+function userList(req, res) {
+    var page = req.param('page');
 
-                users.forEach(function(user){
-                    user._sex = (['女','男'])[user.sex];
-                    user._loginTime = util.dateFormat(user.loginTime);
-                    user._registerTime = util.dateFormat(user.registerTime);
-                });
+    if (!page) {
+        page = 0;
+    } else {
+        page--;
+    }
 
-                res.render('user/list',{
-                    userList:users
-                });
+    page = page < 0 ? 0 : page;
 
-            }else{
-                res.send('查找失败');
-            }
+    var perpage = 10;
+    var queryQ = Q.all([
+        user.findAll({}, page, perpage),
+        user.count({})
+    ]);
+
+    queryQ.then(function (data) {
+        var total = Math.ceil(data[1] / perpage);
+        var userList = data[0];
+
+        var queryAry = [];
+        userList.forEach(function (user) {
+            user._sex = (['女', '男'])[user.sex];
+            user._loginTime = util.dateFormat(user.loginTime);
+            user._registerTime = util.dateFormat(user.registerTime);
+
+            queryAry.push(office.findOne({_id:user.office}));
         });
+
+        Q.all(queryAry)
+            .then(function(officeList){
+
+                officeList.forEach(function(office,index){
+                    userList[index]._office = office.name;
+                });
+
+                res.render('user/list', {
+                    userList: userList,
+                    pages: {
+                        link: '/user/',
+                        total: total,
+                        current: page + 1 > total ? total : page
+                    }
+                });
+            });
+
+    });
+
+
 }
 
-function logout(req,res,next){
+function logout(req, res, next) {
 
     req.session.user = null;
-    res.cookie('userId',null,{
+    res.cookie('userId', null, {
         expires: new Date(Date.now() - 100),
-        httpOnly : true,
-        path     : '/'
+        httpOnly: true,
+        path: '/'
     });
 
     res.redirect('/user/login');
 
 }
 
-function users(req,res,next){
+function users(req, res, next) {
 
     var term = req.param('term');
 
-    var termReg = new RegExp(term,'i');
+    var termReg = new RegExp(term, 'i');
 
-    user.findAll({username:termReg})
-        .then(function(users){
+    user.findAll({username: termReg})
+        .then(function (users) {
 
             var _users = [];
-            users.forEach(function(userItem){
+            users.forEach(function (userItem) {
                 _users.push({
-                    id:userItem._id,
-                    value:userItem.username
+                    id: userItem._id,
+                    value: userItem.username
                 })
             });
 
             res.json(_users);
 
-        },function(){
+        }, function () {
             res.json([]);
         });
 
 
 }
 
-function addFresh(req,res,next){
-    var email = req.param('email'),
-        username = req.param('username');
+function addGet(req, res, next) {
 
-    if(!email || !username){
-        res.render('user/add',{
-            message:'邮箱和用户名必须填！'
+    var message = req.session.message;
+    req.session.message = null;
+
+    office.findAll()
+        .then(function(officeList){
+            res.render('user/add',{
+                officeList : officeList,
+                levels : VARS.config.premission,
+                message : message
+            });
         });
+}
+
+function addFresh(req, res, next) {
+    var email = req.param('email'),
+        username = req.param('username'),
+        office = req.param('office'),
+        level = req.param('level');
+
+    if (!email || !username) {
+        req.session.message = '邮箱和用户名必须填';
+        res.redirect('/user/add');
         return;
     }
 
-    user.findOne({email:email})
-        .then(function(user){
-            if(!user){
+    user.findOne({email: email})
+        .then(function (user) {
+            if (!user) {
                 addFreshUser();
-            }else{
-                res.render('user/add',{
-                    message:'此用户已存在！'
-                });
+            } else {
+                req.session.message = '添加失败，用户名重复';
+                res.redirect('/user/add')
             }
         });
 
-    function addFreshUser(){
+    function addFreshUser() {
 
         var promise = user.addOne({
-            email        : email,
-            password     : util.crypto(VARS.config.defaultPass),
-            username     : username,
-            sex          : 1,
-            office       : 2,
-            registerTime : new Date(),
-            loginTime    : new Date(),
-            loginTimes   : 0
+            email: email,
+            password: util.crypto(VARS.config.defaultPass),
+            username: username,
+            sex: 1,
+            office: office,
+            level:level,
+            registerTime: new Date()
         });
 
-        promise.then(function(err){
-            res.render('user/add',{
-                message:'添加成功！'
-            });
+        promise.then(function (err) {
+            req.session.message = '添加新用户成功';
+            res.redirect('/user/add')
         });
     }
 }
@@ -222,4 +267,5 @@ module.exports.login = login;
 module.exports.userList = userList;
 module.exports.logout = logout;
 module.exports.users = users;
+module.exports.addGet = addGet;
 module.exports.addFresh = addFresh;
