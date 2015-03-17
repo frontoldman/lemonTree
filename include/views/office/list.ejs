@@ -12,7 +12,6 @@
 					<thead>
 					<tr>
 						<th>职位名称</th>
-						<th>职位级别</th>
 						<th>操作</th>
 					</tr>
 					</thead>
@@ -20,7 +19,6 @@
 					<% list.forEach(function(office){ %>
 					<tr>
 						<td><%= office.name %></td>
-						<td><%= office.level %></td>
 						<td>
 							<a href="/office/edit/<%= office._id %>">编辑</a>
 							<a href="/office/delete/<%= office._id %>">删除</a>

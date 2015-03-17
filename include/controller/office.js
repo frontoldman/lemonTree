@@ -14,12 +14,10 @@ function addOffice(req, res, next) {
 }
 
 function addAndSave(req, res, next) {
-    var name = req.param('name'),
-        level = req.param('level');
+    var name = req.param('name');
 
     office.addOne({
-        name: name,
-        level: level
+        name: name
     })
         .then(function () {
             req.session.officeMessage = '添加成功';
@@ -77,18 +75,14 @@ function edit(req,res,next){
 
 function editAndSave(req,res,next){
     var id = req.param('id'),
-        name = req.param('name'),
-        level = req.param('level');
+        name = req.param('name');
 
     office.update({
         _id:id,
-        name:name,
-        level:level
+        name:name
     }).then(function(){
         res.redirect('/office/');
     });
-
-
 }
 
 function remove(req,res,next){

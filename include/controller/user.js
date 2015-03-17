@@ -47,7 +47,7 @@ function addUser(req, res, next) {
             phone           : phone,
             qq              : qq,
             sex             : sex,
-            office          : 1,    //默认管理员，admin
+            office          : 0,    //默认管理员，admin
             registerTime    : new Date(),
             loginTime       : new Date(),
             loginTimes      : 1

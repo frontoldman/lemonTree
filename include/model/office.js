@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var OfficeSchema = new Schema({
-    level : { type : Number , default : 3 },
     name  : { type : String }
 });
 
