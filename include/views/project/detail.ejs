@@ -9,15 +9,23 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="row">
-						<div class="col-sm-8">
+						<div class="col-sm-4">
 							<h3 class="panel-title"><%= project.name %>->项目详情</h3>
 						</div>
-						<div class="col-sm-4">
-							<% if(user._id == project.productMan){ %>
+						<div class="col-sm-8 text-right">
+							<% if(user._id == project.productMan && project.status != 4){ %>
 							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
-							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
-							<% } %>
 							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加任务</a>
+							<% if(project.status == 1 || project.status == 3){ %>
+							<a href="#" data-toggle="modal" data-target="#start"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> 启动</a>
+							<% }else{ %>
+							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
+							<a href="#" data-toggle="modal" data-target="#complete"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
+							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> 暂停</a>
+							<a href="#" data-toggle="modal" data-target="#closeProject"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 关闭</a>
+							<% } %>
+							<% } %>
+
 							<a href="/project/members/<%= project._id %>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 团队成员</a>
 						</div>
 					</div>
@@ -42,7 +50,7 @@
 						</tr>
 						<tr>
 							<th>状态:</th>
-							<td><%= project.status %></td>
+							<td><%= project._status %></td>
 						</tr>
 						<tr>
 							<th>进度:</th>
@@ -108,7 +116,11 @@
 						<div class="col-sm-9">
 							<select class="form-control" name="progress" id="progress">
 								<% for(var i = 0;i<=100;i+=5){ %>
-								<option value="<%= i %>"><%= i %>%</option>
+									<% if(project.progress == i){ %>
+									<option selected value="<%= i %>"><%= i %>%</option>
+									<% }else{ %>
+									<option value="<%= i %>"><%= i %>%</option>
+									<% } %>
 								<% } %>
 							</select>
 						</div>
@@ -129,5 +141,108 @@
 	</div>
 </div>
 
+<div class="modal fade" id="complete" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">完成项目</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="completeForm" method="post" action="/project/complete/<%= project._id %>">
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="completeForm" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="start" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">启动项目</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="startForm" method="post" action="/project/start/<%= project._id %>">
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="startForm" class="btn btn-primary">确认启动</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="closeProject" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">关闭项目</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="closeForm" method="post" action="/project/close/<%= project._id %>">
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="closeForm" class="btn btn-primary">确定关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="pause" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">暂时终止项目</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="pauseForm" method="post" action="/project/pause/<%= project._id %>">
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="pauseForm" class="btn btn-primary">确定暂停</button>
+			</div>
+		</div>
+	</div>
+</div>
 <% include ../script %>
 <% include ../footer %>

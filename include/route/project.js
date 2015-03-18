@@ -19,6 +19,10 @@ router.post('/edit',project.update);
 
 router.get('/detail/:id',project.detail);
 router.post('/progress/:id',project.modifyProgress);
+router.post('/start/:id',project.start);
+router.post('/complete/:id',project.complete);
+router.post('/close/:id',project.close);
+router.post('/pause/:id',project.pause);
 
 router.get('/delete/:id',project.remove);
 

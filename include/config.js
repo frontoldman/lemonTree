@@ -12,7 +12,8 @@ var config = {
                         1 : '未开始',
                         2 : '进行中',
                         3 : '已挂起',
-                        4 : '已结束'
+                        4 : '已关闭',
+                        5 : '已结束'
                     },
     logOperation : {        //用户日志
         'create':1,         //新增任务
@@ -25,7 +26,11 @@ var config = {
         'create':1,         //新增项目
         "addMember":2,       //新增成员
         "addTask":3,
-        "progress":4        //修改进度
+        "progress":4,        //修改进度
+        "start":5,           //启动项目
+        "close":6,           //关闭项目
+        "complete":7,        //完成项目
+        "pause":8            //暂停项目
     },
     premission:{
         admin:0,            //超级管理员

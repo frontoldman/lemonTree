@@ -201,23 +201,19 @@ function update(req,res,next){
 
 function detail(req,res,next){
     var id = req.param('id');
+    var projectStatus = VARS.config.taskStatus;
 
     var queryQ = project.findOne({_id:id});
-    //queryQ.then(getUserNames)
-    //    .then(function(dataArray){
-    //        res.render('project/detail',{
-    //            project    : dataArray[0],
-    //            projectMan : dataArray[1]||{},
-    //            productMan : dataArray[2]||{},
-    //            testMan    : dataArray[3]||{},
-    //            publishMan : dataArray[4]||{}
-    //        });
-    //    });
 
     queryQ.then(getSecond)
         .then(function(data){
+
+            var projectItem = data[0][0];
+
+            projectItem._status = projectStatus[projectItem.status];
+
             res.render('project/detail',{
-                            project    : data[0][0],
+                            project    : projectItem,
                             projectMan : data[0][1]||{},
                             productMan : data[0][2]||{},
                             testMan    : data[0][3]||{},
@@ -282,6 +278,62 @@ function detail(req,res,next){
             user.findOne({_id:log.operator})
                 .then(function(operator){
                     title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 修改了进度为 ' + log.progress + '%';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        5:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 启动了项目';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        6:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 关闭了项目';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        7:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 将项目状态修改为完成';
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        8:function(log){
+            var deferred = Q.defer();
+
+            var title = '';
+
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 暂停了项目';
                     log.title = title;
                     deferred.resolve(log);
                 });
@@ -504,6 +556,106 @@ function modifyProgress(req,res,next){
         })
 }
 
+function start(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.start,
+                note:note
+            });
+
+            project.update({
+                _id:id,
+                log:log,
+                status:2
+            }).then(function(){
+                res.redirect('/project/detail/' + id);
+            });
+        })
+}
+
+function complete(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.complete,
+                note:note
+            });
+
+            project.update({
+                _id:id,
+                log:log,
+                status:5
+            }).then(function(){
+                res.redirect('/project/detail/' + id);
+            });
+        })
+}
+
+function close(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.close,
+                note:note
+            });
+
+            project.update({
+                _id:id,
+                log:log,
+                status:4
+            }).then(function(){
+                res.redirect('/project/detail/' + id);
+            });
+        })
+}
+
+function pause(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    project.findOne({_id:id})
+        .then(function(projectItem){
+            var log = projectItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.projectOperation.pause,
+                note:note
+            });
+
+            project.update({
+                _id:id,
+                log:log,
+                status:3
+            }).then(function(){
+                res.redirect('/project/detail/' + id);
+            });
+        })
+}
+
 //根据project获取用户详细信息
 function getUserNames(project){
 
@@ -529,3 +681,7 @@ module.exports.getMembers = getMembers;
 module.exports.editMembers = editMembers;
 module.exports.updateMembers = updateMembers;
 module.exports.modifyProgress = modifyProgress;
+module.exports.start = start;
+module.exports.complete = complete;
+module.exports.close = close;
+module.exports.pause = pause;
