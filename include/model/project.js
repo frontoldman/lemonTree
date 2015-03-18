@@ -11,14 +11,15 @@ var ProjectSchema = new Schema({
     endTime     : { type : Date   },
     status      : { type : Number },
     progress    : { type : Number },
-    projectMan  : { type : Schema.Types.Mixed , default : {} },
-    productMan  : { type : Schema.Types.Mixed , default : {} },
-    testMan     : { type : Schema.Types.Mixed , default : {} },
-    publishMan  : { type : Schema.Types.Mixed , default : {} },
+    projectMan  : { type : Schema.Types.ObjectId },
+    productMan  : { type : Schema.Types.ObjectId },
+    testMan     : { type : Schema.Types.ObjectId },
+    publishMan  : { type : Schema.Types.ObjectId },
     description : { type : String },
     members     : { type : Array              , default : [] },
     log         : { type : Schema.Types.Mixed , default : [] },
     createTime  : { type : Date   },
+    editTime    : { type : Date   },
     createUser  : { type : String }
 });
 

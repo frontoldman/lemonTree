@@ -12,9 +12,11 @@
 						<div class="col-sm-10">
 							<h3 class="panel-title"><%= project.name %>->团队成员</h3>
 						</div>
+						<% if(user._id == project.productMan){ %>
 						<div class="col-sm-2">
 							<a href="/project/members/edit/<%= project._id %>" class="btn btn-primary">成员管理</a>
 						</div>
+						<% } %>
 					</div>
 
 
@@ -32,25 +34,25 @@
 					<tr>
 						<td><%= projectMan.username || '--' %></td>
 						<td>项目负责人</td>
-						<td><%= project.projectMan._joinTime %></td>
+						<td><%= project._editTime %></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><%= productMan.username || '--' %></td>
 						<td>产品负责人</td>
-						<td><%= project.productMan._joinTime %></td>
+						<td><%= project._editTime %></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><%= testMan.username || '--' %></td>
 						<td>测试负责人</td>
-						<td><%= project.testMan._joinTime %></td>
+						<td><%= project._editTime %></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><%= publishMan.username || '--' %></td>
 						<td>发布负责人</td>
-						<td><%= project.publishMan._joinTime %></td>
+						<td><%= project._editTime %></td>
 						<td></td>
 					</tr>
 					<% members.forEach(function(member){ %>

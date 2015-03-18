@@ -36,9 +36,13 @@ function add(req,res,next){
         progress    : 0,
         startTime   : moment(startTime),
         endTime     : moment(endTime),
-        projectMan  : { id : req.session.user._id },
+        projectMan  : req.session.user._id,
+        productMan  : req.session.user._id,
+        testMan     : req.session.user._id,
+        publishMan  : req.session.user._id,
         description : description,
         createTime  : new Date(),
+        editTime    : new Date(),
         log         : log,
         createUser  : req.session.user._id
     });
@@ -67,12 +71,23 @@ function list(req,res,next){
     var perpage = 10;
     var queryQ = Q.all([
         project.findAll({
-            $or:[{
-                'projectMan.id':req.session.user._id,
-                'productMan.id':req.session.user._id,
-                'testMan.id':req.session.user._id,
-                'publishMan.id':req.session.user._id
-            }]
+            $or:[
+                {
+                    "projectMan":req.session.user._id
+                },
+                {
+                    "productMan":req.session.user._id
+                },
+                {
+                    "testMan":req.session.user._id
+                },
+                {
+                    "publishMan":req.session.user._id
+                },
+                {
+                    "members.userId":req.session.user._id
+                }
+            ]
         },page,perpage),
         project.count({})
     ]);
@@ -170,10 +185,10 @@ function update(req,res,next){
         code        : code,
         startTime   : moment(startTime),
         endTime     : moment(endTime),
-        projectMan  : { id : projectManId , joinTime : new Date() },
-        productMan  : { id : productManId , joinTime : new Date() },
-        testMan     : { id : testManId    , joinTime : new Date() },
-        publishMan  : { id : publishManId , joinTime : new Date() },
+        projectMan  : projectManId ,
+        productMan  : productManId ,
+        testMan     : testManId    ,
+        publishMan  : publishManId ,
         description : description
     });
 
@@ -259,14 +274,14 @@ function detail(req,res,next){
 
             return deferred.promise;
         },
-        4:function(){
+        4:function(log){
             var deferred = Q.defer();
 
             var title = '';
 
             user.findOne({_id:log.operator})
                 .then(function(operator){
-                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 修改了进度为 ' + log.progress;
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 修改了进度为 ' + log.progress + '%';
                     log.title = title;
                     deferred.resolve(log);
                 });
@@ -298,10 +313,7 @@ function getMembers(req,res,next){
 
             var projectItem = dataArray[0];
 
-            projectItem.projectMan._joinTime = util.dateFormat(projectItem.projectMan.joinTime);
-            projectItem.productMan._joinTime = util.dateFormat(projectItem.productMan.joinTime);
-            projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
-            projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
+            projectItem._editTime = util.dateFormat(projectItem.editTime);
 
             var membersQAry = [];
             projectItem.members.forEach(function(member){
@@ -348,10 +360,12 @@ function editMembers(req,res,next){
 
             var projectItem = dataArray[0];
 
-            projectItem.projectMan._joinTime = util.dateFormat(projectItem.projectMan.joinTime);
-            projectItem.productMan._joinTime = util.dateFormat(projectItem.productMan.joinTime);
-            projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
-            projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
+            projectItem._editTime = util.dateFormat(projectItem.editTime);
+
+            //projectItem.projectMan._joinTime = util.dateFormat(projectItem.projectMan.joinTime);
+            //projectItem.productMan._joinTime = util.dateFormat(projectItem.productMan.joinTime);
+            //projectItem.testMan._joinTime = util.dateFormat(projectItem.testMan.joinTime);
+            //projectItem.publishMan._joinTime = util.dateFormat(projectItem.publishMan.joinTime);
 
             var membersQAry = [];
             projectItem.members.forEach(function(member){
@@ -498,10 +512,10 @@ function getUserNames(project){
 
     return Q.all([
         project,
-        user.findOne({_id:project.projectMan.id}),
-        user.findOne({_id:project.productMan.id}),
-        user.findOne({_id:project.testMan.id}),
-        user.findOne({_id:project.publishMan.id})]);
+        user.findOne({_id:project.projectMan}),
+        user.findOne({_id:project.productMan}),
+        user.findOne({_id:project.testMan}),
+        user.findOne({_id:project.publishMan})]);
 
 }
 

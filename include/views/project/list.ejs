@@ -36,12 +36,17 @@
 						<td class="text-danger">
 						<% } %>
 						<%= item._status %></td>
-						<td>
-							<%= item.progress %>%
+						<td width="200">
+
+							<div class="progress-content">
+								<div style="width: <%= item.progress %>%" class="progress-in"></div>
+							</div>
 						</td>
 						<td>
+							<% if(user._id == item.productMan){ %>
 							<a href="/project/edit/<%= item._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 							<a href="/project/delete/<%= item._id %>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+							<% } %>
 						</td>
 					</tr>
 					<% }) %>

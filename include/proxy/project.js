@@ -12,7 +12,7 @@ function addOne(params){
 function findAll(options,start,limit){
     var deferred = Q.defer();
 
-    var query = Project.find(options)
+    var query = Project.where(options)
         .skip(start*limit)
         .limit(limit)
         .exec();
@@ -24,6 +24,10 @@ function findAll(options,start,limit){
     });
 
     return deferred.promise;
+}
+
+function findByWhere(){
+
 }
 
 function count(options){
@@ -90,3 +94,4 @@ module.exports.count = count;
 module.exports.findOne = findOne;
 module.exports.update = update;
 module.exports.remove = remove;
+module.exports.findByWhere = findByWhere;

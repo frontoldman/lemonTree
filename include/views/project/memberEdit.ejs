@@ -37,7 +37,7 @@
 							<input type="hidden" name="projectManId" value="<%= projectMan._id %>"/>
 						</td>
 						<td><input type="text" disabled value="项目负责人"/></td>
-						<td><input type="text" disabled value="<%= project.projectMan._joinTime %>"/></td>
+						<td><input type="text" disabled value="<%= project._editTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -46,7 +46,7 @@
 							<input type="hidden" name="productManId" value="<%= productMan._id %>"/>
 						</td>
 						<td><input type="text" disabled value="产品负责人"/></td>
-						<td><input type="text" disabled value="<%= project.productMan._joinTime %>"/></td>
+						<td><input type="text" disabled value="<%= project._editTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -55,7 +55,7 @@
 							<input type="hidden" name="testManId" value="<%= testMan._id %>"/>
 						</td>
 						<td><input type="text" disabled value="测试负责人"/></td>
-						<td><input type="text" disabled value="<%= project.testMan._joinTime %>"/></td>
+						<td><input type="text" disabled value="<%= project._editTime %>"/></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -64,7 +64,7 @@
 							<input type="hidden" name="publishManId" value="<%= publishMan._id %>"/>
 						</td>
 						<td><input type="text" disabled value="发布负责人"/></td>
-						<td><input type="text" disabled value="<%= project.testMan._joinTime %>"/></td>
+						<td><input type="text" disabled value="<%= project._editTime %>"/></td>
 						<td></td>
 					</tr>
 					<% members.forEach(function(member,index){ %>
