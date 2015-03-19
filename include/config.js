@@ -21,10 +21,11 @@ var config = {
         'log':3,            //备注
         'progress':4,       //修改进度
         'upload':5,          //上传附件
-        'start':6,           //启动项目
-        'pause':7,            //暂停项目
-        'stop':8,              //终止项目
-        'complete':9
+        'start':6,           //启动任务
+        'pause':7,            //暂停任务
+        'stop':8,              //终止任务
+        'complete':9,            //完成任务
+        'link':10               //关联任务
     },
     projectOperation : {     //项目日志
         'create':1,         //新增项目

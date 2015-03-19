@@ -639,6 +639,32 @@ function complete(req,res,next){
         });
 }
 
+function link(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.link,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
 module.exports.add = add;
 module.exports.addAndSave = addAndSave;
 module.exports.list = list;
@@ -654,3 +680,4 @@ module.exports.start = start;
 module.exports.pause = pause;
 module.exports.stop = stop;
 module.exports.complete = complete;
+module.exports.link = link;

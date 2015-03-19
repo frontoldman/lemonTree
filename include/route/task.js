@@ -26,5 +26,6 @@ router.post('/start/:id',task.start);
 router.post('/pause/:id',task.pause);
 router.post('/stop/:id',task.stop);
 router.post('/complete/:id',task.complete);
+router.post('/link/:id',task.link);
 
 module.exports = router;
