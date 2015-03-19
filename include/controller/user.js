@@ -227,7 +227,7 @@ function getProjectUsers(req,res,next){
             projectMembers[projectItem.publishMan] = true;
 
             projectItem.members.forEach(function(member){
-                projectMembers[member] = true;
+                projectMembers[member.userId] = true;
             });
         }
 

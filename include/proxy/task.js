@@ -33,8 +33,8 @@ function findAll(options,start,limit){
         .limit(limit)
         .exec();
 
-    query.then(function(projects){
-        deferred.resolve(projects);
+    query.then(function(tasks){
+        deferred.resolve(tasks);
     },function(){
         deferred.reject();
     });
@@ -84,6 +84,20 @@ function remove(options){
     return deferred.promise;
 }
 
+function findTotal(options){
+    var deferred = Q.defer();
+
+    var query = Task.where(options).exec();
+
+    query.then(function(tasks){
+        deferred.resolve(tasks);
+    },function(){
+        deferred.reject();
+    });
+
+    return deferred.promise;
+}
+
 
 module.exports.findOne = findOne ;
 module.exports.addOne = addOne ;
@@ -91,3 +105,4 @@ module.exports.findAll = findAll ;
 module.exports.count = count ;
 module.exports.update = update ;
 module.exports.remove = remove ;
+module.exports.findTotal = findTotal ;

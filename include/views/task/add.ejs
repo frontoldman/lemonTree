@@ -86,7 +86,7 @@
 
 	function initAutoComplete(textId,valId){
 		$('#' + textId).autocomplete({
-			source:'/user/users',
+			source:'/user/getProjectUsers/<%= id %>',
 			select: function( event, ui ) {
 				$('#' + valId).val(ui.item.id);
 			}

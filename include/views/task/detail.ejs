@@ -29,7 +29,7 @@
 							<% } %>
 							<a href="#" data-toggle="modal" data-target="#addLog"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
 							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
-							<a href="#"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> 关联任务</a>
+							<a href="#" data-toggle="modal" data-target="#link"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> 关联任务</a>
 							<% } %>
 						</div>
 					</div>
@@ -172,7 +172,7 @@
 				<form class="form-horizontal" id="progressForm" method="post" action="/task/progress/<%= task._id %>">
 					<div class="form-group">
 						<label for="progress" class="col-sm-3 control-label">修改进度</label>
-						<div class="col-sm-9">
+						<div class="col-sm-4">
 							<select class="form-control" name="progress" id="progress">
 								<% for(var i = 0;i<=100;i+=5){ %>
 								<% if(task.progress == i){ %>
@@ -331,6 +331,44 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				<button type="submit" form="completeForm" class="btn btn-primary">确认完成</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="link" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">关联任务</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="linkForm" method="post" action="/task/link/<%= task._id %>">
+					<div class="form-group">
+						<label for="linkTask" class="col-sm-3 control-label">选择关联任务</label>
+						<div class="col-sm-4">
+							 <select class="form-control" name="link">
+								 <% task.projectItems.forEach(function(taskItem){ %>
+								 <% if(taskItem._id+'' !== task._id+''){ %>
+								 <option value="<%= taskItem._id %>"><%= taskItem.name %></option>
+								 <% } %>
+								 <% }) %>
+							 </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="note" class="col-sm-3 control-label">添加备注</label>
+						<div class="col-sm-9">
+							<textarea id="note" name="note" class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" form="linkForm" class="btn btn-primary">确认关联</button>
 			</div>
 		</div>
 	</div>

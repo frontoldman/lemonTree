@@ -14,6 +14,7 @@ var TaskSchema = new Schema({
     assigner    : { type : Schema.Types.ObjectId },
     project     : { type : Schema.Types.ObjectId },
     log         : { type : Array , default : [] },
+    link        : { type : Array , default : [] },
     progress    : { type : Number , default : 0 },
     status      : { type : Number , default : 1 },
     adder       : { type : Schema.Types.ObjectId },

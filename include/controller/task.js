@@ -218,6 +218,11 @@ function detail(req,res,next){
             next();
         });
 
+    //同时获取所有的name user or project
+    function getNamesByIds(task){
+        return Q.all([getAssigner(task),getCreater(task),getProject(task),analysisLog(task),getTasks(task)])
+    }
+
     //获取指派人
     function getAssigner(taskItem){
         var deferred = Q.defer();
@@ -263,9 +268,19 @@ function detail(req,res,next){
         return deferred.promise;
     }
 
-    //同时获取所有的name user or project
-    function getNamesByIds(task){
-        return Q.all([getAssigner(task),getCreater(task),getProject(task),analysisLog(task)])
+    //获取项目下面所有的任务
+    function getTasks(taskItem){
+        var deferred = Q.defer();
+
+        task.findTotal({project:taskItem.project})
+            .then(function(tasks){
+                taskItem.projectItems = tasks;
+                deferred.resolve(taskItem);
+            },function(){
+                deferred.reject();
+            });
+
+        return deferred.promise;
     }
 
     //解析log
