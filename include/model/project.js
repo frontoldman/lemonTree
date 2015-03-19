@@ -20,7 +20,7 @@ var ProjectSchema = new Schema({
     log         : { type : Schema.Types.Mixed , default : [] },
     createTime  : { type : Date   },
     editTime    : { type : Date   },
-    createUser  : { type : String }
+    createUser  : { type : Schema.Types.ObjectId }
 });
 
 mongoose.model('Project', ProjectSchema);

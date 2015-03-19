@@ -69,27 +69,30 @@ function list(req,res,next){
     page = page < 0 ? 0 : page;
 
     var perpage = 10;
+
+    var condition = {
+        $or:[
+            {
+                "projectMan":req.session.user._id
+            },
+            {
+                "productMan":req.session.user._id
+            },
+            {
+                "testMan":req.session.user._id
+            },
+            {
+                "publishMan":req.session.user._id
+            },
+            {
+                "members.userId":req.session.user._id
+            }
+        ]
+    }
+
     var queryQ = Q.all([
-        project.findAll({
-            $or:[
-                {
-                    "projectMan":req.session.user._id
-                },
-                {
-                    "productMan":req.session.user._id
-                },
-                {
-                    "testMan":req.session.user._id
-                },
-                {
-                    "publishMan":req.session.user._id
-                },
-                {
-                    "members.userId":req.session.user._id
-                }
-            ]
-        },page,perpage),
-        project.count({})
+        project.findAll(condition,page,perpage),
+        project.count(condition)
     ]);
 
     queryQ.done(function(dataList){
@@ -682,6 +685,6 @@ module.exports.editMembers = editMembers;
 module.exports.updateMembers = updateMembers;
 module.exports.modifyProgress = modifyProgress;
 module.exports.start = start;
-module.exports.complete = complete;
 module.exports.close = close;
 module.exports.pause = pause;
+module.exports.complete = complete;

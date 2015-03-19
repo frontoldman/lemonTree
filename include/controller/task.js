@@ -77,10 +77,14 @@ function list(req,res,next){
 
     page = page < 0 ? 0 : page;
 
+    var condition = {
+        assigner:req.session.user._id
+    };
+
     var perpage = 10;
     var queryQ = Q.all([
-        task.findAll({},page,perpage),
-        task.count({})
+        task.findAll(condition,page,perpage),
+        task.count(condition)
     ]);
 
     queryQ.then(function(data){
@@ -133,8 +137,6 @@ function list(req,res,next){
                 }
             })
         }
-
-
     },function(){
         next();
     });
@@ -200,6 +202,7 @@ function remove(req,res,next){
 function detail(req,res,next){
 
     var id = req.param('id');
+    var taskStatus = VARS.config.taskStatus;
 
     task.findOne({_id:id})
         .then(getNamesByIds)
@@ -207,6 +210,7 @@ function detail(req,res,next){
             var taskItem = data[0];
             taskItem._startTime = util.dateFormat(taskItem.startTime);
             taskItem._endTime = util.dateFormat(taskItem.endTime);
+            taskItem._status = taskStatus[taskItem.status];
             res.render('task/detail',{
                 task: taskItem
             });
@@ -347,6 +351,54 @@ function detail(req,res,next){
                 });
 
             return deferred.promise;
+        },
+        6:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 启动了任务 ' ;
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        7:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 暂停了任务 ' ;
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        8:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 终止了任务 ' ;
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
+        },
+        9:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 完成了任务 ' ;
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
         }
 
     }
@@ -464,6 +516,114 @@ function upload(req,res,next){
         });
 }
 
+function start(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.start,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log,
+                status:2
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
+function pause(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.pause,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log,
+                status:3
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
+function stop(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.stop,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log,
+                status:4
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
+function complete(req,res,next){
+    var id = req.param('id'),
+        note = req.param('note');
+
+    task.findOne({_id:id})
+        .then(function(taskItem){
+            var log = taskItem.log;
+
+            log.push({
+                operator:req.session.user._id,
+                time:new Date(),
+                operation:VARS.config.logOperation.complete,
+                note:note
+            });
+
+            task.update({
+                _id:id,
+                log:log,
+                status:5
+            }).then(function(){
+                res.redirect('/task/detail/' + id);
+            },function(){
+                next();
+            });
+        });
+}
+
 module.exports.add = add;
 module.exports.addAndSave = addAndSave;
 module.exports.list = list;
@@ -475,3 +635,7 @@ module.exports.designation = designation;
 module.exports.addLog = addLog;
 module.exports.modifyProgress = modifyProgress;
 module.exports.upload = upload;
+module.exports.start = start;
+module.exports.pause = pause;
+module.exports.stop = stop;
+module.exports.complete = complete;

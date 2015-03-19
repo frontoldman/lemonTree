@@ -13,7 +13,7 @@
 							<h3 class="panel-title"><%= project.name %>->项目详情</h3>
 						</div>
 						<div class="col-sm-8 text-right">
-							<% if(user._id == project.productMan && project.status != 4){ %>
+							<% if(user._id == project.projectMan && project.status != 4 && project.status != 5){ %>
 							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
 							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加任务</a>
 							<% if(project.status == 1 || project.status == 3){ %>
@@ -22,7 +22,7 @@
 							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
 							<a href="#" data-toggle="modal" data-target="#complete"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
 							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> 暂停</a>
-							<a href="#" data-toggle="modal" data-target="#closeProject"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 关闭</a>
+							<a href="#" data-toggle="modal" data-target="#closeProject"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 终止</a>
 							<% } %>
 							<% } %>
 
