@@ -7,6 +7,7 @@ var _ = require('lodash');
 var Q = require('Q');
 var user = require('../proxy/').user;
 var office = require('../proxy/').office;
+var project = require('../proxy/').project;
 var util = require('../util');
 
 function addUser(req, res, next) {
@@ -182,6 +183,7 @@ function logout(req, res, next) {
 function users(req, res, next) {
 
     var term = req.param('term');
+    var projectId = req.param('projectId');
 
     var termReg = new RegExp(term, 'i');
 
@@ -201,8 +203,45 @@ function users(req, res, next) {
         }, function () {
             res.json([]);
         });
+}
 
+function getProjectUsers(req,res,next){
+    var term = req.param('term');
+    var projectId = req.param('projectId');
 
+    var termReg = new RegExp(term, 'i');
+
+    Q.all([
+        user.findAll({username: termReg}),
+        project.findOne({_id:projectId})
+    ]).then(function(data){
+        var users = data[0];
+        var projectItem = data[1];
+        var _users = [];
+
+        if(projectItem){
+            var projectMembers = {};
+            projectMembers[projectItem.projectMan] = true;
+            projectMembers[projectItem.productMan] = true;
+            projectMembers[projectItem.testMan] = true;
+            projectMembers[projectItem.publishMan] = true;
+
+            projectItem.members.forEach(function(member){
+                projectMembers[member] = true;
+            });
+        }
+
+        users.forEach(function(userItem){
+            if(projectMembers[userItem._id]){
+                _users.push({
+                    id: userItem._id,
+                    value: userItem.username
+                })
+            }
+        });
+
+        res.json(_users);
+    })
 }
 
 function addGet(req, res, next) {
@@ -267,5 +306,6 @@ module.exports.login = login;
 module.exports.userList = userList;
 module.exports.logout = logout;
 module.exports.users = users;
+module.exports.getProjectUsers = getProjectUsers;
 module.exports.addGet = addGet;
 module.exports.addFresh = addFresh;

@@ -9,7 +9,7 @@
 						<div class="col-md-3"><h3 class="panel-title">任务详情</h3></div>
 						<div class="col-md-9 text-right">
 
-							<% if(task.assigner == user._id && task.status != 4){ %>
+							<% if(task.assigner == user._id && task.status != 4 && task.status != 5){ %>
 							<a href="#" data-toggle="modal" data-target="#designation"><span
 										class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> 指派</a>
 							<% if(task.status == 2){ %>
@@ -42,7 +42,7 @@
 						</tr>
 						<tr>
 							<th>所属项目:</th>
-							<td><%= task.projectName %></td>
+							<td><a href="/project/detail/<%= task.project %>"><%= task.projectName %></a></td>
 						</tr>
 						<tr>
 							<th>优先级:</th>
@@ -175,7 +175,11 @@
 						<div class="col-sm-9">
 							<select class="form-control" name="progress" id="progress">
 								<% for(var i = 0;i<=100;i+=5){ %>
+								<% if(task.progress == i){ %>
+								<option selected value="<%= i %>"><%= i %>%</option>
+								<% }else{ %>
 								<option value="<%= i %>"><%= i %>%</option>
+								<% } %>
 								<% } %>
 							</select>
 						</div>
@@ -341,7 +345,7 @@
 
 		function initAutoComplete(textId,valId){
 			$('#' + textId).autocomplete({
-				source:'/user/users',
+				source:'/user/getProjectUsers/<%= task.project %>',
 				select: function( event, ui ) {
 					$('#' + valId).val(ui.item.id);
 				}

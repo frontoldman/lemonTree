@@ -22,6 +22,7 @@ router.get('/',user.userList);
 router.get('/logout',user.logout);
 
 router.get('/users',user.users);
+router.get('/getProjectUsers/:projectId',user.getProjectUsers);
 
 router.get('/add',user.addGet);
 
