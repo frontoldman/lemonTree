@@ -86,6 +86,17 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
+					<h3 class="panel-title">被关联的任务</h3>
+				</div>
+				<div class="list-group">
+					<% task.linkTasks.forEach(function(link){ %>
+					<a href="/task/detail/<%= link._id %>" class="list-group-item"><%= link.name %></a>
+					<% }) %>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
 					<h3 class="panel-title">操作记录</h3>
 				</div>
 				<div class="panel-body">

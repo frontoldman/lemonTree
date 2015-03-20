@@ -67,6 +67,10 @@ function addAndSave(req,res,next){
 function list(req,res,next){
 
     var page = req.param('page');
+    var type = req.param('type');
+
+    type = type ? type : 1;
+
     var taskStatus = VARS.config.taskStatus;
 
     if(!page){
@@ -77,9 +81,44 @@ function list(req,res,next){
 
     page = page < 0 ? 0 : page;
 
-    var condition = {
-        assigner:req.session.user._id
-    };
+
+
+    var condition = {};
+
+    type *= 1;
+
+    switch (type){
+        case 2:
+            condition = {
+                assigner:req.session.user._id,
+                status:5
+            };
+            break;
+        case 3:
+            condition = {
+                assigner:req.session.user._id,
+                $or:[
+                    { status:{$lt:5} }
+                ]
+            };
+            break;
+        case 4:
+            condition = {
+                adder:req.session.user._id
+            };
+            break;
+        case 1:
+            condition = {
+                assigner:req.session.user._id
+            };
+            break;
+        default:
+            condition = {
+                assigner:req.session.user._id
+            };
+            break;
+
+    }
 
     var perpage = 10;
     var queryQ = Q.all([
@@ -202,6 +241,7 @@ function remove(req,res,next){
 function detail(req,res,next){
 
     var id = req.param('id');
+
     var taskStatus = VARS.config.taskStatus;
 
     task.findOne({_id:id})
@@ -220,7 +260,7 @@ function detail(req,res,next){
 
     //同时获取所有的name user or project
     function getNamesByIds(task){
-        return Q.all([getAssigner(task),getCreater(task),getProject(task),analysisLog(task),getTasks(task)])
+        return Q.all([getAssigner(task),getCreater(task),getProject(task),analysisLog(task),getTasks(task),getLinkedTask(task)])
     }
 
     //获取指派人
@@ -294,6 +334,23 @@ function detail(req,res,next){
         });
 
         return Q.all(logAry);
+    }
+
+    //解析关联任务
+    function getLinkedTask(taskItem){
+        var deferred = Q.defer();
+
+        task.findTotal({
+            link:taskItem._id
+        })
+            .then(function(tasks){
+                taskItem.linkTasks = tasks;
+                deferred.resolve(taskItem);
+            },function(){
+                deferred.reject();
+            });
+
+        return deferred.promise;
     }
 
     //解析log对应规则
