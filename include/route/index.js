@@ -4,6 +4,7 @@ var dashboard = require('./dashboard');
 var project = require('./project');
 var task = require('./task');
 var office = require('./office');
+var bug = require('./bug');
 
 module.exports = function(app){
 
@@ -16,6 +17,8 @@ module.exports = function(app){
   app.use('/task', task);
 
   app.use('/office', office);
+
+  app.use('/bug', bug);
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

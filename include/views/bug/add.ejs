@@ -1,0 +1,95 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body">
+	<div class="row">
+		<% include ../sidebar %>
+		<div class="col-md-10">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加新bug</h3>
+				</div>
+				<div class="panel-body">
+					<form role="form" method="post" action="/task/add" class="form-horizontal">
+						<fieldset>
+							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
+								<div class="col-sm-5 col-sm-offset-2 alert alert-danger" role="alert"><%= message %></div>
+							</div>
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">bug名称</label>
+								<div class="col-sm-4">
+									<input type="text" required class="form-control" name="name" id="name" placeholder="输入任务名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="level" class="col-sm-2 control-label">bug等级</label>
+								<div class="col-sm-2">
+									<select class="form-control" name="level" id="level">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="startTime" class="col-sm-2 control-label">开始时间</label>
+								<div class="col-sm-4">
+									<input type="text" required class="form-control" name="startTime" id="startTime" placeholder="输入开始时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="endTime" class="col-sm-2 control-label">结束时间</label>
+								<div class="col-sm-4">
+									<input type="text" required class="form-control" name="endTime" id="endTime" placeholder="输入结束时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="assigner" class="col-sm-2 control-label">指派人</label>
+								<div class="col-sm-4">
+									<input type="text" required class="form-control" name="assigner" id="assigner" placeholder="输入指派人">
+									<input type="hidden" required class="form-control" name="assignerId" id="assignerId">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="description" class="col-sm-2 control-label">描述</label>
+								<div class="col-sm-8">
+									<textarea id="description" required class="form-control" name="description"></textarea>
+								</div>
+							</div>
+							<div class="col-md-2 col-md-offset-5">
+								<button class="btn btn-lg btn-success btn-block">添加</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include ../script %>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script>
+	$('#startTime').datepicker({
+		showAnim: 'slideDown',
+		dateFormat: "yy-mm-dd",
+		minDate:0
+	});
+
+	$('#endTime').datepicker({
+		showAnim: 'slideDown',
+		dateFormat: "yy-mm-dd",
+		minDate:0
+	});
+
+	initAutoComplete('assigner','assignerId');
+
+	function initAutoComplete(textId,valId){
+		$('#' + textId).autocomplete({
+			source:'/user/getProjectUsers',
+			select: function( event, ui ) {
+				$('#' + valId).val(ui.item.id);
+			}
+		});
+	}
+</script>
+<% include ../footer %>
