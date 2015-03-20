@@ -414,6 +414,18 @@ function detail(req,res,next){
                 });
 
             return deferred.promise;
+        },
+        10:function(log){
+            var deferred = Q.defer();
+            var title = '';
+            user.findOne({_id:log.operator})
+                .then(function(operator){
+                    title += operator.username + ' 于 ' + util.dateFormat(log.time,'YYYY-MM-DD HH:mm') + ' 链接了任务 <a href="/task/detail/'+ log.targetId +'">'+ log.targetName +'</a>' ;
+                    log.title = title;
+                    deferred.resolve(log);
+                });
+
+            return deferred.promise;
         }
 
     }
@@ -630,7 +642,8 @@ function complete(req,res,next){
             task.update({
                 _id:id,
                 log:log,
-                status:5
+                status:5,
+                progress:100
             }).then(function(){
                 res.redirect('/task/detail/' + id);
             },function(){
@@ -641,28 +654,55 @@ function complete(req,res,next){
 
 function link(req,res,next){
     var id = req.param('id'),
+        link = req.param('link'),
         note = req.param('note');
 
-    task.findOne({_id:id})
-        .then(function(taskItem){
-            var log = taskItem.log;
-
-            log.push({
-                operator:req.session.user._id,
-                time:new Date(),
-                operation:VARS.config.logOperation.link,
-                note:note
-            });
-
-            task.update({
-                _id:id,
-                log:log
-            }).then(function(){
-                res.redirect('/task/detail/' + id);
-            },function(){
-                next();
-            });
+    Q.all([
+        task.findOne({_id:id}),
+        task.findOne({_id:link})
+    ]).then(createLinks)
+        .then(function(){
+            res.redirect('/task/detail/' + id);
+        },function(){
+            next();
         });
+
+    function createLinks(dataArray){
+        var taskItem = dataArray[0];
+        var targetTaskItem = dataArray[1];
+        return Q.all([
+            saveLink(taskItem,targetTaskItem),
+            saveLink(targetTaskItem,taskItem)
+
+        ])
+    }
+
+    function saveLink(taskItem,targetTaskItem){
+
+       // var deferred = Q.defer();
+
+        var log = taskItem.log;
+        var link = taskItem.link;
+
+        log.push({
+            operator:req.session.user._id,
+            time:new Date(),
+            operation:VARS.config.logOperation.link,
+            note:note,
+            targetName:targetTaskItem.name,
+            targetId:targetTaskItem._id
+        });
+
+        if(link.indexOf(targetTaskItem._id) === -1){
+            link.push(targetTaskItem._id);
+        }
+
+        return task.update({
+            _id:taskItem._id,
+            log:log,
+            link:link
+        })
+    }
 }
 
 module.exports.add = add;

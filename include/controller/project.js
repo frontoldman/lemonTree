@@ -602,7 +602,8 @@ function complete(req,res,next){
             project.update({
                 _id:id,
                 log:log,
-                status:5
+                status:5,
+                progress:100
             }).then(function(){
                 res.redirect('/project/detail/' + id);
             });

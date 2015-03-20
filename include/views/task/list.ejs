@@ -25,8 +25,8 @@
 					<tbody>
 					<% list.forEach(function(task){ %>
 					<tr>
-						<td>
-							<span class="level-circle"><%= task.level %></span>
+						<td class="text-center">
+							<span class="level-circle level-circle-<%= task.level %>"><%= task.level %></span>
 						</td>
 						<td><a href="/project/detail/<%= task._project._id %>"><%= task._project.name %></a></td>
 						<td><a href="/task/detail/<%= task._id %>"><%= task.name %></a></td>

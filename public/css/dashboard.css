@@ -27,3 +27,29 @@
 .create-line{
     margin: 10px;
 }
+.level-circle{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 16px;
+    border:2px solid #ddd;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.level-circle-1{
+    border-color: #CE3506;
+    color: #CE3506;
+}
+.level-circle-2{
+    border-color: #A606CE;
+    color: #A606CE;
+}
+.level-circle-3{
+    border-color: #0CCE06;
+    color: #0CCE06;
+}
+.level-circle-4{
+    border-color: #056EB6;
+    color: #056EB6;
+}
