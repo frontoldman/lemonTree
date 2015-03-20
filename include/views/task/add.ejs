@@ -11,17 +11,25 @@
 					<form role="form" method="post" action="/task/add" class="form-horizontal">
 						<input type="hidden" name="id" value="<%= id %>"/>
 						<fieldset>
-							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
-								<div class="col-sm-5 col-sm-offset-2 alert alert-danger" role="alert"><%= message %></div>
+							<div class="form-group"
+									<% if(!message){ %>
+                                 style="display: none;"
+									<% } %>
+									>
+								<div class="col-sm-5 col-sm-offset-2 alert alert-danger"
+								     role="alert"><%= message %></div>
 							</div>
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">任务名称</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="name" id="name" placeholder="输入任务名称">
+									<input type="text" required class="form-control" name="name" id="name"
+									       placeholder="输入任务名称">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="level" class="col-sm-2 control-label">任务等级</label>
+
 								<div class="col-sm-4">
 									<select class="form-control" name="level" id="level">
 										<option>1</option>
@@ -33,27 +41,36 @@
 							</div>
 							<div class="form-group">
 								<label for="startTime" class="col-sm-2 control-label">开始时间</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="startTime" id="startTime" placeholder="输入开始时间">
+									<input type="text" required class="form-control" name="startTime" id="startTime"
+									       placeholder="输入开始时间">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="endTime" class="col-sm-2 control-label">结束时间</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="endTime" id="endTime" placeholder="输入结束时间">
+									<input type="text" required class="form-control" name="endTime" id="endTime"
+									       placeholder="输入结束时间">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="assigner" class="col-sm-2 control-label">指派人</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="assigner" id="assigner" placeholder="输入指派人">
-									<input type="hidden" required class="form-control" name="assignerId" id="assignerId">
+									<input type="text" required class="form-control" name="assigner" id="assigner"
+									       placeholder="输入指派人">
+									<input type="hidden" required class="form-control" name="assignerId"
+									       id="assignerId">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="description" class="col-sm-2 control-label">描述</label>
+
 								<div class="col-sm-8">
-									<textarea id="description" required class="form-control" name="description"></textarea>
+									<textarea id="description" required class="form-control"
+									          name="description"></textarea>
 								</div>
 							</div>
 							<div class="col-md-2 col-md-offset-5">
@@ -73,21 +90,21 @@
 	$('#startTime').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 
 	$('#endTime').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 
-	initAutoComplete('assigner','assignerId');
+	initAutoComplete('assigner', 'assignerId');
 
-	function initAutoComplete(textId,valId){
+	function initAutoComplete(textId, valId) {
 		$('#' + textId).autocomplete({
-			source:'/user/getProjectUsers/<%= id %>',
-			select: function( event, ui ) {
+			source: '/user/getProjectUsers/<%= id %>',
+			select: function (event, ui) {
 				$('#' + valId).val(ui.item.id);
 			}
 		});

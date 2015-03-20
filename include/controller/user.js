@@ -142,13 +142,13 @@ function userList(req, res) {
             user._loginTime = util.dateFormat(user.loginTime);
             user._registerTime = util.dateFormat(user.registerTime);
 
-            queryAry.push(office.findOne({_id:user.office}));
+            queryAry.push(office.findOne({_id: user.office}));
         });
 
         Q.all(queryAry)
-            .then(function(officeList){
+            .then(function (officeList) {
 
-                officeList.forEach(function(office,index){
+                officeList.forEach(function (office, index) {
                     userList[index]._office = office.name;
                 });
 
@@ -205,7 +205,7 @@ function users(req, res, next) {
         });
 }
 
-function getProjectUsers(req,res,next){
+function getProjectUsers(req, res, next) {
     var term = req.param('term');
     var projectId = req.param('projectId');
 
@@ -213,26 +213,26 @@ function getProjectUsers(req,res,next){
 
     Q.all([
         user.findAll({username: termReg}),
-        project.findOne({_id:projectId})
-    ]).then(function(data){
+        project.findOne({_id: projectId})
+    ]).then(function (data) {
         var users = data[0];
         var projectItem = data[1];
         var _users = [];
 
-        if(projectItem){
+        if (projectItem) {
             var projectMembers = {};
             projectMembers[projectItem.projectMan] = true;
             projectMembers[projectItem.productMan] = true;
             projectMembers[projectItem.testMan] = true;
             projectMembers[projectItem.publishMan] = true;
 
-            projectItem.members.forEach(function(member){
+            projectItem.members.forEach(function (member) {
                 projectMembers[member.userId] = true;
             });
         }
 
-        users.forEach(function(userItem){
-            if(projectMembers[userItem._id]){
+        users.forEach(function (userItem) {
+            if (projectMembers[userItem._id]) {
                 _users.push({
                     id: userItem._id,
                     value: userItem.username
@@ -250,11 +250,11 @@ function addGet(req, res, next) {
     req.session.message = null;
 
     office.findAll()
-        .then(function(officeList){
-            res.render('user/add',{
-                officeList : officeList,
-                levels : VARS.config.premission,
-                message : message
+        .then(function (officeList) {
+            res.render('user/add', {
+                officeList: officeList,
+                levels: VARS.config.premission,
+                message: message
             });
         });
 }
@@ -289,7 +289,7 @@ function addFresh(req, res, next) {
             username: username,
             sex: 1,
             office: office,
-            level:level,
+            level: level,
             registerTime: new Date()
         });
 

@@ -5,36 +5,36 @@ var Q = require('q');
 var Project = require('../model/').Project;
 
 //新增一个项目
-function addOne(params){
+function addOne(params) {
     return Project.create(params)
 }
 
-function findAll(options,start,limit){
+function findAll(options, start, limit) {
     var deferred = Q.defer();
 
     var query = Project.where(options)
-        .skip(start*limit)
+        .skip(start * limit)
         .limit(limit)
         .exec();
 
-    query.then(function(projects){
+    query.then(function (projects) {
         deferred.resolve(projects);
-    },function(){
+    }, function () {
         deferred.reject();
     });
 
     return deferred.promise;
 }
 
-function findByWhere(){
+function findByWhere() {
 
 }
 
-function count(options){
+function count(options) {
     var deferred = Q.defer();
 
-    Project.where(options).count(function(err,count){
-        if(err){
+    Project.where(options).count(function (err, count) {
+        if (err) {
             deferred.reject();
             return;
         }
@@ -45,13 +45,13 @@ function count(options){
 }
 
 
-function findOne(options){
+function findOne(options) {
     var deferred = Q.defer();
 
-    Project.findOne(options,function(err,project){
-        if(err){
+    Project.findOne(options, function (err, project) {
+        if (err) {
             deferred.reject(err);
-        }else{
+        } else {
             deferred.resolve(project);
         }
     });
@@ -59,14 +59,14 @@ function findOne(options){
     return deferred.promise;
 }
 
-function update(options){
+function update(options) {
     var deferred = Q.defer();
 
-    Project.where({ _id: options._id }).update(options,function(err,project){
+    Project.where({_id: options._id}).update(options, function (err, project) {
         //console.log(project)
-        if(err){
+        if (err) {
             deferred.reject();
-        }else{
+        } else {
             deferred.resolve(project);
         }
     });
@@ -74,15 +74,15 @@ function update(options){
     return deferred.promise;
 }
 
-function remove(options){
+function remove(options) {
     var deferred = Q.defer();
 
-    Project.remove(options, function(err,projectItem){
-       if(err){
-           deferred.reject();
-       }else{
+    Project.remove(options, function (err, projectItem) {
+        if (err) {
+            deferred.reject();
+        } else {
             deferred.resolve(projectItem);
-       }
+        }
     });
 
     return deferred.promise;

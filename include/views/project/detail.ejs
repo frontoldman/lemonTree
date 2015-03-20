@@ -14,19 +14,27 @@
 						</div>
 						<div class="col-sm-8 text-right">
 							<% if(user._id == project.projectMan && project.status != 4 && project.status != 5){ %>
-							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
-							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加任务</a>
+							<a href="/project/edit/<%= project._id %>"><span class="glyphicon glyphicon-edit"
+							                                                 aria-hidden="true"></span> 编辑</a>
+							<a href="/task/add/<%= project._id %>"><span class="glyphicon glyphicon-plus"
+							                                             aria-hidden="true"></span> 添加任务</a>
 							<% if(project.status == 1 || project.status == 3){ %>
-							<a href="#" data-toggle="modal" data-target="#start"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> 启动</a>
+							<a href="#" data-toggle="modal" data-target="#start"><span class="glyphicon glyphicon-play"
+							                                                           aria-hidden="true"></span> 启动</a>
 							<% }else{ %>
-							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
-							<a href="#" data-toggle="modal" data-target="#complete"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
-							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> 暂停</a>
-							<a href="#" data-toggle="modal" data-target="#closeProject"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 终止</a>
+							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span
+										class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
+							<a href="#" data-toggle="modal" data-target="#complete"><span
+										class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
+							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause"
+							                                                           aria-hidden="true"></span> 暂停</a>
+							<a href="#" data-toggle="modal" data-target="#closeProject"><span
+										class="glyphicon glyphicon-off" aria-hidden="true"></span> 终止</a>
 							<% } %>
 							<% } %>
 
-							<a href="/project/members/<%= project._id %>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 团队成员</a>
+							<a href="/project/members/<%= project._id %>"><span class="glyphicon glyphicon-user"
+							                                                    aria-hidden="true"></span> 团队成员</a>
 						</div>
 					</div>
 				</div>
@@ -92,7 +100,9 @@
 					<% project.log.forEach(function(logItem){ %>
 					<dl>
 						<dt><%- logItem.title %></dt>
-						<dd><pre><%= logItem.note %></pre></dd>
+						<dd>
+							<pre><%= logItem.note %></pre>
+						</dd>
 					</dl>
 					<% }) %>
 				</div>
@@ -110,23 +120,26 @@
 				<h4 class="modal-title">修改进度</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="progressForm" method="post" action="/project/progress/<%= project._id %>">
+				<form class="form-horizontal" id="progressForm" method="post"
+				      action="/project/progress/<%= project._id %>">
 					<div class="form-group">
 						<label for="progress" class="col-sm-3 control-label">修改进度</label>
+
 						<div class="col-sm-9">
 							<select class="form-control" name="progress" id="progress">
-								<% for(var i = 0;i<=100;i+=5){ %>
-									<% if(project.progress == i){ %>
-									<option selected value="<%= i %>"><%= i %>%</option>
-									<% }else{ %>
-									<option value="<%= i %>"><%= i %>%</option>
-									<% } %>
+								<% for(var i = 0;i <= 100;i += 5){ %>
+								<% if(project.progress == i){ %>
+								<option selected value="<%= i %>"><%= i %>%</option>
+								<% }else{ %>
+								<option value="<%= i %>"><%= i %>%</option>
+								<% } %>
 								<% } %>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -150,9 +163,11 @@
 				<h4 class="modal-title">完成项目</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="completeForm" method="post" action="/project/complete/<%= project._id %>">
+				<form class="form-horizontal" id="completeForm" method="post"
+				      action="/project/complete/<%= project._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -179,6 +194,7 @@
 				<form class="form-horizontal" id="startForm" method="post" action="/project/start/<%= project._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -205,6 +221,7 @@
 				<form class="form-horizontal" id="closeForm" method="post" action="/project/close/<%= project._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -231,6 +248,7 @@
 				<form class="form-horizontal" id="pauseForm" method="post" action="/project/pause/<%= project._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>

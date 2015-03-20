@@ -14,62 +14,88 @@
 					<form role="form" method="post" action="/project/edit" class="form-horizontal">
 						<fieldset>
 							<input type="hidden" name="id" value="<%= project._id %>"/>
+
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">项目名称</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" value="<%= project.name %>" name="name" id="name" placeholder="输入项目名称">
+									<input type="text" required class="form-control" value="<%= project.name %>"
+									       name="name" id="name" placeholder="输入项目名称">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="code_number" class="col-sm-2 control-label">项目代号</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="code" value="<%= project.code %>" id="code_number" placeholder="输入项目代号">
+									<input type="text" required class="form-control" name="code"
+									       value="<%= project.code %>" id="code_number" placeholder="输入项目代号">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="start_time" class="col-sm-2 control-label">开始日期</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="startTime" value="<%= project._startTime %>" id="start_time" placeholder="开始日期">
+									<input type="text" required class="form-control" name="startTime"
+									       value="<%= project._startTime %>" id="start_time" placeholder="开始日期">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="end_time" class="col-sm-2 control-label">结束日期</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="endTime" value="<%= project._endTime %>" id="end_time" placeholder="结束日期">
+									<input type="text" required class="form-control" name="endTime"
+									       value="<%= project._endTime %>" id="end_time" placeholder="结束日期">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="project_man" class="col-sm-2 control-label">项目负责人</label>
+
 								<div class="col-sm-4">
-									<input type="hidden" required id="project_man_id" name="projectManId" value="<%= projectMan._id %>"/>
-									<input type="text" required class="form-control" name="projectMan" value="<%= projectMan.username || '' %>" id="project_man" placeholder="项目负责人">
+									<input type="hidden" required id="project_man_id" name="projectManId"
+									       value="<%= projectMan._id %>"/>
+									<input type="text" required class="form-control" name="projectMan"
+									       value="<%= projectMan.username || '' %>" id="project_man"
+									       placeholder="项目负责人">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="product_man" class="col-sm-2 control-label">产品负责人</label>
+
 								<div class="col-sm-4">
-									<input type="hidden" required id="product_man_id" name="productManId" value="<%= productMan._id %>"/>
-									<input type="text" required class="form-control" name="productMan" value="<%= productMan.username || '' %>" id="product_man" placeholder="产品负责人">
+									<input type="hidden" required id="product_man_id" name="productManId"
+									       value="<%= productMan._id %>"/>
+									<input type="text" required class="form-control" name="productMan"
+									       value="<%= productMan.username || '' %>" id="product_man"
+									       placeholder="产品负责人">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="test_man" class="col-sm-2 control-label">测试负责人</label>
+
 								<div class="col-sm-4">
-									<input type="hidden" required id="test_man_id" name="testManId" value="<%= testMan._id %>"/>
-									<input type="text" required class="form-control" name="testMan" value="<%= testMan.username || '' %>" id="test_man" placeholder="测试负责人">
+									<input type="hidden" required id="test_man_id" name="testManId"
+									       value="<%= testMan._id %>"/>
+									<input type="text" required class="form-control" name="testMan"
+									       value="<%= testMan.username || '' %>" id="test_man" placeholder="测试负责人">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="publish_man" class="col-sm-2 control-label">发布负责人</label>
+
 								<div class="col-sm-4">
-									<input type="hidden" required id="publish_man_id" name="publishManId" value="<%= publishMan._id %>"/>
-									<input type="text" required class="form-control" name="publishMan" value="<%= publishMan.username || '' %>" id="publish_man" placeholder="发布负责人">
+									<input type="hidden" required id="publish_man_id" name="publishManId"
+									       value="<%= publishMan._id %>"/>
+									<input type="text" required class="form-control" name="publishMan"
+									       value="<%= publishMan.username || '' %>" id="publish_man"
+									       placeholder="发布负责人">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="description" class="col-sm-2 control-label">项目描述</label>
+
 								<div class="col-sm-8">
-									<textarea class="form-control" required name="description" id="description" placeholder="项目描述"><%= project.description %></textarea>
+									<textarea class="form-control" required name="description" id="description"
+									          placeholder="项目描述"><%= project.description %></textarea>
 								</div>
 							</div>
 							<div class="col-md-2 col-md-offset-5">
@@ -92,24 +118,24 @@
 	$('#start_time').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 
 	$('#end_time').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 
-	initAutoComplete('project_man','project_man_id');
-	initAutoComplete('product_man','product_man_id');
-	initAutoComplete('test_man'   ,'test_man_id'   );
-	initAutoComplete('publish_man','publish_man_id');
+	initAutoComplete('project_man', 'project_man_id');
+	initAutoComplete('product_man', 'product_man_id');
+	initAutoComplete('test_man', 'test_man_id');
+	initAutoComplete('publish_man', 'publish_man_id');
 
-	function initAutoComplete(textId,valId){
+	function initAutoComplete(textId, valId) {
 		$('#' + textId).autocomplete({
-			source:'/user/users',
-			select: function( event, ui ) {
+			source: '/user/users',
+			select: function (event, ui) {
 				$('#' + valId).val(ui.item.id);
 			}
 		});

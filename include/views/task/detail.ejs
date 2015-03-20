@@ -13,23 +13,33 @@
 							<a href="#" data-toggle="modal" data-target="#designation"><span
 										class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> 指派</a>
 							<% if(task.status == 2){ %>
-							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
-							<a href="#" data-toggle="modal" data-target="#complete"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
+							<a href="#" data-toggle="modal" data-target="#modifyProgress"><span
+										class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> 修改进度</a>
+							<a href="#" data-toggle="modal" data-target="#complete"><span
+										class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 完成</a>
 							<% } %>
-							<a href="#" data-toggle="modal" data-target="#upload"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传附件</a>
-							<a href="#" data-toggle="modal" data-target="#addLog"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
+							<a href="#" data-toggle="modal" data-target="#upload"><span
+										class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传附件</a>
+							<a href="#" data-toggle="modal" data-target="#addLog"><span
+										class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
 							<% } %>
 
 							<% if(task.adder == user._id && task.status != 4){ %>
 							<% if(task.status == 1 || task.status == 3 || task.status == 5){ %>
-							<a href="#" data-toggle="modal" data-target="#start"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> 启动</a>
+							<a href="#" data-toggle="modal" data-target="#start"><span class="glyphicon glyphicon-play"
+							                                                           aria-hidden="true"></span> 启动</a>
 							<% }else{ %>
-							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> 暂停</a>
-							<a href="#" data-toggle="modal" data-target="#stop"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 终止</a>
+							<a href="#" data-toggle="modal" data-target="#pause"><span class="glyphicon glyphicon-pause"
+							                                                           aria-hidden="true"></span> 暂停</a>
+							<a href="#" data-toggle="modal" data-target="#stop"><span class="glyphicon glyphicon-off"
+							                                                          aria-hidden="true"></span> 终止</a>
 							<% } %>
-							<a href="#" data-toggle="modal" data-target="#addLog"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
-							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
-							<a href="#" data-toggle="modal" data-target="#link"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> 关联任务</a>
+							<a href="#" data-toggle="modal" data-target="#addLog"><span
+										class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 备注</a>
+							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-edit"
+							                                           aria-hidden="true"></span> 编辑</a>
+							<a href="#" data-toggle="modal" data-target="#link"><span
+										class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> 关联任务</a>
 							<% } %>
 						</div>
 					</div>
@@ -103,7 +113,9 @@
 					<% task.log.forEach(function(logItem){ %>
 					<dl>
 						<dt><%- logItem.title %></dt>
-						<dd><pre><%= logItem.note %></pre></dd>
+						<dd>
+							<pre><%= logItem.note %></pre>
+						</dd>
 					</dl>
 					<% }) %>
 				</div>
@@ -124,6 +136,7 @@
 				<form class="form-horizontal" id="desForm" method="post" action="/task/designation/<%= task._id %>">
 					<div class="form-group">
 						<label for="desPerson" class="col-sm-3 control-label">选择指派人</label>
+
 						<div class="col-sm-9">
 							<input type="text" name="username" class="form-control" id="desPerson" placeholder="选择指派人">
 							<input type="hidden" name="userId" id="desPersonId">
@@ -131,6 +144,7 @@
 					</div>
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -157,6 +171,7 @@
 				<form class="form-horizontal" id="logForm" method="post" action="/task/log/<%= task._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -183,9 +198,10 @@
 				<form class="form-horizontal" id="progressForm" method="post" action="/task/progress/<%= task._id %>">
 					<div class="form-group">
 						<label for="progress" class="col-sm-3 control-label">修改进度</label>
+
 						<div class="col-sm-4">
 							<select class="form-control" name="progress" id="progress">
-								<% for(var i = 0;i<=100;i+=5){ %>
+								<% for(var i = 0;i <= 100;i += 5){ %>
 								<% if(task.progress == i){ %>
 								<option selected value="<%= i %>"><%= i %>%</option>
 								<% }else{ %>
@@ -197,6 +213,7 @@
 					</div>
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -220,15 +237,18 @@
 				<h4 class="modal-title">上传附件</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" method="post" action="/task/upload/<%= task._id %>">
+				<form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" method="post"
+				      action="/task/upload/<%= task._id %>">
 					<div class="form-group">
 						<label for="up_text" class="col-sm-3 control-label">添加附件</label>
+
 						<div class="col-sm-9">
 							<input type="file" name="appendix" class="form-control" id="up_text"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -255,6 +275,7 @@
 				<form class="form-horizontal" id="startForm" method="post" action="/task/start/<%= task._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -281,6 +302,7 @@
 				<form class="form-horizontal" id="pauseForm" method="post" action="/task/pause/<%= task._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -307,6 +329,7 @@
 				<form class="form-horizontal" id="stopForm" method="post" action="/task/stop/<%= task._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -333,6 +356,7 @@
 				<form class="form-horizontal" id="completeForm" method="post" action="/task/complete/<%= task._id %>">
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -359,18 +383,20 @@
 				<form class="form-horizontal" id="linkForm" method="post" action="/task/link/<%= task._id %>">
 					<div class="form-group">
 						<label for="linkTask" class="col-sm-3 control-label">选择关联任务</label>
+
 						<div class="col-sm-4">
-							 <select class="form-control" name="link">
-								 <% task.projectItems.forEach(function(taskItem){ %>
-								 <% if(taskItem._id+'' !== task._id+''){ %>
-								 <option value="<%= taskItem._id %>"><%= taskItem.name %></option>
-								 <% } %>
-								 <% }) %>
-							 </select>
+							<select class="form-control" name="link">
+								<% task.projectItems.forEach(function(taskItem){ %>
+								<% if(taskItem._id + '' !== task._id + ''){ %>
+								<option value="<%= taskItem._id %>"><%= taskItem.name %></option>
+								<% } %>
+								<% }) %>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="note" class="col-sm-3 control-label">添加备注</label>
+
 						<div class="col-sm-9">
 							<textarea id="note" name="note" class="form-control"></textarea>
 						</div>
@@ -390,12 +416,12 @@
 <script>
 	$(function () {
 
-		initAutoComplete('desPerson','desPersonId');
+		initAutoComplete('desPerson', 'desPersonId');
 
-		function initAutoComplete(textId,valId){
+		function initAutoComplete(textId, valId) {
 			$('#' + textId).autocomplete({
-				source:'/user/getProjectUsers/<%= task.project %>',
-				select: function( event, ui ) {
+				source: '/user/getProjectUsers/<%= task.project %>',
+				select: function (event, ui) {
 					$('#' + valId).val(ui.item.id);
 				}
 			});

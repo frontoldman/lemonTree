@@ -14,7 +14,7 @@
 					<tr>
 						<th>项目名称</th>
 						<th><a href="#">开始日期 </a></th>
-						<th><a href="#">结束日期 </a> </th>
+						<th><a href="#">结束日期 </a></th>
 						<th><a href="#">状态 </a></th>
 						<th><a href="#">进度 </a></th>
 						<th>操作</th>
@@ -28,16 +28,16 @@
 						<td><%= item._endTime %></td>
 						<% if(item.status == 1){ %>
 						<td class="text-muted">
-						<% }else if(item.status == 2){ %>
+							<% }else if(item.status == 2){ %>
 						<td class="text-danger">
-						<% }else if(item.status == 3){ %>
+							<% }else if(item.status == 3){ %>
 						<td class="text-warning">
-						<% }else if(item.status == 4){ %>
+							<% }else if(item.status == 4){ %>
 						<td class="text-danger">
 							<% }else if(item.status == 5){ %>
 						<td class="text-success">
-						<% } %>
-						<%= item._status %></td>
+							<% } %>
+							<%= item._status %></td>
 						<td width="200">
 							<div class="progress-content">
 								<div style="width: <%= item.progress %>%" class="progress-in"></div>
@@ -45,8 +45,10 @@
 						</td>
 						<td>
 							<% if(user._id == item.projectMan){ %>
-							<a href="/project/edit/<%= item._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-							<a href="/project/delete/<%= item._id %>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+							<a href="/project/edit/<%= item._id %>"><span class="glyphicon glyphicon-edit"
+							                                              aria-hidden="true"></span></a>
+							<a href="/project/delete/<%= item._id %>"><span class="glyphicon glyphicon-trash"
+							                                                aria-hidden="true"></span></a>
 							<% } %>
 						</td>
 					</tr>

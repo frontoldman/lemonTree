@@ -5,19 +5,19 @@ var Q = require('q');
 var User = require('../model/').User;
 
 //新增一个用户
-function addOne(params){
+function addOne(params) {
     return User.create(params);
 }
 
 //查找单个用户
-function findOne(options){
+function findOne(options) {
     var deferred = Q.defer();
 
     var queryQ = User.findOne(options).exec();
 
-    queryQ.then(function(userItem){
+    queryQ.then(function (userItem) {
         deferred.resolve(userItem);
-    },function(){
+    }, function () {
         deferred.resolve({});
     });
 
@@ -25,18 +25,18 @@ function findOne(options){
 }
 
 //查找所有用户
-function findAll(options,start,limit){
+function findAll(options, start, limit) {
     return User.find(options)
-        .skip(start*limit)
+        .skip(start * limit)
         .limit(limit)
         .exec();
 }
 
-function count(options){
+function count(options) {
     var deferred = Q.defer();
 
-    User.where(options).count(function(err,count){
-        if(err){
+    User.where(options).count(function (err, count) {
+        if (err) {
             deferred.reject();
             return;
         }

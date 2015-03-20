@@ -1,31 +1,31 @@
-<% if(pages.total>1){ %>
+<% if(pages.total > 1){ %>
 <nav>
 	<div class="text-center">
 		<ul class="pagination">
 			<% if(pages.current <= 0){ %>
-				<li class="disabled">
-					<a href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
+			<li class="disabled">
+				<a href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
 			<% }else{ %>
-				<li>
-					<a href="<%= pages.link %>?page=<%= pages.current %>" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
+			<li>
+				<a href="<%= pages.link %>?page=<%= pages.current %>" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
 			<% } %>
 
-			<% for(var i = 0;i<pages.total;i++){ %>
-				<% if(i == pages.current){ %>
-					<li class="active">
+			<% for(var i = 0;i < pages.total;i++){ %>
+			<% if(i == pages.current){ %>
+			<li class="active">
 				<% }else{ %>
-					<li>
+			<li>
 				<% } %>
 
-				<a href="<%= pages.link %>?page=<%= i+1 %>"><%= i+1 %></a></li>
+				<a href="<%= pages.link %>?page=<%= i + 1 %>"><%= i + 1 %></a></li>
 			<% } %>
-			<% if(pages.current+1 >= pages.total){ %>
+			<% if(pages.current + 1 >= pages.total){ %>
 
 			<li class="disabled">
 				<a href="#" aria-label="Next">
@@ -36,7 +36,7 @@
 			<% }else{ %>
 
 			<li>
-				<a href="<%= pages.link %>?page=<%= pages.current+2 %>" aria-label="Next">
+				<a href="<%= pages.link %>?page=<%= pages.current + 2 %>" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>

@@ -1,4 +1,3 @@
-
 var user = require('./user');
 var dashboard = require('./dashboard');
 var project = require('./project');
@@ -6,49 +5,49 @@ var task = require('./task');
 var office = require('./office');
 var bug = require('./bug');
 
-module.exports = function(app){
+module.exports = function (app) {
 
-  app.use('/dashboard',dashboard);
+    app.use('/dashboard', dashboard);
 
-  app.use('/user', user);
+    app.use('/user', user);
 
-  app.use('/project', project);
+    app.use('/project', project);
 
-  app.use('/task', task);
+    app.use('/task', task);
 
-  app.use('/office', office);
+    app.use('/office', office);
 
-  app.use('/bug', bug);
+    app.use('/bug', bug);
 
-  // catch 404 and forward to error handler
-  app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-  });
+    // catch 404 and forward to error handler
+    app.use(function (req, res, next) {
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    });
 
-  // error handlers
+    // error handlers
 
-  // development error handler
-  // will print stacktrace
-  if (app.get('env') === 'development') {
+    // development error handler
+    // will print stacktrace
+    if (app.get('env') === 'development') {
+        app.use(function (err, req, res, next) {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        });
+    }
+
+    // production error handler
+    // no stacktraces leaked to user
     app.use(function (err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: err
-      });
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
     });
-  }
-
-  // production error handler
-  // no stacktraces leaked to user
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {}
-    });
-  });
 
 };

@@ -5,10 +5,11 @@
 		<div class="col-md-10">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">添加新bug</h3>
+					<h3 class="panel-title">修改bug</h3>
 				</div>
 				<div class="panel-body">
-					<form role="form" method="post" action="/bug/add" class="form-horizontal">
+					<form role="form" method="post" action="/bug/edit" class="form-horizontal">
+						<input type="hidden" name="id" value="<%= bug._id %>"/>
 						<fieldset>
 							<div class="form-group"
 									<% if(!message){ %>
@@ -22,7 +23,8 @@
 								<label for="name" class="col-sm-2 control-label">bug名称</label>
 
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="name" id="name"
+									<input type="text" required value="<%= bug.name %>" class="form-control" name="name"
+									       id="name"
 									       placeholder="输入bug名称">
 								</div>
 							</div>
@@ -31,10 +33,13 @@
 
 								<div class="col-sm-2">
 									<select class="form-control" name="level" id="level">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
+										<% for(var i = 0;i < 4;i++){ %>
+										<% if(i == bug.level){ %>
+										<option selected value="<%= i %>"><%= i %></option>
+										<% }else{ %>
+										<option value="<%= i %>"><%= i %></option>
+										<% } %>
+										<% } %>
 									</select>
 								</div>
 							</div>
@@ -44,7 +49,11 @@
 								<div class="col-sm-2">
 									<select class="form-control" name="type" id="type">
 										<% for(var type in bugType){ %>
+										<% if(type == bug.type){ %>
+										<option selected value="<%= type %>"><%= bugType[type] %></option>
+										<% }else{ %>
 										<option value="<%= type %>"><%= bugType[type] %></option>
+										<% } %>
 										<% } %>
 									</select>
 								</div>
@@ -53,9 +62,9 @@
 								<label for="assigner" class="col-sm-2 control-label">指派人</label>
 
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="assigner" id="assigner"
+									<input type="text" required class="form-control" value="<%= bug._assigner.username %>" name="assigner" id="assigner"
 									       placeholder="输入指派人">
-									<input type="hidden" required class="form-control" name="assignerId"
+									<input type="hidden" required class="form-control" value="<%= bug._assigner._id %>" name="assignerId"
 									       id="assignerId">
 								</div>
 							</div>
@@ -64,11 +73,11 @@
 
 								<div class="col-sm-8">
 									<textarea id="description" required class="form-control"
-									          name="description"></textarea>
+									          name="description"><%= bug.description %></textarea>
 								</div>
 							</div>
 							<div class="col-md-2 col-md-offset-5">
-								<button class="btn btn-lg btn-success btn-block">添加</button>
+								<button class="btn btn-lg btn-success btn-block">保存修改</button>
 							</div>
 						</fieldset>
 					</form>

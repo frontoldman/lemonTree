@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var OfficeSchema = new Schema({
-    name  : { type : String }
+    name: {type: String}
 });
 
 mongoose.model('Office', OfficeSchema);

@@ -10,13 +10,13 @@ var routesList = [
     /^\/(user)/
 ];
 
-function routeStatus(req,res,next){
+function routeStatus(req, res, next) {
     res.locals.routes = {};
     var url = req.url;
 
-    routesList.forEach(function(route){
+    routesList.forEach(function (route) {
         var result = route.exec(url);
-        if(Array.isArray(result) && result.length >= 2){
+        if (Array.isArray(result) && result.length >= 2) {
             res.locals.routes[result[1]] = true;
         }
     });

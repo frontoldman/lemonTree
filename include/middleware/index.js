@@ -9,7 +9,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var multer  = require('multer')
+var multer = require('multer')
 
 var auth = require('./auth');
 var routes = require('./routes');
@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.use(logger('dev'));
     app.use(multer({
         dest: path.join(VARS.DOCUMENT_ROOT, 'uploads'),
-        rename:function(filedname,filename){
+        rename: function (filedname, filename) {
             return filename + '-' + moment().format("YYYY-MM-DD HH:mm");
         }
     }));
@@ -44,8 +44,8 @@ module.exports = function (app) {
 
     //检查登陆状态
     app.use(auth.checkLogin);
-    app.get('/user/login',auth.loginAuth);
-    app.get('/user/register',auth.loginAuth);
+    app.get('/user/login', auth.loginAuth);
+    app.get('/user/register', auth.loginAuth);
 
 
 };

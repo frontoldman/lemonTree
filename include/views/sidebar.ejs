@@ -1,12 +1,18 @@
 <div class="col-md-2">
 	<div class="list-group">
-		<a href="/dashboard/" class="list-group-item <% if(routes.dashboard){ %>active<% } %>"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 首页</a>
-		<a href="/project/" class="list-group-item <% if(routes.project){ %>active<% } %>"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 项目</a>
-		<a href="/task/" class="list-group-item <% if(routes.task){ %>active<% } %>"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> 任务</a>
-		<a href="/bug/" class="list-group-item  <% if(routes.bug){ %>active<% } %>"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> bug</a>
+		<a href="/dashboard/" class="list-group-item <% if(routes.dashboard){ %>active<% } %>"><span
+					class="glyphicon glyphicon-home" aria-hidden="true"></span> 首页</a>
+		<a href="/project/" class="list-group-item <% if(routes.project){ %>active<% } %>"><span
+					class="glyphicon glyphicon-list" aria-hidden="true"></span> 项目</a>
+		<a href="/task/" class="list-group-item <% if(routes.task){ %>active<% } %>"><span
+					class="glyphicon glyphicon-th" aria-hidden="true"></span> 任务</a>
+		<a href="/bug/" class="list-group-item  <% if(routes.bug){ %>active<% } %>"><span
+					class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> bug</a>
 		<% if(user.level == 0){ %>
-			<a href="/office/" class="list-group-item  <% if(routes.office){ %>active<% } %>"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span> 职位</a>
-			<a href="/user/" class="list-group-item  <% if(routes.user){ %>active<% } %>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户</a>
+		<a href="/office/" class="list-group-item  <% if(routes.office){ %>active<% } %>"><span
+					class="glyphicon glyphicon-leaf" aria-hidden="true"></span> 职位</a>
+		<a href="/user/" class="list-group-item  <% if(routes.user){ %>active<% } %>"><span
+					class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户</a>
 		<% } %>
 	</div>
 </div>

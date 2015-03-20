@@ -10,37 +10,52 @@
 				<div class="panel-body">
 					<form role="form" method="post" action="add" class="form-horizontal">
 						<fieldset>
-							<div class="form-group" <% if(!message){ %> style="display: none;" <% } %> >
-								<div class="col-sm-5 col-sm-offset-2 alert alert-danger" role="alert"><%= message %></div>
+							<div class="form-group"
+									<% if(!message){ %>
+                                 style="display: none;"
+									<% } %>
+									>
+								<div class="col-sm-5 col-sm-offset-2 alert alert-danger"
+								     role="alert"><%= message %></div>
 							</div>
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">项目名称</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="name" id="name" placeholder="输入项目名称">
+									<input type="text" required class="form-control" name="name" id="name"
+									       placeholder="输入项目名称">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="code_number" class="col-sm-2 control-label">项目代号</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="code" id="code_number" placeholder="输入项目代号">
+									<input type="text" required class="form-control" name="code" id="code_number"
+									       placeholder="输入项目代号">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="start_time" class="col-sm-2 control-label">开始日期</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="startTime" id="start_time" placeholder="开始日期">
+									<input type="text" required class="form-control" name="startTime" id="start_time"
+									       placeholder="开始日期">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="end_time" class="col-sm-2 control-label">结束日期</label>
+
 								<div class="col-sm-4">
-									<input type="text" required class="form-control" name="endTime" id="end_time" placeholder="结束日期">
+									<input type="text" required class="form-control" name="endTime" id="end_time"
+									       placeholder="结束日期">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="description" class="col-sm-2 control-label">项目描述</label>
+
 								<div class="col-sm-8">
-									<textarea class="form-control" required name="description" id="description" placeholder="项目描述"></textarea>
+									<textarea class="form-control" required name="description" id="description"
+									          placeholder="项目描述"></textarea>
 								</div>
 							</div>
 							<div class="col-md-2 col-md-offset-5">
@@ -60,13 +75,13 @@
 	$('#start_time').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 
 	$('#end_time').datepicker({
 		showAnim: 'slideDown',
 		dateFormat: "yy-mm-dd",
-		minDate:0
+		minDate: 0
 	});
 </script>
 <% include ../footer %>

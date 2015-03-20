@@ -8,9 +8,9 @@ var config = require('./config');
 var model = require('./model/');
 
 global.VARS = {
-    DOCUMENT_ROOT:__dirname.replace('include',''),
-    EXECUTE_ROOT:__dirname,
-    config:config
+    DOCUMENT_ROOT: __dirname.replace('include', ''),
+    EXECUTE_ROOT: __dirname,
+    config: config
 }
 
 var app = express();

@@ -5,30 +5,30 @@
 		<div class="col-md-10">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					 <div class="row">
-						 <div class="col-md-4"><h3 class="panel-title">任务列表</h3></div>
-						 <div class="col-md-8 text-right">
-							 <a href="/task/?type=1">指派给我</a>
-							 <a href="/task/?type=2">已完成</a>
-							 <a href="/task/?type=3">未完成</a>
-							 <a href="/task/?type=4">由我创建</a>
-						 </div>
-					 </div>
+					<div class="row">
+						<div class="col-md-4"><h3 class="panel-title">任务列表</h3></div>
+						<div class="col-md-8 text-right">
+							<a href="/task/?type=1">指派给我</a>
+							<a href="/task/?type=2">已完成</a>
+							<a href="/task/?type=3">未完成</a>
+							<a href="/task/?type=4">由我创建</a>
+						</div>
+					</div>
 				</div>
 				<table class="table table-bordered table-hover">
 					<thead>
-						<tr>
-							<th>优先级</th>
-							<th>所属项目</th>
-							<th>名称</th>
-							<th>截至日期</th>
-							<th>状态</th>
-							<th>进度</th>
-							<th>指派者</th>
-							<th>创建者</th>
-							<th>创建时间</th>
-							<th>操作</th>
-						</tr>
+					<tr>
+						<th>优先级</th>
+						<th>所属项目</th>
+						<th>名称</th>
+						<th>截至日期</th>
+						<th>状态</th>
+						<th>进度</th>
+						<th>指派者</th>
+						<th>创建者</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
 					</thead>
 					<tbody>
 					<% list.forEach(function(task){ %>
@@ -61,8 +61,10 @@
 						<td><%= task._addTime %></td>
 						<td>
 							<% if(task.adder == user._id){ %>
-							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </a>
-							<a href="/task/delete/<%= task._id %>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a>
+							<a href="/task/edit/<%= task._id %>"><span class="glyphicon glyphicon-edit"
+							                                           aria-hidden="true"></span> </a>
+							<a href="/task/delete/<%= task._id %>"><span class="glyphicon glyphicon-trash"
+							                                             aria-hidden="true"></span> </a>
 							<% } %>
 						</td>
 					</tr>

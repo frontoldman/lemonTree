@@ -5,13 +5,13 @@
 var Q = require('q');
 var Task = require('../model/').Task;
 
-function findOne(options){
+function findOne(options) {
     var deferred = Q.defer();
 
-    Task.findOne(options,function(err,project){
-        if(err){
+    Task.findOne(options, function (err, project) {
+        if (err) {
             deferred.reject(err);
-        }else{
+        } else {
             deferred.resolve(project);
         }
     });
@@ -20,33 +20,33 @@ function findOne(options){
 }
 
 //新增一个任务
-function addOne(params){
+function addOne(params) {
     return Task.create(params);
 }
 
 //查找所有的任务
-function findAll(options,start,limit){
+function findAll(options, start, limit) {
     var deferred = Q.defer();
 
     var query = Task.find(options)
-        .skip(start*limit)
+        .skip(start * limit)
         .limit(limit)
         .exec();
 
-    query.then(function(tasks){
+    query.then(function (tasks) {
         deferred.resolve(tasks);
-    },function(){
+    }, function () {
         deferred.reject();
     });
 
     return deferred.promise;
 }
 
-function count(options){
+function count(options) {
     var deferred = Q.defer();
 
-    Task.where(options).count(function(err,count){
-        if(err){
+    Task.where(options).count(function (err, count) {
+        if (err) {
             deferred.reject();
             return;
         }
@@ -56,13 +56,13 @@ function count(options){
     return deferred.promise;
 }
 
-function update(options){
+function update(options) {
     var deferred = Q.defer();
 
-    Task.where({ _id: options._id }).update(options,function(err,num){
-        if(err){
+    Task.where({_id: options._id}).update(options, function (err, num) {
+        if (err) {
             deferred.reject();
-        }else{
+        } else {
             deferred.resolve(num);
         }
     });
@@ -70,13 +70,13 @@ function update(options){
     return deferred.promise;
 }
 
-function remove(options){
+function remove(options) {
     var deferred = Q.defer();
 
-    Task.remove(options, function(err,num){
-        if(err){
+    Task.remove(options, function (err, num) {
+        if (err) {
             deferred.reject();
-        }else{
+        } else {
             deferred.resolve(num);
         }
     });
@@ -84,14 +84,14 @@ function remove(options){
     return deferred.promise;
 }
 
-function findTotal(options){
+function findTotal(options) {
     var deferred = Q.defer();
 
     var query = Task.where(options).exec();
 
-    query.then(function(tasks){
+    query.then(function (tasks) {
         deferred.resolve(tasks);
-    },function(){
+    }, function () {
         deferred.reject();
     });
 
@@ -99,10 +99,10 @@ function findTotal(options){
 }
 
 
-module.exports.findOne = findOne ;
-module.exports.addOne = addOne ;
-module.exports.findAll = findAll ;
-module.exports.count = count ;
-module.exports.update = update ;
-module.exports.remove = remove ;
-module.exports.findTotal = findTotal ;
+module.exports.findOne = findOne;
+module.exports.addOne = addOne;
+module.exports.findAll = findAll;
+module.exports.count = count;
+module.exports.update = update;
+module.exports.remove = remove;
+module.exports.findTotal = findTotal;

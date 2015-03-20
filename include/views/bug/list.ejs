@@ -1,0 +1,63 @@
+<% include ../header %>
+<div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
+	<div class="row">
+
+		<% include ../sidebar %>
+
+		<div class="col-md-10">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">bug列表</h3>
+				</div>
+				<table class="table table-bordered table-hover">
+					<thead>
+					<tr>
+						<th>bug等级</th>
+						<th>bug名称</th>
+						<th>类型</th>
+						<th>指派给</th>
+						<th>创建者</th>
+						<th>创建时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<% list.forEach(function(item){ %>
+					<tr>
+						<td class="text-center">
+							<span class="level-circle level-circle-<%= item.level %>"><%= item.level %></span>
+						</td>
+						<td><a href="/bug/detail/<%= item._id %>"><%= item.name %></a></td>
+						<td><%= item._type %></td>
+						<td><%= item._assigner.username %></td>
+						<td><%= item._adder.username %></td>
+						<td><%= item._addTime %></td>
+						<td><%= item._status %></td>
+						<td>
+							<% if(item.adder == user._id){ %>
+							<a href="/bug/edit/<%= item._id %>"><span class="glyphicon glyphicon-edit"
+							                                          aria-hidden="true"></span> </a>
+							<a href="/bug/delete/<%= item._id %>"><span class="glyphicon glyphicon-trash"
+							                                            aria-hidden="true"></span> </a>
+							<% } %>
+						</td>
+					</tr>
+					<% }) %>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="create-line text-right">
+				<a href="/bug/add" class="btn btn-primary" role="button">提bug</a>
+			</div>
+
+			<% include ../page %>
+
+		</div>
+
+	</div>
+</div>
+
+<% include ../script %>
+<% include ../footer %>

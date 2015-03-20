@@ -1,66 +1,66 @@
 <% include ../header %>
 <div class="container-fluid dashboard-body" xmlns="http://www.w3.org/1999/html">
-    <div class="row">
+	<div class="row">
 
-        <% include ../sidebar %>
+		<% include ../sidebar %>
 
-        <div class="col-md-10">
+		<div class="col-md-10">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <h3 class="panel-title">添加用户</h3>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>email</th>
-                        <th>姓名</th>
-                        <th>性别</th>
-                        <th>职位</th>
-                        <th>最后登陆时间</th>
-                        <th>注册时间</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% userList.forEach(function(user){ %>
-                    <tr>
-                        <td>
-                            <%= user.email %>
-                        </td>
-                        <td>
-                            <%= user.username %>
-                        </td>
-                        <td>
-                            <%= user._sex  %>
-                        </td>
-                        <td>
-                            <%= user._office %>
-                        </td>
-                        <td>
-                            <%= user._loginTime  %>
-                        </td>
-                        <td>
-                            <%= user._registerTime  %>
-                        </td>
-                    </tr>
-                    <% }) %>
-                    </tbody>
-                </table>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-sm-10">
+							<h3 class="panel-title">添加用户</h3>
+						</div>
+					</div>
+				</div>
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>email</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>职位</th>
+						<th>最后登陆时间</th>
+						<th>注册时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					<% userList.forEach(function(user){ %>
+					<tr>
+						<td>
+							<%= user.email %>
+						</td>
+						<td>
+							<%= user.username %>
+						</td>
+						<td>
+							<%= user._sex %>
+						</td>
+						<td>
+							<%= user._office %>
+						</td>
+						<td>
+							<%= user._loginTime %>
+						</td>
+						<td>
+							<%= user._registerTime %>
+						</td>
+					</tr>
+					<% }) %>
+					</tbody>
+				</table>
 
-            </div>
+			</div>
 
-            <div class="create-line text-right">
-                <a href="/user/add" class="btn btn-primary">添加新用户</a>
-            </div>
-            <% include ../page %>
+			<div class="create-line text-right">
+				<a href="/user/add" class="btn btn-primary">添加新用户</a>
+			</div>
+			<% include ../page %>
 
-        </div>
+		</div>
 
-    </div>
+	</div>
 </div>
 
 <% include ../script %>
