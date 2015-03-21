@@ -24,6 +24,16 @@
     height: 13px;
     background: #428bca;
 }
+
+.progress-content-min{
+    width: 80px;
+    height: 15px;
+    border:1px solid #ddd;
+}
+.progress-content-min .progress-in{
+    height: 13px;
+    background: #428bca;
+}
 .create-line{
     margin: 10px;
 }

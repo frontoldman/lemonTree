@@ -34,7 +34,7 @@ function addAndSave(req, res, next) {
         adder: req.session.user._id,
         addTime: new Date()
     }).then(function () {
-        res.send('添加成功');
+        res.redirect('/bug/')
     }, function () {
         next();
     })
@@ -56,6 +56,39 @@ function list(req, res, next) {
     page = page < 0 ? 0 : page;
 
     var condition = {};
+
+    type *= 1;
+
+    switch (type) {
+        case 2:
+            condition = {
+                assigner: req.session.user._id,
+                status: 2
+            };
+            break;
+        case 3:
+            condition = {
+                assigner: req.session.user._id,
+                status: 1
+            };
+            break;
+        case 4:
+            condition = {
+                adder: req.session.user._id
+            };
+            break;
+        case 1:
+            condition = {
+                assigner: req.session.user._id
+            };
+            break;
+        default:
+            condition = {
+                assigner: req.session.user._id
+            };
+            break;
+
+    }
 
     var perpage = 10;
     var queryQ = Q.all([
