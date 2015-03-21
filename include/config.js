@@ -50,6 +50,14 @@ var config = {
         5:'代码改进',
         6:'不符需求'
     },
+    bugLogOperation:{       //操作bug类型
+        'create':1,
+        'designation':2,
+        'close':3,
+        'complete':4,
+        'log':5,
+        'open':6
+    },
     premission: {
         admin: 0,            //超级管理员
         modify: 1,           //创建修改者

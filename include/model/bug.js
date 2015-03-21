@@ -9,8 +9,6 @@ var BugSchema = new Schema({
     name: {type: String},
     level: {type: Number},
     type: {type: Number},
-    startTime: {type: Date},
-    endTime: {type: Date},
     description: {type: String},
     assigner: {type: Schema.Types.ObjectId},
     log: {type: Array, default: []},
